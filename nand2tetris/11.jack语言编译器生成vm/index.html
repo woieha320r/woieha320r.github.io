@@ -182,6 +182,10 @@ if、while 在vm语言中把它们转成用goto、if-goto表达，要先处理�
 
   
   
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 </head>
 
 <body class="text-black duration-200 ease-out dark:text-white">
@@ -423,7 +427,28 @@ return this（push pointer 0; return;），即将this值返回。（⚠️从书
   
   
   
+  
 
+</article>
+
+<article>
+  <div id="gitalk-container"></div>
+  <script>
+    const gitalk = new Gitalk({
+      
+      clientID: '2e96a90ab00e1abaa3dd',
+      clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
+      
+      repo: 'woieha320r.github.io',
+      owner: 'woieha320r',
+      admin: 'woieha320r',
+      
+      id: location.hash,
+      
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container')
+  </script>
 </article>
 
 
@@ -431,8 +456,9 @@ return this（push pointer 0; return;），即将this值返回。（⚠️从书
 
   <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
   <div class="mr-auto">
-    &copy; 2023
-    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+    &copy; 2021-2023
+    <a class="link" href="https://woieha320r.github.io"> woieha320r </a>
+    BY(转载署名)-NC(非商用)-SA(同式共享)
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
   <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
