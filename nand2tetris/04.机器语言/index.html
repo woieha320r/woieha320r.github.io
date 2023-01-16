@@ -271,7 +271,7 @@ KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时
 <p>· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地
 址，被称为可重定位的。</p>
 <h4 id="语法设计图">语法设计图</h4>
-<p><img src="../img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
+<p><img src="img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
 <h4 id="语法解释">语法解释</h4>
 <ul>
 <li>
@@ -316,9 +316,9 @@ KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时
 </li>
 </ul>
 <h4 id="字符编码集">字符编码集</h4>
-<p><img src="../img/364B22AF-13F6-4A2D-A08D-36484A175C62.png" alt="字符编码集"></p>
+<p><img src="img/364B22AF-13F6-4A2D-A08D-36484A175C62.png" alt="字符编码集"></p>
 <h4 id="指针操作数组示例">指针操作数组示例</h4>
-<p><img src="../img/58065D37-22AD-403A-A616-8DE576AE6292.png" alt="指针操作数组示例"></p>
+<p><img src="img/58065D37-22AD-403A-A616-8DE576AE6292.png" alt="指针操作数组示例"></p>
 <h3 id="习题">习题</h3>
 <h4 id="ram2--ram0--ram1不考虑操作数小于0的情况">RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>需要修改测试脚本的repeat全部为210，否则时间不够
@@ -487,7 +487,9 @@ KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -495,8 +497,7 @@ KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

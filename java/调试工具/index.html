@@ -226,11 +226,11 @@ jstack jstack [option] vmid
 <h3 id="jstack">jstack</h3>
 <p>jstack [option] vmid</p>
 <p>打印vm当前的线程快照(方法堆栈集合)，可排查为何停顿或无响应</p>
-<p><img src="../img/C13C399B-FE3D-4E1B-B0FA-0556D02A94C0.png" alt="jstack"></p>
+<p><img src="img/C13C399B-FE3D-4E1B-B0FA-0556D02A94C0.png" alt="jstack"></p>
 <h3 id="其他">其他</h3>
-<p><img src="../img/678B0615-716C-4C2A-9E39-32CE515576A2.png" alt="other-1">
-<img src="../img/06523F98-72E1-4C91-9973-51E02CDBE162.png" alt="other-1">
-<img src="../img/5E91EA2E-267F-45EA-A670-A3C85137278C.png" alt="other-1"></p>
+<p><img src="img/678B0615-716C-4C2A-9E39-32CE515576A2.png" alt="other-1">
+<img src="img/06523F98-72E1-4C91-9973-51E02CDBE162.png" alt="other-1">
+<img src="img/5E91EA2E-267F-45EA-A670-A3C85137278C.png" alt="other-1"></p>
 <h3 id="查看class加载情况">查看class加载情况</h3>
 <p>· 添加启动参数：-verbose:class</p>
 </section>
@@ -254,7 +254,9 @@ jstack jstack [option] vmid
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -262,8 +264,7 @@ jstack jstack [option] vmid
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

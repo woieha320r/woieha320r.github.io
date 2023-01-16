@@ -287,13 +287,13 @@ if、while 在vm语言中把它们转成用goto、if-goto表达，要先处理�
 <p>· 就像汇编器用符号表记录vm变量和RAM地址的关系一样，这里也需要用符号表记录Jack变量和VM内存地址的关系。</p>
 <p>· 但高级语言中在不同作用域/生命周期（static/field、var）下可存在同名变量，本例使用两个符号表（类级、局部级）分别存储，这两个表分别在每次遇到
 “class”、“constructor/method/funciton”时被初始化。method需要初始化一个this条目，在下面叙述。</p>
-<p><img src="../img/813C4D39-AFC8-495D-BC05-496D0046DB0C.png" alt="符号表"></p>
+<p><img src="img/813C4D39-AFC8-495D-BC05-496D0046DB0C.png" alt="符号表"></p>
 <h4 id="作用域">作用域</h4>
 <p>· 编译器应当先从局部符号表取值，没有的话再检查类级符号表，这被称为“内部作用域隐藏外部作用域”。本例只有这两种作用域级别，对于其他支持无限嵌套
 作用域的语言，可以使用链表形式实现符号表（⚠️没明白咋实现）。</p>
 <h3 id="表达式">表达式</h3>
 <p>· 需要把运算符的中缀表示转为后缀表示（包括函数调用），所以需要修改上一章的CompilationEngine.compileExpression()，使其以后缀方式输出表达式。</p>
-<p><img src="../img/B88C198D-410D-4067-9598-65A547CB48B4.png" alt="表达式"></p>
+<p><img src="img/B88C198D-410D-4067-9598-65A547CB48B4.png" alt="表达式"></p>
 <h3 id="字符串">字符串</h3>
 <ul>
 <li>
@@ -369,27 +369,27 @@ if、while 在vm语言中把它们转成用goto、if-goto表达，要先处理�
 <p>· 对象被存储在堆中一块儿单独为其开辟的空间上，为对象开辟空间就是为其所有字段开辟空间。因为字段的生死是随对象的，所以不能存在栈上，栈这种结构是
 为了方法调用，只存方法运行状态。通过将基址存到this，后续使用&quot;this 索引&quot;引用这些字段。下面描述的数组需要将元素地址存到that，然后通过that 0就可
 操作元素本身，这就是为啥要把this、that做成强绑定pointer 0/1，因为这样就可以做成指针，对that 0的访问就等同于*(pointer 1)。</p>
-<p><img src="../img/51C3FB09-3BEF-4D46-A6B2-8F00AB0C129F.png" alt="对象"></p>
+<p><img src="img/51C3FB09-3BEF-4D46-A6B2-8F00AB0C129F.png" alt="对象"></p>
 <h4 id="访问控制无">访问控制：无</h4>
 <p>Jack中所有变量/字段全部私有，所有函数/方法全部公有。</p>
 <h4 id="构造函数">构造函数</h4>
 <p>· 和其他方法/函数的区别在于，在正式翻译方法指令前，要先按如下示例开辟空间并将基址赋值this。构造函数末尾必须是
 return this（push pointer 0; return;），即将this值返回。（⚠️从书中来看，貌似把对象地址赋给THIS，就叫做“对齐”？）</p>
-<p><img src="../img/DBE05C51-40E7-4FC3-A422-4DAE531A6FE2.png" alt="构造函数"></p>
+<p><img src="img/DBE05C51-40E7-4FC3-A422-4DAE531A6FE2.png" alt="构造函数"></p>
 <h4 id="实例方法">实例方法</h4>
 <p>· 实例方法的调用有两种：x.method(y)、method(y)。为了方便编译器实现(CompilationEngine.compileSubroutineCall())，Jack规定只有同类
 实例方法才能像后者这么用，而它是隐式的this.method(y)。实例方法是被设计用来操作实例数据的，不同对象的实例数据不同。但汇编里可没有某个对象的方法
 这种概念，方法只是一堆指令集，只能将调用者作为参数传入方法，而被调用者会将其作为this以引用实例数据。本例设计将this作为第一个参数。</p>
 <p>· Jack语言不支持继承。在继承中，子类可以选择重写父类方法，最后执行的到底是子类方法还是父类方法取决于子类有没有重写这个方法，这在编译期是无法
 确定的。由于Jack不支持继承，所以所有的方法调用都可以在编译时进行静态编译。</p>
-<p><img src="../img/D950909F-5FFB-4FAA-8FF0-CAD1FCBF4309.png" alt="实例方法"></p>
+<p><img src="img/D950909F-5FFB-4FAA-8FF0-CAD1FCBF4309.png" alt="实例方法"></p>
 <p>· 既然实例方法参数列表的第一个永远是this，那么编译器需要为实例方法的符号表初始化一条记录：&lt;this 类名 arg 0&gt;。</p>
 <p>· 真正编译实例方法指令前，应先按如下示例将arg 0赋给this（pointer 0）。</p>
-<p><img src="../img/F6ECC49A-8273-4AAE-99AD-4F0D92422646.png" alt="编译器处理示例"></p>
+<p><img src="img/F6ECC49A-8273-4AAE-99AD-4F0D92422646.png" alt="编译器处理示例"></p>
 <h3 id="数组">数组</h3>
 <p>· 编译器通过Array类实现数组语义，那么数组引用存的是数组在堆中的基址，将数组引用的值与索引相加得到一个内存地址，这个内存地址（存在that指针上）
 上的值（通过that 0获得）就是数组元素的值。</p>
-<p><img src="../img/4FB8EAF2-C84D-442E-B5DA-65DA1802600C.png" alt="数组"></p>
+<p><img src="img/4FB8EAF2-C84D-442E-B5DA-65DA1802600C.png" alt="数组"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>如果是let arr[x] = y呢？THAT只有一个，它会被重写，上述方式无法工作。采用如下方式实现：
 </span></span><span style="display:flex;"><span>	push arr
 </span></span><span style="display:flex;"><span>	(compileExpression)
@@ -408,9 +408,9 @@ return this（push pointer 0; return;），即将this值返回。（⚠️从书
 <h4 id="jacktokenizer标记化">JackTokenizer（标记化</h4>
 <p>与10章完全相同</p>
 <h4 id="symboltable符号表">SymbolTable（符号表</h4>
-<p><img src="../img/0E6608EE-092B-4039-BDA2-19CEBD8B03A4.png" alt="符号表"></p>
+<p><img src="img/0E6608EE-092B-4039-BDA2-19CEBD8B03A4.png" alt="符号表"></p>
 <h4 id="vmwriter代码生成">VMWriter（代码生成</h4>
-<p><img src="../img/5C311840-A9FB-4D30-A39F-4C608C736CA2.png" alt="代码生成"></p>
+<p><img src="img/5C311840-A9FB-4D30-A39F-4C608C736CA2.png" alt="代码生成"></p>
 <h4 id="compilationengine">CompilationEngine</h4>
 <p>API与10章相同，但这里输出的是vm代码而不是xml</p>
 </section>
@@ -434,7 +434,9 @@ return this（push pointer 0; return;），即将this值返回。（⚠️从书
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -442,8 +444,7 @@ return this（push pointer 0; return;），即将this值返回。（⚠️从书
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

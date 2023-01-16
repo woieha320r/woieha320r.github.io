@@ -491,7 +491,9 @@ IP返回给浏览器使用。</p>
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -499,8 +501,7 @@ IP返回给浏览器使用。</p>
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

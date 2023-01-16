@@ -275,13 +275,13 @@ public class TestSynchronizedSeen { private static Integer x; public static void
 <p>· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的</p>
 <h3 id="jvm的线程内存模型">jvm的线程内存模型</h3>
 <p>· 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。</p>
-<p><img src="../img/5FF57AC9-24B1-4EDD-9DA6-FF18560B7700.png" alt="线程模型"></p>
+<p><img src="img/5FF57AC9-24B1-4EDD-9DA6-FF18560B7700.png" alt="线程模型"></p>
 <h3 id="volatile">volatile</h3>
 <p>· volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）</p>
 <p>· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x++，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4</p>
 <p>· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序</p>
 <p>· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）</p>
-<p><img src="../img/F09F449E-A871-4999-8B4B-69E0D1102D8C.png" alt="volatile"></p>
+<p><img src="img/F09F449E-A871-4999-8B4B-69E0D1102D8C.png" alt="volatile"></p>
 <h3 id="synchronized">synchronized</h3>
 <p>· synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）</p>
 <p>· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令</p>
@@ -289,7 +289,7 @@ public class TestSynchronizedSeen { private static Integer x; public static void
 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。</p>
 <p>· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。</p>
 <h3 id="双检锁式懒汉单例">双检锁式懒汉单例</h3>
-<p><img src="../img/D0701AD0-4BAC-43C9-873E-34714102D0AC.png" alt="双检索单例"></p>
+<p><img src="img/D0701AD0-4BAC-43C9-873E-34714102D0AC.png" alt="双检索单例"></p>
 <p>· new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化</p>
 <p>· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于
 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生</p>
@@ -325,7 +325,7 @@ public class TestSynchronizedSeen { private static Integer x; public static void
 <h3 id="线程安全的类">线程安全的类</h3>
 <p>· 对于Java中声称线程安全的类，它表示对对象的单次操作是安全的，如果不同线程分别连续调用不同方法，仍需仔细考虑同步问题。比如如下例子虽然remove和
 get都线程安全但如果不对两个for添加以vector为锁的synchronized会导致越界异常</p>
-<p><img src="../img/DADA70D8-157A-4AB4-92D0-0151C8B81193.png" alt="示例"></p>
+<p><img src="img/DADA70D8-157A-4AB4-92D0-0151C8B81193.png" alt="示例"></p>
 <h3 id="异常处理">异常处理</h3>
 <p>· java.lang.Runable.run()不能抛异常，只能在内部捕获。对于非受查异常可以在Thread对象start前调用其setUncaughtExceptionHandler方法 来设置自定义异常处理。</p>
 <h3 id="jvm的线程实现">jvm的线程实现</h3>
@@ -368,7 +368,9 @@ get都线程安全但如果不对两个for添加以vector为锁的synchronized�
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -376,8 +378,7 @@ get都线程安全但如果不对两个for添加以vector为锁的synchronized�
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

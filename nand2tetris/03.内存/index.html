@@ -228,25 +228,25 @@
 <h3 id="概述">概述</h3>
 <p>· 书中例子，内存的底层设备选用数据触发器（DFF），现代计算机内存底层设备不一定是DFF，可能是其他独有的物理特性。DFF也可以仅通过Nand构建，但很复
 杂，所以书中的例子将其作为原始逻辑门使用。其使用方式如下图</p>
-<p><img src="../img/C551EE00-0EF5-4675-B596-E2D7A465CE21.png" alt="DFF"></p>
+<p><img src="img/C551EE00-0EF5-4675-B596-E2D7A465CE21.png" alt="DFF"></p>
 <p>· 所有内存芯片都含数据触发器（DFF）。所有的DFF通过专用的时间总线同时接收到由振荡器发出的时钟周期信号（tick-tock），DFF在每个周期结束（tock）
 时输出结束前时间还处于周期内（范围：(上一个tock, 当前tock) ）时的输入。</p>
 <p>· 时序逻辑既结合DFF达到“记忆/存储”的效果，也用于同步不同的物理时延。假如ALU的两个入参在不同时间到达ALU，那么ALU将输出错误的结果。所以时钟周期在
 必须大于整个硬件最长时延的同时，又要尽可能短，周期越短速度越快。</p>
 <p>· 访问RAM的不同地址，所花时间是相同的。</p>
 <h3 id="习题">习题</h3>
-<p><img src="../img/1330F203-6BC5-4C7A-8F1F-A6C541689D69.png" alt="Bit"></p>
+<p><img src="img/1330F203-6BC5-4C7A-8F1F-A6C541689D69.png" alt="Bit"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>按照图示连接
 </span></span><span style="display:flex;"><span>Mux(a=dffOut, b=in, sel=load, out=dffIn);
 </span></span><span style="display:flex;"><span>DFF(in=dffIn, out=dffOut, out=out);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="../img/A30C535D-65A8-41EB-8EB9-89C8B0479D8B.png" alt="Register"></p>
+<p><img src="img/A30C535D-65A8-41EB-8EB9-89C8B0479D8B.png" alt="Register"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>如果有16位的DFF，可以像Bit一样连接。因为没有，所以使用16个Bit
 </span></span><span style="display:flex;"><span>Bit(in = in[0], load = load, out = out[0]);
 </span></span><span style="display:flex;"><span>...
 </span></span><span style="display:flex;"><span>Bit(in = in[15], load = load, out = out[15]);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="../img/855B03EB-6BC3-431D-A931-4CFAEA579063.png" alt="RAMn"></p>
+<p><img src="img/855B03EB-6BC3-431D-A931-4CFAEA579063.png" alt="RAMn"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>这个n指的是地址数，将依次实现这些n数{8, 64, 512, 4K, 16K}，其对应的address位数k={3, 6, 9, 12, 14}，地址位数递增的个数有助于使用已构建好的RAM
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>RAM8
@@ -309,7 +309,7 @@
 </span></span><span style="display:flex;"><span>RAM4K(in=in, load=inR3, address=address[0..11], out=outR3);
 </span></span><span style="display:flex;"><span>Mux4Way16(a=outR0, b=outR1, c=outR2, d=outR3, sel=address[12..13], out=out);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="../img/A05C0406-F570-49C0-9053-A21B009E3ABF.png" alt="PC"></p>
+<p><img src="img/A05C0406-F570-49C0-9053-A21B009E3ABF.png" alt="PC"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>elif和else只有在前置条件不成立时才执行
 </span></span><span style="display:flex;"><span>// reset
 </span></span><span style="display:flex;"><span>Mux16(a=lastRes, b[0..15]=false, sel=reset, out=afterReset);
@@ -355,7 +355,9 @@
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -363,8 +365,7 @@
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

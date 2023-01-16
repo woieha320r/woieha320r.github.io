@@ -214,7 +214,7 @@
 
   <section><h1 id="csrf-低">CSRF-低</h1>
 <p>制作假网页，诱使用户携带dvwa的cookie向dvwa发起修改密码请求。</p>
-<p><img src="../../img/DC47611F-7985-4572-AE34-F8A718A2C56B.png" alt="1"></p>
+<p><img src="../img/DC47611F-7985-4572-AE34-F8A718A2C56B.png" alt="1"></p>
 <p>但这样的方式在点击后会跳转到form的target地址，暴露目的，可用ajax发请求</p>
 </section>
 
@@ -254,7 +254,9 @@
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -262,8 +264,7 @@
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

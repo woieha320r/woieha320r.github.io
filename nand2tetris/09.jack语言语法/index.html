@@ -277,9 +277,9 @@ class Main { function void main() { // 程序入口; } } · 构造函数construc
 <p>· 静态函数必须用类名调用</p>
 <p>· 字段一律私有，方法/函数一律公有</p>
 <h3 id="示例">示例</h3>
-<p><img src="../img/151AD9FB-81CE-4527-975D-B1BE67D658B4.png" alt="语法示例"></p>
+<p><img src="img/151AD9FB-81CE-4527-975D-B1BE67D658B4.png" alt="语法示例"></p>
 <h4 id="支持的符号">支持的符号</h4>
-<p><img src="../img/31D31653-B758-4CE9-B80F-7B59862234AB.png" alt="支持的符号"></p>
+<p><img src="img/31D31653-B758-4CE9-B80F-7B59862234AB.png" alt="支持的符号"></p>
 </section>
 
   
@@ -301,7 +301,9 @@ class Main { function void main() { // 程序入口; } } · 构造函数construc
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -309,8 +311,7 @@ class Main { function void main() { // 程序入口; } } · 构造函数construc
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

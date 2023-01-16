@@ -244,7 +244,7 @@
 <p>《计算机系统要素——从零开始构建现代计算机（第2版）》学习记录</p>
 <p>· 博客：https://woieha320r.github.io/nand2tetris</p>
 <p>· GitHub：https://github.com/woieha320r/nand2tetris</p>
-<p><img src="../img/0E0E2A85-3D34-4548-91B9-11524467E317.gif" alt="pongGame"></p>
+<p><img src="img/0E0E2A85-3D34-4548-91B9-11524467E317.gif" alt="pongGame"></p>
 <h3 id="概述">概述</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>与非门 -&gt; 与、或、非、抑或 -&gt; 选择器、分解器
 </span></span><span style="display:flex;"><span>      ↓
@@ -295,7 +295,9 @@
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -303,8 +305,7 @@
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

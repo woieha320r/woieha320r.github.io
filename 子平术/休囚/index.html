@@ -225,13 +225,13 @@
 </span></span><span style="display:flex;"><span>· 衰、病、死：逐渐衰退的过程，力量递减。
 </span></span><span style="display:flex;"><span>· 墓：死后仍留存余气。
 </span></span><span style="display:flex;"><span>· 绝：彻底没了。
-</span></span></code></pre></div><p><img src="../img/7D736C80-BB33-4A10-BF0A-D2218A140E95.png" alt="生旺死绝"></p>
+</span></span></code></pre></div><p><img src="img/7D736C80-BB33-4A10-BF0A-D2218A140E95.png" alt="生旺死绝"></p>
 <h3 id="五行论休囚">五行论休囚</h3>
-<p><img src="../img/2A098CFC-E5B2-4E7C-8053-C4E40E2D8058.png" alt="五行"></p>
+<p><img src="img/2A098CFC-E5B2-4E7C-8053-C4E40E2D8058.png" alt="五行"></p>
 <h3 id="干支论休囚">干支论休囚</h3>
-<p><img src="../img/0CBA2516-E907-44C7-9F8D-DD0D2D6A7630.png" alt="干支"></p>
+<p><img src="img/0CBA2516-E907-44C7-9F8D-DD0D2D6A7630.png" alt="干支"></p>
 <h3 id="八卦论休囚">八卦论休囚</h3>
-<p><img src="../img/78D0B940-781A-4761-B812-2C7571FAA286.png" alt="八卦"></p>
+<p><img src="img/78D0B940-781A-4761-B812-2C7571FAA286.png" alt="八卦"></p>
 </section>
 
   
@@ -253,7 +253,9 @@
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -261,8 +263,7 @@
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

@@ -226,7 +226,7 @@
 
   <section><h1 id="六十甲子">六十甲子</h1>
 <p>十干十二支，让天干循环与地支按次序搭配，每轮多出俩地支，天干共需循环五轮，共六十个组合，称“六十花甲子”。</p>
-<p><img src="../img/4DA07FD7-110A-4160-B5A5-7A2CBF3DEA34.png" alt="六十甲子"></p>
+<p><img src="img/4DA07FD7-110A-4160-B5A5-7A2CBF3DEA34.png" alt="六十甲子"></p>
 <h3 id="六十甲子五行配属纳音五行">六十甲子五行配属（纳音五行）</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>甲子、乙丑——海中金，丙寅、丁卯——炉中火。
 </span></span><span style="display:flex;"><span>戊辰、己巳——大林木，庚午、辛未——路旁土。
@@ -248,7 +248,7 @@
 <p>· 对战或谈判，坐孤击虚，根据人数分别使用年、月、日、时孤虚。如乙丑年位于甲子旬，则戌亥孤，辰巳虚。</p>
 <p>· 占卜中亦称空亡，它本身不定吉凶，但影响吉凶结果。占吉逢空亡则吉无，占凶逢空亡凶亦去。</p>
 <p>· 《虎铃经·孤虚第一百十七》中有相关描述。</p>
-<p><img src="../img/6AD51BA8-9AF4-4DF1-8B8A-4EF1606A2240.png" alt="孤虚"></p>
+<p><img src="img/6AD51BA8-9AF4-4DF1-8B8A-4EF1606A2240.png" alt="孤虚"></p>
 </section>
 
   
@@ -270,7 +270,9 @@
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -278,8 +280,7 @@
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });

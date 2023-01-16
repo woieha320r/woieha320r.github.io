@@ -213,8 +213,8 @@
 </span></span><span style="display:flex;"><span>需要在idea的设置-&gt;语言和框架-&gt;markdown-&gt;markdown扩展中开启mermaid（idea2020下载的mermaid为8.6版，会报错）
 </span></span><span style="display:flex;"><span>vscode安装markdown扩展自动支持，无需设置
 </span></span></code></pre></div><h3 id="uml">UML</h3>
-<p><img src="../img/5CB9BA9A-1AC9-4A3D-B23B-BFF0861DCE80.png" alt="class">
-<img src="../img/AC8C9CDA-6C43-4B37-8551-40CD4C438589.png" alt="relation"></p>
+<p><img src="img/5CB9BA9A-1AC9-4A3D-B23B-BFF0861DCE80.png" alt="class">
+<img src="img/AC8C9CDA-6C43-4B37-8551-40CD4C438589.png" alt="relation"></p>
 </section>
 
   
@@ -236,7 +236,9 @@
 <article>
   <div id="gitalk-container"></div>
   <script>
-    const gitalk = new Gitalk({
+    
+    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
       clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
@@ -244,8 +246,7 @@
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      
-      id: location.hash,
+      id: url,
       
       distractionFreeMode: false
     });
