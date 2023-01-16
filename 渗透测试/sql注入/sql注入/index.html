@@ -274,8 +274,7 @@ java中的sql注入 · java.sql包下的PreparedStatement用于预编译。mybat
 <article>
   <div id="gitalk-container"></div>
   <script>
-    
-    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    const domain = 'woieha320r.github.io';
     let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
@@ -284,7 +283,8 @@ java中的sql注入 · java.sql包下的PreparedStatement用于预编译。mybat
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      id: url,
+      
+      id: location.pathname.substr(-50),
       
       distractionFreeMode: false
     });

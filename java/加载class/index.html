@@ -307,8 +307,7 @@ class加载流程 · 规范规定class只在被主动使用时才初始化（不
 <article>
   <div id="gitalk-container"></div>
   <script>
-    
-    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    const domain = 'woieha320r.github.io';
     let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
@@ -317,7 +316,8 @@ class加载流程 · 规范规定class只在被主动使用时才初始化（不
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      id: url,
+      
+      id: location.pathname.substr(-50),
       
       distractionFreeMode: false
     });

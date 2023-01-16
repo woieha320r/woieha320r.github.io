@@ -287,8 +287,7 @@ Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29&#43;
 <article>
   <div id="gitalk-container"></div>
   <script>
-    
-    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    const domain = 'woieha320r.github.io';
     let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
@@ -297,7 +296,8 @@ Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29&#43;
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      id: url,
+      
+      id: location.pathname.substr(-50),
       
       distractionFreeMode: false
     });

@@ -487,8 +487,7 @@ KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时
 <article>
   <div id="gitalk-container"></div>
   <script>
-    
-    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    const domain = 'woieha320r.github.io';
     let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
@@ -497,7 +496,8 @@ KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      id: url,
+      
+      id: location.pathname.substr(-50),
       
       distractionFreeMode: false
     });

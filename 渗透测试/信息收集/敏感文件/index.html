@@ -471,8 +471,7 @@ filetype:bak | filetype:old | filetype:temp | filetype:swp | filetype:inc | file
 <article>
   <div id="gitalk-container"></div>
   <script>
-    
-    let url = ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' + location.pathname).substr(-50);
+    const domain = 'woieha320r.github.io';
     let gitalk = new Gitalk({
       
       clientID: '2e96a90ab00e1abaa3dd',
@@ -481,7 +480,8 @@ filetype:bak | filetype:old | filetype:temp | filetype:swp | filetype:inc | file
       repo: 'woieha320r.github.io',
       owner: 'woieha320r',
       admin: 'woieha320r',
-      id: url,
+      
+      id: location.pathname.substr(-50),
       
       distractionFreeMode: false
     });
