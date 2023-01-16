@@ -294,30 +294,30 @@ x-y可被x&#43;(-y)实现
 </li>
 </ul>
 <h3 id="习题">习题</h3>
-<p><img src="img/E30E03F3-BEAB-4CB5-91D5-A91A4BBAFC25.png" alt="HalfAdder"></p>
+<p><img src="../img/E30E03F3-BEAB-4CB5-91D5-A91A4BBAFC25.png" alt="HalfAdder"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>通过观察真值表，得出
 </span></span><span style="display:flex;"><span>sum=Xor(a, b)
 </span></span><span style="display:flex;"><span>carry=And(a, b)
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/E2FB58C7-3945-4480-9A37-AACDB1D8623D.png" alt="FullAdder"></p>
+<p><img src="../img/E2FB58C7-3945-4480-9A37-AACDB1D8623D.png" alt="FullAdder"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和
 </span></span><span style="display:flex;"><span>HalfAdder(a=a, b=b, sum=sumab, carry=carry1);
 </span></span><span style="display:flex;"><span>HalfAdder(a=sumab, b=c, sum=sum, carry=carry2);
 </span></span><span style="display:flex;"><span>HalfAdder(a=carry1, b=carry2, sum=carry);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/90BC73A3-1AF4-413C-A66D-0B47CB6913B0.png" alt="Add16"></p>
+<p><img src="../img/90BC73A3-1AF4-413C-A66D-0B47CB6913B0.png" alt="Add16"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>使用全加实现，c为上次的进位，首次进位0，每次的sum作为out
 </span></span><span style="display:flex;"><span>FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0);
 </span></span><span style="display:flex;"><span>FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1);
 </span></span><span style="display:flex;"><span>...
 </span></span><span style="display:flex;"><span>FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/6DD8E235-F2C2-4ECB-9D55-5313D153BA55.png" alt="Inc16"></p>
+<p><img src="../img/6DD8E235-F2C2-4ECB-9D55-5313D153BA55.png" alt="Inc16"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/C1D16189-1FBA-4361-8BA2-3603E971B31F.png" alt="ALU"></p>
-<p><img src="img/18148012-D1DA-4757-A677-C2B1C1D45C03.png" alt="ALU"></p>
+<p><img src="../img/C1D16189-1FBA-4361-8BA2-3603E971B31F.png" alt="ALU"></p>
+<p><img src="../img/18148012-D1DA-4757-A677-C2B1C1D45C03.png" alt="ALU"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>// 所有条件分支通过选择器实现
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>// zx

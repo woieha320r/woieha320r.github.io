@@ -230,8 +230,8 @@ jvm处理invokespecial指令 执行编译器生成的“实例构造函数()”�
 <p>· 拿到class的符号引用，若未加载过，执行类加载过程</p>
 <p>· 在堆中分配内存：方式取决于具体实现（指针碰撞、空闲列表记录），这个行为是“原子”的。空间需容纳所有父类的非static字段和本类的所有字段</p>
 <p>· 把除“对象头”（hash码、锁指针、class指针(非句柄方式访问对象，否则class指针在句柄中，如图)&hellip;）的空间初始化为零值</p>
-<p><img src="img/336C8F2F-D8EC-44AC-88DD-F801BADA90BA.png" alt="句柄池">
-<img src="img/E5F7F52C-D1B0-4B32-B499-118E3F58FC5B.png" alt="直接引用"></p>
+<p><img src="../img/336C8F2F-D8EC-44AC-88DD-F801BADA90BA.png" alt="句柄池">
+<img src="../img/E5F7F52C-D1B0-4B32-B499-118E3F58FC5B.png" alt="直接引用"></p>
 <h3 id="jvm处理invokespecial指令">jvm处理invokespecial指令</h3>
 <p>执行编译器生成的“实例构造函数<!-- raw HTML omitted -->()”，即：调用父类构造、执行代码中的声明时赋值和构造方法</p>
 </section>

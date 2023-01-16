@@ -246,67 +246,67 @@ out[0]=Not(in[0]) ... out[15]=Not(in[15]) ⚠️非HDL描述"/>
 使用{And, Or, Not}联结这一行的参数们，再将这些联结通过或联结。比如res=f(x, y, z)，当{x=1, y=0, z=0}或者当{x=0, y=1, z=0}时，res=1，
 那么其布尔函数表达式为(x And Not(y) And Not(z)) Or (Not(x) And y And Not(z))，然后再将其通过布尔代数性质转换为
 简化的{And, Or, Not} 组合。</p>
-<p><img src="img/948AFA65-8297-4AE8-8E92-815572C47877.png" alt="布尔代数定律"></p>
+<p><img src="../img/948AFA65-8297-4AE8-8E92-815572C47877.png" alt="布尔代数定律"></p>
 <p>· 根据摩根定律，Or可通过{Not, And}组成。而通过真值表，可以发现Not(x)=Nand(x, x)，And(x, y)=Not(Nand(x, y))</p>
-<p><img src="img/2C0A02A6-18BA-4D2C-8BBC-5D47CDF36BD4.png" alt="Nand,Not,And真值表"></p>
+<p><img src="../img/2C0A02A6-18BA-4D2C-8BBC-5D47CDF36BD4.png" alt="Nand,Not,And真值表"></p>
 <p>· 所以任何布尔函数都可通过Nand组合，这种关系更像是一种发现而不是创造，没什么深刻的意义或原因。抛开Nand的物理实现，我们只要拿到足够多的
 物理Nand，就能组装成任何布尔函数</p>
 <h3 id="习题">习题</h3>
-<p><img src="img/FAEF0BF3-8F56-4747-A617-C28927E77D75.png" alt="Or"></p>
-<p><img src="img/80EAA510-25F8-41F9-BC6A-9070E9242117.png" alt="Or:"></p>
+<p><img src="../img/FAEF0BF3-8F56-4747-A617-C28927E77D75.png" alt="Or"></p>
+<p><img src="../img/80EAA510-25F8-41F9-BC6A-9070E9242117.png" alt="Or:"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Nand的俩入参同时取反，可使00号和11结果互换，而中间两个结果不变，达到Or的效果。
 </span></span><span style="display:flex;"><span>out=Nand(Not(a), Not(b))
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/E575DC76-43C6-415A-8213-95AED93810A1.png" alt="Xor"></p>
-<p><img src="img/C6CE88E5-0A07-4631-8FE0-05D482D0A793.png" alt="Xor:"></p>
+<p><img src="../img/E575DC76-43C6-415A-8213-95AED93810A1.png" alt="Xor"></p>
+<p><img src="../img/C6CE88E5-0A07-4631-8FE0-05D482D0A793.png" alt="Xor:"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Nand和Or的结果作and
 </span></span><span style="display:flex;"><span>out=And(Nand(x, y), Or(x, y))
 </span></span><span style="display:flex;"><span>或者将两个结果为1的行作Or
 </span></span><span style="display:flex;"><span>out=Or(And(Not(a), b), And(a, Not(b)))
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/EB9F15F5-394E-48C6-8CC7-9E14A3512BDF.png" alt="Mux"></p>
+<p><img src="../img/EB9F15F5-394E-48C6-8CC7-9E14A3512BDF.png" alt="Mux"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>依照描述
 </span></span><span style="display:flex;"><span>out=Or(And(sel, b), And(!sel, a))
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/DDC981C6-662E-4FF4-9A76-A858AE34E852.png" alt="Dmux"></p>
+<p><img src="../img/DDC981C6-662E-4FF4-9A76-A858AE34E852.png" alt="Dmux"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>依照描述
 </span></span><span style="display:flex;"><span>a=And(Not(sel), in)
 </span></span><span style="display:flex;"><span>b=And(sel, in)
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/CAE6E68D-A4E5-424C-B3F2-93FD961D9C6B.png" alt="Not16"></p>
+<p><img src="../img/CAE6E68D-A4E5-424C-B3F2-93FD961D9C6B.png" alt="Not16"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>out[0]=Not(in[0])
 </span></span><span style="display:flex;"><span>...
 </span></span><span style="display:flex;"><span>out[15]=Not(in[15])
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/F18E7D7E-5C18-4CE5-BE00-EEA28FC66BC4.png" alt="And16"></p>
+<p><img src="../img/F18E7D7E-5C18-4CE5-BE00-EEA28FC66BC4.png" alt="And16"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>out[0]=And(a[0], b[0])
 </span></span><span style="display:flex;"><span>...
 </span></span><span style="display:flex;"><span>out[15]=And(a[15], b[15])
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/B4A3E44F-90CF-43A4-9CE8-043B3EA25108.png" alt="Or16"></p>
+<p><img src="../img/B4A3E44F-90CF-43A4-9CE8-043B3EA25108.png" alt="Or16"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>out[0]=Or(a[0], b[0])
 </span></span><span style="display:flex;"><span>...
 </span></span><span style="display:flex;"><span>out[15]=Or(a[15], b[15])
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/3BF52374-B223-48CA-B230-D1420024E7F6.png" alt="Mux16"></p>
+<p><img src="../img/3BF52374-B223-48CA-B230-D1420024E7F6.png" alt="Mux16"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>out[0]=Mux(a[0], b[0], sel)
 </span></span><span style="display:flex;"><span>...
 </span></span><span style="display:flex;"><span>out[15]=Mux(a[15], b[15], sel)
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/4A4507CF-8642-4FED-A2FF-C7D28143ED32.png" alt="Or8way"></p>
+<p><img src="../img/4A4507CF-8642-4FED-A2FF-C7D28143ED32.png" alt="Or8way"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>out=Or(Or(Or(Or(Or(Or(Or(in[0], in[1]), in[2]), in[3]), in[4]), in[5]), in[6]), in[7])
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/3DD2F6E3-4B71-4586-8838-3C6AE483EEE5.png" alt="Mux4/8Way16"></p>
-<p><img src="img/F26924AF-6AA2-45CD-B596-2D5AB6B623ED.png" alt="Mux4/8Way16:"></p>
+<p><img src="../img/3DD2F6E3-4B71-4586-8838-3C6AE483EEE5.png" alt="Mux4/8Way16"></p>
+<p><img src="../img/F26924AF-6AA2-45CD-B596-2D5AB6B623ED.png" alt="Mux4/8Way16:"></p>
 <p>⚠️非HDL描述</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>4路的，先按sel[0]位选择出(a|b)和(c|d)，再按sel[1]位从(a|b)和(c|d)中选择出一个。
 </span></span><span style="display:flex;"><span>ab=Mux16(a, b, sel[0])
@@ -318,8 +318,8 @@ out[0]=Not(in[0]) ... out[15]=Not(in[15]) ⚠️非HDL描述"/>
 </span></span><span style="display:flex;"><span>efgh=Mux4Way16(e, f, g, h, sel[0..1])
 </span></span><span style="display:flex;"><span>out=Mux16(abcd, efgh, sel[2])
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/2BF75A53-B40B-4FCF-82AF-89E121254B2E.png" alt="Dmux4/8Way"></p>
-<p><img src="img/ACB55595-72D2-410B-BF02-64EF0C347466.png" alt="Dmux4/8Way:"></p>
+<p><img src="../img/2BF75A53-B40B-4FCF-82AF-89E121254B2E.png" alt="Dmux4/8Way"></p>
+<p><img src="../img/ACB55595-72D2-410B-BF02-64EF0C347466.png" alt="Dmux4/8Way:"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>4路的，先按sel[1]位选择出ab和cd两个输出管道，再按sel[0]位将ab和cd分别作为输入选择出具体的输出管道。
 </span></span><span style="display:flex;"><span>Dmux(in=in, sel=sel[1], a=ab, b=cd)
 </span></span><span style="display:flex;"><span>Dmux(in=ab, sel=sel[0], a=a, b=b)

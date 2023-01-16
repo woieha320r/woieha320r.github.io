@@ -241,15 +241,15 @@
 </span></span><span style="display:flex;"><span>推理：
 </span></span><span style="display:flex;"><span>	不存在SQL注入漏洞
 </span></span></code></pre></div><p>开始暴力破解，使用Burp Suite拦截请求，将请求发送至入侵器</p>
-<p><img src="../img/30A8CDBD-56F7-4420-9979-334B39E8BBE2.png" alt="1"></p>
+<p><img src="../../img/30A8CDBD-56F7-4420-9979-334B39E8BBE2.png" alt="1"></p>
 <p>为username和password字段设置有效载荷标记。攻击类型选择“集束炸弹”，分别为每个有效载荷设置字典，依次遍历所有的字典</p>
-<p><img src="../img/7EA1B9D4-9561-4C2D-AB70-284A250CC0E8.png" alt="2"></p>
+<p><img src="../../img/7EA1B9D4-9561-4C2D-AB70-284A250CC0E8.png" alt="2"></p>
 <p>为username设置字典</p>
-<p><img src="../img/987193A2-6022-4750-9BD2-1C3A7651D326.png" alt="3"></p>
+<p><img src="../../img/987193A2-6022-4750-9BD2-1C3A7651D326.png" alt="3"></p>
 <p>为password设置字典并开始攻击</p>
-<p><img src="../img/9B63DFAB-4AC7-4CEE-A118-4AA22E7B8459.png" alt="4"></p>
+<p><img src="../../img/9B63DFAB-4AC7-4CEE-A118-4AA22E7B8459.png" alt="4"></p>
 <p>寻找结果中长度不同的，按照长度排序位于开头或结尾，那两个有效载荷就是用户名和密码</p>
-<p><img src="../img/1175EE07-780E-49A3-BBD6-FF14F8766A0A.png" alt="5"></p>
+<p><img src="../../img/1175EE07-780E-49A3-BBD6-FF14F8766A0A.png" alt="5"></p>
 </section>
 
   

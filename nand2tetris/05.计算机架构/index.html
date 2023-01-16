@@ -226,13 +226,13 @@
 <p>· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD</p>
 <p>· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。</p>
 <h4 id="冯诺依曼通用架构图">冯诺依曼通用架构图</h4>
-<p><img src="img/DECCD629-E2F4-4195-9FA0-CE486E1DBD56.png" alt="冯诺依曼通用架构图"></p>
+<p><img src="../img/DECCD629-E2F4-4195-9FA0-CE486E1DBD56.png" alt="冯诺依曼通用架构图"></p>
 <h3 id="习题">习题</h3>
-<p><img src="img/1AEBBFFD-F64B-4D82-A701-2C926195C56B.png" alt="CPU-1"></p>
+<p><img src="../img/1AEBBFFD-F64B-4D82-A701-2C926195C56B.png" alt="CPU-1"></p>
 <p>一种可能的实现方式
-<img src="img/09AA8DCA-F396-4BED-8590-61E2A4700AB1.png" alt="CPU-2"></p>
+<img src="../img/09AA8DCA-F396-4BED-8590-61E2A4700AB1.png" alt="CPU-2"></p>
 <p>本例机器语言的语法设计图
-<img src="img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
+<img src="../img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>· 图中的c指的不是&#34;是否c指令&#34;，而是从指令中提取的控制位，ALU的c&#39;s代表C指令中用以选择函数的cccccc这6位
 </span></span><span style="display:flex;"><span>· A、D寄存器需分别使用内置芯片：ARegister、DRegister。
 </span></span><span style="display:flex;"><span>
@@ -305,10 +305,10 @@
 </span></span><span style="display:flex;"><span>    And(a=isC, b=jjjJump, out=toJump);
 </span></span><span style="display:flex;"><span>    PC(in=outA, load=toJump, inc=true, reset=reset, out[0..14]=pc);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/1DA1FE96-434E-45D3-9899-E77323EFD8A7.png" alt="Memory"></p>
+<p><img src="../img/1DA1FE96-434E-45D3-9899-E77323EFD8A7.png" alt="Memory"></p>
 <p>屏幕和键盘芯片是内置的</p>
-<p><img src="img/C893CF6E-92D4-4319-88AF-EEA54010520E.png" alt="Screen"></p>
-<p><img src="img/4066B9A8-A0DF-433C-9DEF-AEE95FDCAA06.png" alt="keyboard"></p>
+<p><img src="../img/C893CF6E-92D4-4319-88AF-EEA54010520E.png" alt="Screen"></p>
+<p><img src="../img/4066B9A8-A0DF-433C-9DEF-AEE95FDCAA06.png" alt="keyboard"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>地址(110000000000000, ~)无效
 </span></span><span style="display:flex;"><span>地址110000000000000是访问Keyboard
 </span></span><span style="display:flex;"><span>地址[100000000000000, 101111111111111]是访问Screen
@@ -341,10 +341,10 @@
 </span></span><span style="display:flex;"><span>// 判断是否无效地址
 </span></span><span style="display:flex;"><span>Mux16(a=waitOut, b=outZero, sel=errorAccess, out=out);
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<p><img src="img/94A40826-19E9-421C-9841-1BA10EABC664.png" alt="Computer-1"></p>
-<p><img src="img/A50184C8-5BFB-4D5F-89F7-DA403B1720FC.png" alt="Computer-2"></p>
+<p><img src="../img/94A40826-19E9-421C-9841-1BA10EABC664.png" alt="Computer-1"></p>
+<p><img src="../img/A50184C8-5BFB-4D5F-89F7-DA403B1720FC.png" alt="Computer-2"></p>
 <p>ROM32K芯片是内置的</p>
-<p><img src="img/4A9DC8ED-F79D-4067-B7AA-EA8E9133C808.png" alt="ROM32K"></p>
+<p><img src="../img/4A9DC8ED-F79D-4067-B7AA-EA8E9133C808.png" alt="ROM32K"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>按图连接
 </span></span><span style="display:flex;"><span>CPU(inM=memoryOut, instruction=romOut, reset=reset, outM=memoryIn, writeM=memoryLoad, addressM=memoryAddress, pc=romAddress);
 </span></span><span style="display:flex;"><span>Memory(in=memoryIn, load=memoryLoad, address=memoryAddress, out=memoryOut);

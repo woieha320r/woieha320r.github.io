@@ -261,17 +261,17 @@ JackAnalyzer模块：JackTokenizer（标记化 JackAnalyzer模块：CompilationE
 <p>· 将源码（除注释和空白）拆分为原子，并打上标记。</p>
 <p>· “标记化”步骤产生的xml作为“解析”步骤的输入。</p>
 <p>· 注意&lt;, &gt;, &ldquo;, &amp;在xml中需要被转义为&lt;, &gt;, &quot;, &amp;。</p>
-<p><img src="img/A018C60B-0072-48DD-BF3E-98D4A8C9AE57.png" alt="标记化"></p>
+<p><img src="../img/A018C60B-0072-48DD-BF3E-98D4A8C9AE57.png" alt="标记化"></p>
 <h3 id="句法模式">句法模式</h3>
 <p>· 本例的句法模式（class, classVarDec, subroutine, parameterList, subroutineBody, varDec, statements, letStatement,
 ifStatement, whileStatement, doStatement, returnStatement, expression, term, expressionList）及对模式中|、*等符号的说明如下。</p>
 <p>· 本例的声明、赋值都需要专用关键字，从左至右解析，只需根据前一个标记便可知道它应匹配哪个句法模式，这被称为LL(1)。</p>
-<p><img src="img/793C7E5C-63D4-4176-A2F7-90B29F1A0934.png" alt="句法模式说明中的符号含义"></p>
-<p><img src="img/3EA7EC4F-7E5C-43C5-AE7C-6720306785B6.png" alt="句法模式"></p>
+<p><img src="../img/793C7E5C-63D4-4176-A2F7-90B29F1A0934.png" alt="句法模式说明中的符号含义"></p>
+<p><img src="../img/3EA7EC4F-7E5C-43C5-AE7C-6720306785B6.png" alt="句法模式"></p>
 <h3 id="解析">解析</h3>
 <p>· 需要将给定的标记组合和句法模式对应起来才能验证标记是否符合句法模式，这种对应关系可被“解析树”结构表达，不能构建解析树的标记组合，被视为语法错误。</p>
 <p>· 本例的语法是LL(1)的（subroutineCall是例外，需要用前两个标记判断），所以解析器很适合使用“递归下降”算法实现。</p>
-<p><img src="img/A1B647D8-CFEE-491C-A165-E7A54239AAAB.png" alt="解析方式"></p>
+<p><img src="../img/A1B647D8-CFEE-491C-A165-E7A54239AAAB.png" alt="解析方式"></p>
 <h5 id="输出结构">输出结构</h5>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;</span>句法模式&gt;
 </span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">&lt;</span>标记&gt;值<span style="color:#960050;background-color:#1e0010">&lt;</span>/标记&gt;
@@ -283,13 +283,13 @@ ifStatement, whileStatement, doStatement, returnStatement, expression, term, exp
 </span></span><span style="display:flex;"><span>    …
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;</span>/句法模式&gt;
 </span></span><span style="display:flex;"><span>…
-</span></span></code></pre></div><p><img src="img/B69DB4A5-E3C6-44E4-991B-2575681C50AA.png" alt="输出结构"></p>
+</span></span></code></pre></div><p><img src="../img/B69DB4A5-E3C6-44E4-991B-2575681C50AA.png" alt="输出结构"></p>
 <h3 id="习题">习题</h3>
 <p>代码位于https://github.com/woieha320r/nand2tetris/tree/main/JackAnalyzer/src/com/example</p>
 <h4 id="jackanalyzer模块jacktokenizer标记化">JackAnalyzer模块：JackTokenizer（标记化</h4>
-<p><img src="img/2792E463-9715-43E8-B752-8CE35A56303F.png" alt="标记化"></p>
+<p><img src="../img/2792E463-9715-43E8-B752-8CE35A56303F.png" alt="标记化"></p>
 <h4 id="jackanalyzer模块compilationengine解析器">JackAnalyzer模块：CompilationEngine（解析器</h4>
-<p><img src="img/97304B4C-D278-4521-91DF-9AD574C8A9C8.png" alt="解析器"></p>
+<p><img src="../img/97304B4C-D278-4521-91DF-9AD574C8A9C8.png" alt="解析器"></p>
 </section>
 
   

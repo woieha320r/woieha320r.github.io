@@ -214,7 +214,7 @@
 
   <section><h1 id="代理">代理</h1>
 <p>· 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。
-<img src="img/4991EA3F-4CBA-4D65-9890-41BD44DF2B80.png" alt="代理"></p>
+<img src="../img/4991EA3F-4CBA-4D65-9890-41BD44DF2B80.png" alt="代理"></p>
 <p>· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring
 将其注入到字段上，然后通过它调用方法。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>

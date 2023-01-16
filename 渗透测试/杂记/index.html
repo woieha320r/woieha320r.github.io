@@ -223,7 +223,7 @@
 </span></span><span style="display:flex;"><span>    X-Real-IP
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>    java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代
 </span></span><span style="display:flex;"><span>理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip
-</span></span></code></pre></div><p><img src="img/5A494478-37CA-4600-BA57-84D02CF0008C.png" alt="Java取IP"></p>
+</span></span></code></pre></div><p><img src="../img/5A494478-37CA-4600-BA57-84D02CF0008C.png" alt="Java取IP"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>nmap扫描，proxychains不支持UDP，所以需要控制参数
 </span></span><span style="display:flex;"><span>    -sT：指定为全连接而非SYN扫描
