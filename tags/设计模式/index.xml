@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 14 Jan 2023 01:32:21 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单例</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</link>
+      <pubDate>Sat, 14 Jan 2023 01:32:21 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</guid>
+      <description>单例 确保一个class永远只有一个实例，对外开放一个唯一的获取入口 在Java中能破坏此定义的方式和解决方案如下 · 构造方法：通过私有化构造方法，但外界仍可通过反射调用，可通过if(null != instance)抛异常 · 反序列化：通过定义一个private Object readResolve()返回自己的单例，Java反序列化时会判断如果存在此方法则反射调用它获得实例而不新建实例 饿汉式 · 不论有没有地方用，都实例化，这种办法浪费内存
+静态字段实现 · 通过将实例对象赋给静态字段使其在class加载时就实例化
+· 没有线程安全问题，如果多个线程同时导致Class加载，由JVM负责线程安全，使其在同class加载器下只加载一次
+· 如果没有地方调用getInstance()，而只是比如说外界使用了其静态字段而导致其初始化，会浪费内存
+public class HungrySingleton { private static final HungrySingleton INSTANCE = new HungrySingleton(); private HungrySingleton() { if (null != INSTANCE) { throw new RuntimeException(&amp;#34;don&amp;#39;t call by reflect&amp;#34;); } } private Object readResolve() { return getInstance(); } public static HungrySingleton getInstance() { return INSTANCE; } } 枚举实现 · 依靠Java的枚举语法，天然就是单例并且不可反射创建
+public enum EnumRegisterSingleton { INSTANCE; private Object readResolve() { return getInstance(); } public static EnumRegisterSingleton getInstance() { return INSTANCE; } } 懒汉式 · 真的被调用了getInstance()时才实例化</description>
+    </item>
+    
+    <item>
+      <title>工厂</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</link>
+      <pubDate>Thu, 12 Jan 2023 22:26:38 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</guid>
+      <description>工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main %% Main ..&amp;gt; Product : 局变 Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } %% Factory .</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/readme/</link>
+      <pubDate>Wed, 11 Jan 2023 16:43:10 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/readme/</guid>
+      <description>用UML表达设计模式 使用mermaid绘制：https://mermaid.js.org 需要在idea的设置-&amp;gt;语言和框架-&amp;gt;markdown-&amp;gt;markdown扩展中开启mermaid（idea2020下载的mermaid为8.6版，会报错） vscode安装markdown扩展自动支持，无需设置 UML </description>
+    </item>
+    
+  </channel>
+</rss>

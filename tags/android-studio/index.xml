@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>android-studio on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/android-studio/</link>
+    <description>Recent content in android-studio on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 05 Sep 2022 17:58:50 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/android-studio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网络代理</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 05 Sep 2022 17:58:50 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</guid>
+      <description>网络代理 IP问题详情见：https://developer.android.google.cn/studio/run/emulator-networking?hl=zh-cn emulator启动时携带-http-proxy参数，或如下设置</description>
+    </item>
+    
+    <item>
+      <title>安装apk</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/</link>
+      <pubDate>Mon, 05 Sep 2022 10:57:30 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/</guid>
+      <description>安装apk 查看可用设备
+adb devices 把apk软件安装到指定设备
+adb -s 设备名 软件.apk </description>
+    </item>
+    
+  </channel>
+</rss>

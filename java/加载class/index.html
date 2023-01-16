@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>加载class - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="加载class 虚方法 · class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称 为“虚方法”
+class加载流程 · 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数 来跟踪class的加载情况
+加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自 于网络、压缩包、动态代理动态生成&hellip;&hellip;
+验证：安全性、完整性&hellip;&hellip;
+准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值
+解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前
+初始化：执行编译器生成的“类构造函数()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的
+· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class 方法重载 · 编译器以“方法名&#43;参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声 明的啥类型就按啥类型
+· 对于method(&lsquo;a&rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&rsquo;a&rsquo;的类型
+虚方法调用和字段解析 · 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型， 比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象 的实际class开始，按继承关系向上查找符合签名的方法
+· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字 段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字 段（不是指针，是拷贝存储）" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="加载class" />
+<meta property="og:description" content="加载class 虚方法 · class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称 为“虚方法”
+class加载流程 · 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数 来跟踪class的加载情况
+加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自 于网络、压缩包、动态代理动态生成&hellip;&hellip;
+验证：安全性、完整性&hellip;&hellip;
+准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值
+解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前
+初始化：执行编译器生成的“类构造函数()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的
+· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class 方法重载 · 编译器以“方法名&#43;参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声 明的啥类型就按啥类型
+· 对于method(&lsquo;a&rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&rsquo;a&rsquo;的类型
+虚方法调用和字段解析 · 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型， 比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象 的实际class开始，按继承关系向上查找符合签名的方法
+· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字 段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字 段（不是指针，是拷贝存储）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/java/%E5%8A%A0%E8%BD%BDclass/" /><meta property="article:section" content="java" />
+<meta property="article:published_time" content="2022-11-30T21:45:45+08:00" />
+<meta property="article:modified_time" content="2022-11-30T21:45:45+08:00" />
+
+  
+  <meta itemprop="name" content="加载class">
+<meta itemprop="description" content="加载class 虚方法 · class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称 为“虚方法”
+class加载流程 · 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数 来跟踪class的加载情况
+加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自 于网络、压缩包、动态代理动态生成&hellip;&hellip;
+验证：安全性、完整性&hellip;&hellip;
+准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值
+解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前
+初始化：执行编译器生成的“类构造函数()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的
+· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class 方法重载 · 编译器以“方法名&#43;参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声 明的啥类型就按啥类型
+· 对于method(&lsquo;a&rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&rsquo;a&rsquo;的类型
+虚方法调用和字段解析 · 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型， 比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象 的实际class开始，按继承关系向上查找符合签名的方法
+· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字 段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字 段（不是指针，是拷贝存储）"><meta itemprop="datePublished" content="2022-11-30T21:45:45+08:00" />
+<meta itemprop="dateModified" content="2022-11-30T21:45:45+08:00" />
+<meta itemprop="wordCount" content="46">
+<meta itemprop="keywords" content="java," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="加载class"/>
+<meta name="twitter:description" content="加载class 虚方法 · class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称 为“虚方法”
+class加载流程 · 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数 来跟踪class的加载情况
+加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自 于网络、压缩包、动态代理动态生成&hellip;&hellip;
+验证：安全性、完整性&hellip;&hellip;
+准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值
+解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前
+初始化：执行编译器生成的“类构造函数()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的
+· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class 方法重载 · 编译器以“方法名&#43;参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声 明的啥类型就按啥类型
+· 对于method(&lsquo;a&rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&rsquo;a&rsquo;的类型
+虚方法调用和字段解析 · 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型， 比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象 的实际class开始，按继承关系向上查找符合签名的方法
+· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字 段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字 段（不是指针，是拷贝存储）"/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="加载class">加载class</h1>
+<h3 id="虚方法">虚方法</h3>
+<p>· class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称
+为“虚方法”</p>
+<h3 id="class加载流程">class加载流程</h3>
+<p>· 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数
+来跟踪class的加载情况<!-- raw HTML omitted --></p>
+<ul>
+<li>
+<p>加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自
+于网络、压缩包、动态代理动态生成&hellip;&hellip;</p>
+</li>
+<li>
+<p>验证：安全性、完整性&hellip;&hellip;</p>
+</li>
+<li>
+<p>准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值</p>
+</li>
+<li>
+<p>解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前</p>
+</li>
+<li>
+<p>初始化：执行编译器生成的“类构造函数<!-- raw HTML omitted -->()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的</p>
+</li>
+</ul>
+<p>· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class
+<img src="../img/C0FEE49A-C76B-4F49-8FCE-B080EBB32590.png" alt="类加载器"></p>
+<h3 id="方法重载">方法重载</h3>
+<p>· 编译器以“方法名+参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声
+明的啥类型就按啥类型</p>
+<p>· 对于method(&lsquo;a&rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&rsquo;a&rsquo;的类型</p>
+<h3 id="虚方法调用和字段解析">虚方法调用和字段解析</h3>
+<p>· 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型，
+比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象
+的实际class开始，按继承关系向上查找符合签名的方法</p>
+<p>· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字
+段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字
+段（不是指针，是拷贝存储）</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/java">java</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>woieha320r</title>
+    <link>https://woieha320r.github.io/</link>
+    <description>Recent content on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 14 Jan 2023 01:32:21 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单例</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</link>
+      <pubDate>Sat, 14 Jan 2023 01:32:21 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</guid>
+      <description>单例 确保一个class永远只有一个实例，对外开放一个唯一的获取入口 在Java中能破坏此定义的方式和解决方案如下 · 构造方法：通过私有化构造方法，但外界仍可通过反射调用，可通过if(null != instance)抛异常 · 反序列化：通过定义一个private Object readResolve()返回自己的单例，Java反序列化时会判断如果存在此方法则反射调用它获得实例而不新建实例 饿汉式 · 不论有没有地方用，都实例化，这种办法浪费内存
+静态字段实现 · 通过将实例对象赋给静态字段使其在class加载时就实例化
+· 没有线程安全问题，如果多个线程同时导致Class加载，由JVM负责线程安全，使其在同class加载器下只加载一次
+· 如果没有地方调用getInstance()，而只是比如说外界使用了其静态字段而导致其初始化，会浪费内存
+public class HungrySingleton { private static final HungrySingleton INSTANCE = new HungrySingleton(); private HungrySingleton() { if (null != INSTANCE) { throw new RuntimeException(&amp;#34;don&amp;#39;t call by reflect&amp;#34;); } } private Object readResolve() { return getInstance(); } public static HungrySingleton getInstance() { return INSTANCE; } } 枚举实现 · 依靠Java的枚举语法，天然就是单例并且不可反射创建
+public enum EnumRegisterSingleton { INSTANCE; private Object readResolve() { return getInstance(); } public static EnumRegisterSingleton getInstance() { return INSTANCE; } } 懒汉式 · 真的被调用了getInstance()时才实例化</description>
+    </item>
+    
+    <item>
+      <title>工厂</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</link>
+      <pubDate>Thu, 12 Jan 2023 22:26:38 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</guid>
+      <description>工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main %% Main ..&amp;gt; Product : 局变 Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } %% Factory .</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/readme/</link>
+      <pubDate>Wed, 11 Jan 2023 16:43:10 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/readme/</guid>
+      <description>用UML表达设计模式 使用mermaid绘制：https://mermaid.js.org 需要在idea的设置-&amp;gt;语言和框架-&amp;gt;markdown-&amp;gt;markdown扩展中开启mermaid（idea2020下载的mermaid为8.6版，会报错） vscode安装markdown扩展自动支持，无需设置 UML </description>
+    </item>
+    
+    <item>
+      <title>classpath</title>
+      <link>https://woieha320r.github.io/java/classpath/</link>
+      <pubDate>Thu, 01 Dec 2022 12:00:12 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/classpath/</guid>
+      <description>classpath · 指的是存放class的路径，告诉jvm去哪里加载需要的class
+· 在javaweb中，一般用于指示某文件的位置，具体指的是打包的war包里的META_INF/classes，自己写的代码生成的class文件会放在这里。比如通过配置 maven把xxx.conf放到classpath:conf下，那么代码中要用这个文件就得写classpath:conf/xxx.conf，打包之后这个文件会被放到META_INF/classes/conf下
+· 如果要手动读取classpath下的文件，可使用getClass().getResourceAsStream()，传入文件在META_INF/classes下的路径</description>
+    </item>
+    
+    <item>
+      <title>事务</title>
+      <link>https://woieha320r.github.io/java/%E4%BA%8B%E5%8A%A1/</link>
+      <pubDate>Thu, 01 Dec 2022 11:46:29 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E4%BA%8B%E5%8A%A1/</guid>
+      <description>事务 事务特性（ACID 原子性：中间中断则数据回退
+一致性：有点儿类似线程可见性吧
+隔离性：同一时间只能一个事务访问同一数据
+持久性：事务结束后结果不可回退
+MySQL事务隔离级别 读未提交级别
+脏读：读到了另一个事务未提交的数据
+解决方案：读已提交级别 不可重复读：因另一个事务修改值而导致前后两次读取不一致
+解决方案：可重复读级别（默认级别） 幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效
+解决方案：串行化级别 Spring事务 · 就像Spring Cache，是屏蔽具体实现的统一抽象
+传播机制 指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上 · 并入：合并进已有的事务，提交回滚是同步的 · 嵌入：内层跟随外层回滚，内层回滚不影响外层 必须有
+参与已有事务，否则新开
+并入（PROPAGATION_REQUIRED）
+嵌入（PROPAGATION_NESTED）
+参与已有事务，否则异常
+并入（PROPAGATION_MANDATORY）
+不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）
+可有可无：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）
+禁止有
+已有事务则异常（PROPAGATION_NEVER）
+已有事务则等待（PROPAGATION_NOT_SUPPORTED）</description>
+    </item>
+    
+    <item>
+      <title>代理</title>
+      <link>https://woieha320r.github.io/java/%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Thu, 01 Dec 2022 10:39:13 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E4%BB%A3%E7%90%86/</guid>
+      <description>代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。</description>
+    </item>
+    
+    <item>
+      <title>NIO</title>
+      <link>https://woieha320r.github.io/java/nio/</link>
+      <pubDate>Thu, 01 Dec 2022 09:37:43 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/nio/</guid>
+      <description>NIO · 一种基于通道（Channel）和缓冲区（Buffer）的I/O方式，它可使用Native函数库直接分配堆外内存，并通过一个存储在Java堆里的 DirectByteBuffer对象引用它。避免了在Java堆和Native堆间来回复制，提高了性能
+可参考https://www.zhihu.com/question/29005375/answer/184849551</description>
+    </item>
+    
+    <item>
+      <title>注解</title>
+      <link>https://woieha320r.github.io/java/%E6%B3%A8%E8%A7%A3/</link>
+      <pubDate>Thu, 01 Dec 2022 08:36:20 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E6%B3%A8%E8%A7%A3/</guid>
+      <description>注解 · 编程中自定义注解一般是使其工作在运行时，可以理解为在class上打个自定义标签，然后写代码时依据这个标签选择进行或不进行某些行为
+· jdk6通过的JSR-269提案引入了“插入式注解处理器”，编译器允许自定义代码修改语法树，从而可以自动生成代码，比如lombok的实现</description>
+    </item>
+    
+    <item>
+      <title>线程&amp;锁</title>
+      <link>https://woieha320r.github.io/java/%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <pubDate>Wed, 30 Nov 2022 23:32:52 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <description>线程&amp;amp;锁 指令重排序 · CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时 第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待
+· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的
+jvm的线程内存模型 · 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。
+volatile · volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）
+· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x++，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4
+· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序
+· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）
+synchronized · synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）
+· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令
+· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。
+· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。
+双检锁式懒汉单例 · new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化
+· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生
+· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）
+通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false
+public class TestSynchronizedSeen { private static Integer x; public static void getInstance() { if (null == x) { synchronized (TestSynchronizedSeen.class) { if (null == x) { x = 1; x = 2; x = 3; } } } } public static void main(String[] args) { new Thread(() -&amp;gt; TestSynchronizedSeen.</description>
+    </item>
+    
+    <item>
+      <title>构造实例对象</title>
+      <link>https://woieha320r.github.io/java/%E6%9E%84%E9%80%A0%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Wed, 30 Nov 2022 22:47:09 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E6%9E%84%E9%80%A0%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1/</guid>
+      <description>构造实例对象 编译器会将new编译为两条指令：new、invokespecial
+jvm处理new指令 · 拿到class的符号引用，若未加载过，执行类加载过程
+· 在堆中分配内存：方式取决于具体实现（指针碰撞、空闲列表记录），这个行为是“原子”的。空间需容纳所有父类的非static字段和本类的所有字段
+· 把除“对象头”（hash码、锁指针、class指针(非句柄方式访问对象，否则class指针在句柄中，如图)&amp;hellip;）的空间初始化为零值
+jvm处理invokespecial指令 执行编译器生成的“实例构造函数()”，即：调用父类构造、执行代码中的声明时赋值和构造方法</description>
+    </item>
+    
+    <item>
+      <title>加载class</title>
+      <link>https://woieha320r.github.io/java/%E5%8A%A0%E8%BD%BDclass/</link>
+      <pubDate>Wed, 30 Nov 2022 21:45:45 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E5%8A%A0%E8%BD%BDclass/</guid>
+      <description>加载class 虚方法 · class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称 为“虚方法”
+class加载流程 · 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数 来跟踪class的加载情况
+加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自 于网络、压缩包、动态代理动态生成&amp;hellip;&amp;hellip;
+验证：安全性、完整性&amp;hellip;&amp;hellip;
+准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值
+解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前
+初始化：执行编译器生成的“类构造函数()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的
+· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class 方法重载 · 编译器以“方法名+参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声 明的啥类型就按啥类型
+· 对于method(&amp;lsquo;a&amp;rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&amp;rsquo;a&amp;rsquo;的类型
+虚方法调用和字段解析 · 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型， 比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象 的实际class开始，按继承关系向上查找符合签名的方法
+· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字 段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字 段（不是指针，是拷贝存储）</description>
+    </item>
+    
+    <item>
+      <title>字节码</title>
+      <link>https://woieha320r.github.io/java/%E5%AD%97%E8%8A%82%E7%A0%81/</link>
+      <pubDate>Wed, 30 Nov 2022 20:39:24 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E5%AD%97%E8%8A%82%E7%A0%81/</guid>
+      <description>字节码 · JVM识别字节码而非Java，字节码是图灵完备的，任何语言都可以编译为字节码以运行于JVM上
+· 一个class文件只有一个类或接口的信息，以8字节为基础单位，多个单位间用“大端表示法”（高位单位放在低地址处，就是反人类的那种）
+· jvm执行字节码是基于栈的
+class文件记录了啥 用以区别其他文件格式的魔数
+运行所要求的jvm最高版本
+常量池（字面量、类/接口的全限定名、字段/方法的名称/描述符、方法的句柄/类型、动态调用点和动态常量）
+一个字段/方法名只有65535位存储空间
+所有符号引用都存在这里，需要的地方指向这里
+访问标志：public、final、super、interface、enum、abstract、是否用户代码、annotation、module
+类名指针、父类名指针、接口集合名指针
+字段表，只有本class的字段（访问权限、static、final、volatile、transient、是否编译器生成、enum、名称指针、描述符指针（通过字符串表达类 型/参数/返回值，如byte应指向常量池的“B”字符）、属性表指针（如果字段同时被final、static修饰且是基本类型/字符串，则将常量值写在属性表，和类 字段零值一同赋值，否则由类初始化方法负责初始化））
+方法表，只有本class的方法（访问权限、static、final、synchronized、是否编译器产生的桥接方法、是否不定参数、是否本地、abstract 、strictfp、是否编译器生成的、属性表指针（方法体的字节码指令集））
+属性表</description>
+    </item>
+    
+    <item>
+      <title>调试工具</title>
+      <link>https://woieha320r.github.io/java/%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Wed, 30 Nov 2022 19:36:53 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/</guid>
+      <description>调试工具 jps · 如果跑了多个java程序，不知道哪个进程id对应哪个程序，可以使用jps -l列出所有java进程id(vmid)及其对应的main类名/jar包路径
+jstack jstack [option] vmid
+打印vm当前的线程快照(方法堆栈集合)，可排查为何停顿或无响应
+其他 查看class加载情况 · 添加启动参数：-verbose:class</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/java/readme/</link>
+      <pubDate>Wed, 30 Nov 2022 18:21:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/readme/</guid>
+      <description>java 不关心Java语法和JVM的具体实现，只记录一些可能对编程有帮助的内容 目前主要参考自《深入理解Java虚拟机：JVM高级特性与最佳实践（第3版）》 </description>
+    </item>
+    
+    <item>
+      <title>12.标准库</title>
+      <link>https://woieha320r.github.io/nand2tetris/12.%E6%A0%87%E5%87%86%E5%BA%93/</link>
+      <pubDate>Tue, 08 Nov 2022 19:00:07 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/12.%E6%A0%87%E5%87%86%E5%BA%93/</guid>
+      <description>标准库 ⚠️大略看了下，没做
+数学运算 ⚠️没看懂
+本例的加法在ALU级实现，并根据补码实现剑法，乘除由标准库提供
+字符串（字符串/整数转换 找一个基准点，比如’0’码点是48，对整数字符x的码点可表示为：x+48
+内存 本例的堆基址初始化为2048。书中介绍使用链表记录可用空间的方式和两个查找可用空间的算法： best-fit：返回符合大小的空间中最不浪费的。 first-fit：返回符合大小的空间中最早被找到的。 class Node { int address; int size; Node next; } ⚠️实现Memory不能用class抽象和new，因为new是编译器用Memory实现的，编译过后就成递归了。需要想办法用基本类型实现上述抽象，Node本身也需要空间来存储 屏幕 像素点 · 将屏幕视为(x行, y列)的像素点，一个像素点对应RAM中的一bit，但RAM只能16bit读写，所以开关某像素点需要经过运算以只改变这16个bit位中的一个。
+行 像素点是规整的，对于斜线，只是在视觉上欺骗观看者。
+圆 依赖数学函数计算实现
+字符 · 需要将满屏幕像素分组用来绘制单个字符，绘制方案被称为“字体”，本例用没11行8列区域展示一个字符，要为周边留白防止字符连到一起，“N”示例如下。同时需要 一个行列表示的光标来指示下一个字符的位置，换行、退格等的实现就是通过操纵光标。
+键盘 · 只负责从KBD读取数字（无按键值为0），通过字符集可得知是哪个字符，要回显在屏幕上的。Hack不支持中断，进入函数后要一直循环直到中止，至于何时中止 取决于具体函数，比如readInt只读一个有效按键，readLine读到回车为止。</description>
+    </item>
+    
+    <item>
+      <title>11.Jack语言——编译器（生成vm）</title>
+      <link>https://woieha320r.github.io/nand2tetris/11.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E7%94%9F%E6%88%90vm/</link>
+      <pubDate>Tue, 25 Oct 2022 12:33:30 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/11.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E7%94%9F%E6%88%90vm/</guid>
+      <description>Jack语言——编译器（生成vm） 变量 生命周期 这里无需处理生命周期，已在07和08章的VM翻译器中实现了：
+· 静态（类级）：和代码同生死。在汇编中以&amp;quot;@CLASS名.变量名&amp;quot;方式作为汇编变量出现。
+· 字段（实例级）：和对象同生死。构造函数为对象开辟空间就是为它所有的字段开辟空间。
+· 局部变量（方法级）：和方法同生死。汇编中在实际的函数跳转发生前，由调用者负责为被调用者的局部变量开辟空间，并将LCL修改到正确的位置。
+符号表 · 就像汇编器用符号表记录vm变量和RAM地址的关系一样，这里也需要用符号表记录Jack变量和VM内存地址的关系。
+· 但高级语言中在不同作用域/生命周期（static/field、var）下可存在同名变量，本例使用两个符号表（类级、局部级）分别存储，这两个表分别在每次遇到 “class”、“constructor/method/funciton”时被初始化。method需要初始化一个this条目，在下面叙述。
+作用域 · 编译器应当先从局部符号表取值，没有的话再检查类级符号表，这被称为“内部作用域隐藏外部作用域”。本例只有这两种作用域级别，对于其他支持无限嵌套 作用域的语言，可以使用链表形式实现符号表（⚠️没明白咋实现）。
+表达式 · 需要把运算符的中缀表示转为后缀表示（包括函数调用），所以需要修改上一章的CompilationEngine.compileExpression()，使其以后缀方式输出表达式。
+字符串 Jack标准库封装了String类（标准库在12章中实现，现在只需假定已经存在）用以处理字符串，字符串常量写法是语法糖。这个过程和大多数高级语言的处理 相似，但Jack不提供垃圾回收。
+例如：x = &amp;ldquo;abc&amp;rdquo;; 编译器将按如下代码处理。
+x = String.new();
+x = x.appendChar(&amp;lsquo;a&amp;rsquo;);
+x = x.appendChar(&amp;lsquo;b&amp;rsquo;);
+x = x.appendChar(&amp;lsquo;c&amp;rsquo;);
+语句 return（return x + y; 先翻译x + y，其值自然会出现在栈顶，然后直接生成return即可。
+let（let x = y + 1; 先翻译y + 1，结果位于栈顶，再pop到x在符号表中绑定的vm内存地址。数组处理在下面叙述。
+do（do className.functionName(&amp;hellip;) do调用的方法不一定有返回值，如何知道方法是否有返回值？不能，那就让所有方法都必须有返回值(void返回0)，在do中一定会抛弃返回值：pop temp 0
+if、while 在vm语言中把它们转成用goto、if-goto表达，要先处理条件表达式，好让其值位于栈顶作为跳转判断条件。 * if示例 … 条件表达式的boolean值 (bool取反) if-goto 失败标签 if成立的逻辑 goto 后续标签 失败标签 [else的逻辑] 后续标签 … * while示例 … while开始标签 条件表达式的boolean值 (bool取反) if-goto 后续标签 while成立的逻辑 goto while开始标签 后续标签 … * 布尔取反 书中设计的true/false分别用-1/0表示，在图8.</description>
+    </item>
+    
+    <item>
+      <title>10.Jack语言——编译器（语法分析）</title>
+      <link>https://woieha320r.github.io/nand2tetris/10.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 25 Sep 2022 23:47:17 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/10.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</guid>
+      <description>Jack语言——编译器（语法分析） 概述 · 通过制定“标记”组合方式来表示什么是正确的语法，这被称为“句法模式”。
+· 本例通过“标记化、解析”两个步骤完成Jack编译器的语法分析部分，并通过输出xml来验证是否按照预期进行。
+· “标记化”步骤即将源码拆分为原子并打上“标记”，“解析”步骤即判断这些“标记”组合是否符合“句法模式”。
+标记化 · 将源码（除注释和空白）拆分为原子，并打上标记。
+· “标记化”步骤产生的xml作为“解析”步骤的输入。
+· 注意&amp;lt;, &amp;gt;, &amp;ldquo;, &amp;amp;在xml中需要被转义为&amp;lt;, &amp;gt;, &amp;quot;, &amp;amp;。
+句法模式 · 本例的句法模式（class, classVarDec, subroutine, parameterList, subroutineBody, varDec, statements, letStatement, ifStatement, whileStatement, doStatement, returnStatement, expression, term, expressionList）及对模式中|、*等符号的说明如下。
+· 本例的声明、赋值都需要专用关键字，从左至右解析，只需根据前一个标记便可知道它应匹配哪个句法模式，这被称为LL(1)。
+解析 · 需要将给定的标记组合和句法模式对应起来才能验证标记是否符合句法模式，这种对应关系可被“解析树”结构表达，不能构建解析树的标记组合，被视为语法错误。
+· 本例的语法是LL(1)的（subroutineCall是例外，需要用前两个标记判断），所以解析器很适合使用“递归下降”算法实现。
+输出结构 &amp;lt;句法模式&amp;gt; &amp;lt;标记&amp;gt;值&amp;lt;/标记&amp;gt; … &amp;lt;句法模式&amp;gt; &amp;lt;标记&amp;gt;值&amp;lt;/标记&amp;gt; … &amp;lt;/句法模式&amp;gt; … &amp;lt;/句法模式&amp;gt; … 习题 代码位于https://github.com/woieha320r/nand2tetris/tree/main/JackAnalyzer/src/com/example
+JackAnalyzer模块：JackTokenizer（标记化 JackAnalyzer模块：CompilationEngine（解析器 </description>
+    </item>
+    
+    <item>
+      <title>09.Jack语言——语法</title>
+      <link>https://woieha320r.github.io/nand2tetris/09.jack%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Sat, 24 Sep 2022 23:18:59 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/09.jack%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95/</guid>
+      <description>Jack语言——语法 概述 · 程序入口点是Main.main
+class Main { function void main() { // 程序入口; } } · 构造函数constructor，实例方法method，静态函数function
+· 所有方法/函数必须以return结束，构造函数return this
+· 赋值采用Java一样的“值传递”，⚠️不知道有没有其他传递方法，应该没有吧，难道不都是把变量的值拷贝给另一个吗
+· 一个文件只能一个class，class名必须与文件名同。⚠️这个规定应该是给VM翻译器用的，翻译后的vm中没有可以体现类名的东西，只能取文件名。
+为了编译器实现方便 · 变量声明得在方法/函数之前
+· 类型转换无需显式声明
+· 运算符优先级需要手工写括号，一律从左到右运算
+· 没有垃圾回收，需要调用Memory.deAlloc(引用)来回收内存
+· 没有方法重载
+· 静态函数必须用类名调用
+· 字段一律私有，方法/函数一律公有
+示例 支持的符号 </description>
+    </item>
+    
+    <item>
+      <title>07.08.Jack语言——vm翻译器</title>
+      <link>https://woieha320r.github.io/nand2tetris/07.08.jack%E8%AF%AD%E8%A8%80vm%E7%BF%BB%E8%AF%91%E5%99%A8/</link>
+      <pubDate>Wed, 21 Sep 2022 19:03:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/07.08.jack%E8%AF%AD%E8%A8%80vm%E7%BF%BB%E8%AF%91%E5%99%A8/</guid>
+      <description>Jack语言——vm翻译器 概述 · 本例的Jack是面向对象的语言，像Java一样采用运行于VM（虚拟机）的方式。先被一个编译器编译为运行于VM的VM语言，再由VM翻译器将其翻译为汇编。这种方式 只需编译一次就可借助不同硬件架构的VM运行在不同硬件架构上。其他语言也可以选择编译为特定VM的中间代码，以借助其VM实现跨平台。虽然这种方式生成的汇编命 令相比之下更多。但好处除了一次编译到处运行外，还可以通过审查中间代码来发现恶意代码。
+· 目的：实现VM翻译器（VMTranslator），用以将Jack的中间代码翻译为Hack汇编。重要的是了解Jack的VM设计和语言规范，以及了解如何在汇编中表达 栈、 分支、函数调用。
+· 栈：这种数据结构可以很好的表达函数运行状态和调用链，用它来存储那些随函数生亡而生亡的数据。不符合此描述的无需也不能放入栈，比如静态变量。而且在函 数之中不能直接跳转（goto）到函数外，再次操作栈时会导致混乱。
+VM内存模型 为VM构想一个内存模型来代替真实的RAM和寄存器，然后据此模型设计指令（VM语言）。所以“中间语言运行于VM”是虚构的，因为这个模型并没有真正的硬件实现， 本例的虚拟内存模型分如下几个段。中间语言没有变量，全部用&amp;quot;内存段 非负索引&amp;quot;表示，索引由编译器负责生成，VM翻译器实现无需关心。
+local 实例方法局部变量
+argument 实例方法参数
+this
+that
+temp
+static 类静态变量
+pointer 只有两个索引：0、1，pointer 0指代用于保存this段基址的存储器，而1同理指代that，在编译器实现时详述
+constant 常量标志。将常量3写入vm语言的唯一方式是push constant 3，3不是内存段索引，而是常量3。constant也不是内存段，而是给编译器 看的关键字，所以constant不能是pop的操作对象，它没有内存位置
+VM语言规范 只能通过唯一的栈操作数据（运算、函数传参/返回值），通过push/pop将数据在栈和内存段间转移：&amp;ldquo;push/pop 内存段名称 非负索引&amp;rdquo;
+只有一种数据类型：有符号16位整数
+所有运算无需指定操作数，因为都是从栈里取，第一个操作数相较第二个位于栈中更底层的位置（先入栈）。
+add 加
+sub 减
+neg 取负
+eq 相等
+gt 大于
+lt 小于
+and 与
+or 或
+not 非
+有条件跳转：if-goto：弹出栈顶元素，当其非false时发生跳转
+无条件跳转：goto
+调用自定义函数使用&amp;quot;call 函数名 参数个数&amp;quot;，标记函数执行结束使用return，编译器以此为标记进行翻译。
+main函数是Jack程序的入口点，当存在多个vm文件时，必须存在一个名为Main的vm文件，其中必须存在一个名为main的函数。
+编译器生成的vm文件的函数名命名方式为“文件名.函数名 局部变量个数”，例如：Main.main，以此做到全局唯一。
+程序示例 实际中vm语言没有变量名，都应被转为 &amp;ldquo;内存段 非负索引&amp;rdquo;）</description>
+    </item>
+    
+    <item>
+      <title>06.汇编器</title>
+      <link>https://woieha320r.github.io/nand2tetris/06.%E6%B1%87%E7%BC%96%E5%99%A8/</link>
+      <pubDate>Fri, 16 Sep 2022 00:19:51 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/06.%E6%B1%87%E7%BC%96%E5%99%A8/</guid>
+      <description>汇编器 概述 目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。
+为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。
+初始化：将所有内置符号及其数字值写到符号表
+第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才+。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。
+第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个 变量定义，本例中的变量都被依次绑定到[RAM[16], ++)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串 和111前缀按顺序合并为机器指令。
+本例机器语言的语法设计图 习题 · 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler
+解析器模块。用于分解汇编源码。 代码模块。用于将汇编源码转为对应的二进制码。 符号表模块。用于支持处理符号。 汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。 · 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack 文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&amp;quot;静态链接&amp;quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。
+· 另一种思想是&amp;quot;动态链接&amp;quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被 加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库 代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。</description>
+    </item>
+    
+    <item>
+      <title>05.计算机架构</title>
+      <link>https://woieha320r.github.io/nand2tetris/05.%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9E%B6%E6%9E%84/</link>
+      <pubDate>Wed, 14 Sep 2022 23:36:55 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/05.%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9E%B6%E6%9E%84/</guid>
+      <description>计算机架构 概述 · 目标：集成已经构建好的芯片，使其可运行第4章的机器语言
+· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD
+· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。
+冯诺依曼通用架构图 习题 一种可能的实现方式 本例机器语言的语法设计图 · 图中的c指的不是&amp;#34;是否c指令&amp;#34;，而是从指令中提取的控制位，ALU的c&amp;#39;s代表C指令中用以选择函数的cccccc这6位 · A、D寄存器需分别使用内置芯片：ARegister、DRegister。 （结合语法设计图解释） · 通过指令最高位判断A、C指令。 · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。 · 对于C指令， · 通过a判断ALU除D外的另一个输入来自于A还是M · 通过cccccc选择ALU将执行的函数 · 通过ddd选择ALU将输入到哪个寄存器 · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC++; fi · 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。 · 三个寄存器的load条件通过观察ddd真值表得出。 // 指令是否是c指令 Xor(a=instruction[15], b=false, out=isC); Not(in=isC, out=isA); // A寄存器 // C指令下，是否将ALU结果置入A Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA); And(a=instruction[5], b=isC, out=cInA); // A指令下直接置入A Or(a=cInA, b=isA, out=inA); // 输出addressM ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM); // ALU除D外的另一个寄存器的输入来自于A还是M Xor(a=instruction[12], b=false, out=whetherFromM); And(a=isC, b=whetherFromM, out=fromM); Mux16(a=outA, b=inM, sel=fromM, out=fromAM); // D寄存器 // C指令下，是否将ALU结果置入D And(a=instruction[4], b=isC, out=inD); DRegister(in=aluRes, load=inD, out=outD); // ALU // C指令，ALU才执行函数。否则执行000000 And(a=isC, b=instruction[11], out=isZx); And(a=isC, b=instruction[10], out=isNx); And(a=isC, b=instruction[9], out=isZy); And(a=isC, b=instruction[8], out=isNy); And(a=isC, b=instruction[7], out=isF); And(a=isC, b=instruction[6], out=isN); ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg); // ALU结果是否置入M // 输出writeM And(a=isC, b=instruction[3], out=writeM); // PC // 跳转 // 先假定是C指令，凭jjj和结果标志判断是否跳转 // ALU结果!</description>
+    </item>
+    
+    <item>
+      <title>04.机器语言</title>
+      <link>https://woieha320r.github.io/nand2tetris/04.%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80/</link>
+      <pubDate>Wed, 07 Sep 2022 22:12:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/04.%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80/</guid>
+      <description>机器语言 概述 · 硬件设计 &amp;lt;-&amp;gt; 机器语言 -&amp;gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定 关系，汇编语言等同于机器语言，不能跨硬件架构。
+· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地 址，被称为可重定位的。
+语法设计图 语法解释 可读可写的RAM用于存放数据，只读的ROM用于存放指令。
+A寄存器的值同时是RAM、ROM的地址。
+M寄存器的值是RAM在地址A处的数据。
+D寄存器单纯的用于存放数据。
+使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D
+要跳转到ROM[29]执行：@29, 0;JMP
+当D==0时跳抓到ROM[29]：@29, D;JEQ
+设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。
+汇编器还处理一些内置符号：
+R0..R15，代表0..15，所以@R3等同于@3。
+SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN + row*32 + col/16]， 使其col%16位为1。
+KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作 将由操作系统负责完成。
+字符编码集 指针操作数组示例 习题 RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况 需要修改测试脚本的repeat全部为210，否则时间不够 // if (RAM[0] &amp;gt; RAM[1]) { // count = RAM[1]; // num = RAM[0]; // } else { // count = RAM[0]; // num = RAM[1]; // } // res = 0; // count--; // for (i = 0; i &amp;lt;= count; i++) { // res += num; // } @R0 D=M @R1 D=D-M @R0_BIGGER D;JGT // r0 &amp;lt;= r1 @R0 D=M @count M=D @R1 D=M @num M=D (CORE) // res = 0 @0 D=A @res M=D // n-- @1 D=A @count M=M-D // i = 0 @0 D=A @i M=D (LOOP) @i D=M @count D=D-M @STORE_RESULT D;JGT // res += num @num D=M @res M=D+M // i++ @1 D=A @i M=D+M @LOOP 0;JMP // r0 &amp;gt; r1 (R0_BIGGER) @R1 D=M @count M=D @R0 D=M @num M=D @CORE 0;JMP (STORE_RESULT) @res D=M @R2 M=D (END) @END 0;JMP 循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。 检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。 // while (1) { // color = RAM[KBD] &amp;gt; 0 ?</description>
+    </item>
+    
+    <item>
+      <title>网络代理</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 05 Sep 2022 17:58:50 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</guid>
+      <description>网络代理 IP问题详情见：https://developer.android.google.cn/studio/run/emulator-networking?hl=zh-cn emulator启动时携带-http-proxy参数，或如下设置</description>
+    </item>
+    
+    <item>
+      <title>安装apk</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/</link>
+      <pubDate>Mon, 05 Sep 2022 10:57:30 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/</guid>
+      <description>安装apk 查看可用设备
+adb devices 把apk软件安装到指定设备
+adb -s 设备名 软件.apk </description>
+    </item>
+    
+    <item>
+      <title>03.内存</title>
+      <link>https://woieha320r.github.io/nand2tetris/03.%E5%86%85%E5%AD%98/</link>
+      <pubDate>Wed, 31 Aug 2022 21:51:02 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/03.%E5%86%85%E5%AD%98/</guid>
+      <description>内存 概述 · 书中例子，内存的底层设备选用数据触发器（DFF），现代计算机内存底层设备不一定是DFF，可能是其他独有的物理特性。DFF也可以仅通过Nand构建，但很复 杂，所以书中的例子将其作为原始逻辑门使用。其使用方式如下图
+· 所有内存芯片都含数据触发器（DFF）。所有的DFF通过专用的时间总线同时接收到由振荡器发出的时钟周期信号（tick-tock），DFF在每个周期结束（tock） 时输出结束前时间还处于周期内（范围：(上一个tock, 当前tock) ）时的输入。
+· 时序逻辑既结合DFF达到“记忆/存储”的效果，也用于同步不同的物理时延。假如ALU的两个入参在不同时间到达ALU，那么ALU将输出错误的结果。所以时钟周期在 必须大于整个硬件最长时延的同时，又要尽可能短，周期越短速度越快。
+· 访问RAM的不同地址，所花时间是相同的。
+习题 按照图示连接 Mux(a=dffOut, b=in, sel=load, out=dffIn); DFF(in=dffIn, out=dffOut, out=out); 如果有16位的DFF，可以像Bit一样连接。因为没有，所以使用16个Bit Bit(in = in[0], load = load, out = out[0]); ... Bit(in = in[15], load = load, out = out[15]); 这个n指的是地址数，将依次实现这些n数{8, 64, 512, 4K, 16K}，其对应的address位数k={3, 6, 9, 12, 14}，地址位数递增的个数有助于使用已构建好的RAM RAM8 在输入时，要根据3位地址的值来选取8个寄存器，可用8路分解器。而在输出时使用16位8路选择器。 8路分解器是1位的，不能用来传递in，但可以用来传递load，它选择的结果作为各寄存器的load位。没有被选择的寄存器不读入值，但它们依旧输出，所以它们的输出还要经过16位8路选择器筛选。 DMux8Way(in=load, sel=address, a=inR0, b=inR1, c=inR2, d=inR3, e=inR4, f=inR5, g=inR6, h=inR7); Register(in=in, load=inR0, out=outR0); Register(in=in, load=inR1, out=outR1); Register(in=in, load=inR2, out=outR2); Register(in=in, load=inR3, out=outR3); Register(in=in, load=inR4, out=outR4); Register(in=in, load=inR5, out=outR5); Register(in=in, load=inR6, out=outR6); Register(in=in, load=inR7, out=outR7); Mux8Way16(a=outR0, b=outR1, c=outR2, d=outR3, e=outR4, f=outR5, g=outR6, h=outR7, sel=address, out=out); RAM64 把RAM8看成整体使用，用address的高3位选择使用哪个RAM8 DMux8Way(in=load, sel=address[3.</description>
+    </item>
+    
+    <item>
+      <title>抓取https</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/</link>
+      <pubDate>Wed, 31 Aug 2022 10:53:37 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/</guid>
+      <description>抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29+不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&amp;#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&amp;#34; mv burp.pem &amp;#34;${hash_pem}.0&amp;#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &amp;#34;${hash_pem}.</description>
+    </item>
+    
+    <item>
+      <title>sql注入</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Mon, 29 Aug 2022 10:29:54 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>sql注入 · 在数据库每次都解析语法且SQL构成包含外部来源参数的情况下，通过在传给SQL的参数中添油加醋改变其原本语法，查询自己需要的信息。
+sql预编译 · 数据库执行一条SQL语句需要先分析其语法，但大部分SQL查询语法是相同的，只是条件不同。
+· 现在提前将这个SQL的语法解析出来，后期查询通过填入不同参数来获得不同结果，无需每次都解析语法。在省去多次解析时间的同时还能防止SQL注入，因为不 再每次都解析语法，传入的参数就只是查询条件，不影响SQL的原本语法。
+· 预编译只能将字段值作为条件占位符，如果连字段都不确定，是不能预编译的，比如where name = ?可以预编译，但如果连是name还是nickname都是动态的， 就不能预编译。
+· 预编译分服务端和客户端，即便不开启服务端预编译，JVM完成的预编译也能阻止SQL注入。
+java中的sql注入 · java.sql包下的PreparedStatement用于预编译。mybatis框架中的#{}是通过PreparedStatement预编译的。但like、in、order by直接用#{}会 报错，若开发者使用了${}代替，则可被注入。</description>
+    </item>
+    
+    <item>
+      <title>sqli-labs</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</link>
+      <pubDate>Sat, 27 Aug 2022 10:28:05 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</guid>
+      <description>sqli-labs docker run -dt \ -p 80:80 \ -p 3306:3306 \ --name sqli-labs \ acgpiano/sqli-labs #访问localhost #点击 Setup/reset Database for labs 返回后点击图片中的各个关卡</description>
+    </item>
+    
+    <item>
+      <title>WAF绕过</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/waf%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Thu, 25 Aug 2022 21:23:27 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/waf%E7%BB%95%E8%BF%87/</guid>
+      <description>WAF绕过 TODO:待看绕过思路
+https://zhuanlan.zhihu.com/p/411351728 https://www.freebuf.com/articles/web/336869.html https://www.freebuf.com/articles/network/326312.html https://cloud.tencent.com/developer/article/1969001 https://blog.csdn.net/weixin_55837124/article/details/118034812 https://www.secpulse.com/archives/176763.html https://blog.csdn.net/weixin_50464560/article/details/120926097 https://harmoc.com/secnote/waf绕过思路整理.html https://blog.csdn.net/qq_53577336/article/details/119897773 WAF · 识别目标站是否使用了防火墙。WAF可以是硬件的、软件的、云厂商的、代码注入式的。
+· 如果存在WAF，后续的所有操作需要人工进行绕过，不可用工具频繁自动化进行，会被封IP。
+WAF识别 看响应头字段
+常见的WAF拦截页面
+https://github.com/stamparm/identYwaf/tree/master/screenshots
+https://mp.weixin.qq.com/s/8F060FU9g_78z57UKS-JsQ
+⚠️频繁探测目标站⚠️工具识别（一般是根据http头、拦截页的文字图片特征来识别
+wafw00f WAF绕过 TODO</description>
+    </item>
+    
+    <item>
+      <title>02.布尔算术</title>
+      <link>https://woieha320r.github.io/nand2tetris/02.%E5%B8%83%E5%B0%94%E7%AE%97%E6%9C%AF/</link>
+      <pubDate>Wed, 24 Aug 2022 20:39:16 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/02.%E5%B8%83%E5%B0%94%E7%AE%97%E6%9C%AF/</guid>
+      <description>布尔算术 概述 计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小 的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。
+在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过 观察结果，可发现补码的如下特性：
+在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]
+正数最高位是0，负数最高位是1
+将x取反有两种方法
+找到最小有效位1，将它的更高位（不包括自身）全部反转
+反转所有位，结果加1
+x-y可被x+(-y)实现
+全加器的得名因为其实现细节可由两个半加器组成。
+对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环： 0, 1, 2, 3, 0, -1, -2, -3, -4……
+习题 ⚠️非HDL描述
+通过观察真值表，得出 sum=Xor(a, b) carry=And(a, b) 和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和 HalfAdder(a=a, b=b, sum=sumab, carry=carry1); HalfAdder(a=sumab, b=c, sum=sum, carry=carry2); HalfAdder(a=carry1, b=carry2, sum=carry); 使用全加实现，c为上次的进位，首次进位0，每次的sum作为out FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0); FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1); ... FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]); Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out); // 所有条件分支通过选择器实现 // zx And16(a=x[0..15], b[0..15]=false, out=zeroX); Mux16(a=x[0.</description>
+    </item>
+    
+    <item>
+      <title>敏感文件</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Tue, 23 Aug 2022 23:21:06 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6/</guid>
+      <description>敏感文件 CMS · 查询其使用的CMS的默认配置文件等敏感文件
+写给爬虫的文件、flash跨域策略文件 /robots.txt
+定义了哪些路径不想被爬虫爬取 /crossdomain.xml
+flash的跨域策略文件，可配置允许哪些域服务器读写自己服务器的数据 /sitemap.xml
+告知搜索引擎网站中可供抓取的网址 代码版本管理工具文件泄露 /.git/
+利用工具：https://github.com/BugScanTeam/GitHack /CVS/
+利用工具：https://github.com/kost/dvcs-ripper.git /.svn/
+利用工具：https://github.com/admintony/svnExploit /.hg/
+利用工具：https://github.com/kost/dvcs-ripper.git WEB-INF/
+WEB-INF/web.xml：Web应用程序配置文件
+WEB-INF/database.properties：数据库配置文件
+WEB-INF/classes/：class文件
+WEB-INF/lib/：jar包
+WEB-INF/src/：源码
+其他泄露 .DS_store
+Mac下Finder用来保存如何展示 文件/文件夹 的数据文件，每个文件夹下对应一个。
+利用工具：https://github.com/lijiejie/ds_store_exp
+Google
+管理页/错误页：site:目标域 system | 系统 | 内部 | admin | 管理 | center | 中心 | manage | login | 登录 | 登陆 | 后台 | api | 接口 | 用户名 | 密码 | err | 错误 | warn | 警告 | denied | 拒绝 | username | passw | old | bak | backup | 备份 | 日志 | log 某后缀名的文件：site:目标域 filetype:txt | filetype:log | filetype:sql | filetype:xml | filetype:pdf | filetype:doc | filetype:docx | filetype:xls | filetype:xlsx | filetype:rar | filetype:zip | filetype:7z | filetype:tar.</description>
+    </item>
+    
+    <item>
+      <title>CMS识别</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cms%E8%AF%86%E5%88%AB/</link>
+      <pubDate>Sun, 21 Aug 2022 22:13:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cms%E8%AF%86%E5%88%AB/</guid>
+      <description>CMS识别 CMS · 看网站是否采用搭建模版搭建。一方面模版本身会存在漏洞，另一方面模版会有固定的配置文件路径、管理后台页、默认管理员用户密码&amp;hellip;&amp;hellip;
+CMS识别 如果响应头的Server字段很全，大概率是CMS
+找线索
+站点页脚的声明
+站点向搜索引擎或爬虫声明的策略文件：/robots.txt
+响应头
+代码中的注释
+url等路径名称
+是否是CMS统一的报错页面
+在线平台
+http://whatweb.bugscaner.com/look/
+https://whatcms.org
+利用工具暴力猜测（⚠️频繁试探目标会遭到waf拦截⚠️工具识别（一般是记录CMS轻易不会被修改的特征路径或文件，做成字典，去访问下目标站有没有这个路径或文件
+whatweb </description>
+    </item>
+    
+    <item>
+      <title>CDN绕过</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cdn%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Fri, 19 Aug 2022 00:11:02 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cdn%E7%BB%95%E8%BF%87/</guid>
+      <description>CDN绕过 · 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单
+CDN 如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返 回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。
+需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：
+是个服务器但不一定就只有一个网站
+是个反向代理，真实服务器在内网
+不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点
+多站点技术-虚拟主机
+多个网站位于同台服务器，配置不同域名指向不同目录 多站点技术-反向代理
+多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器 CDN判定和绕过 如果host解析过程中有cname记录，多半有cdn
+host xxx.com 多地DNS解析A记录
+平台：https://www.itdog.cn/dns/
+手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm
+找只有1条结果且都相同的那个IP
+如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP
+如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述 过程。但也不一定就和目标是同一台服务器
+如果都猜不到，我也不知道了🤷‍♂️，比如douban.com
+寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务 器的IP
+得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。
+F5 BIG-IP LTM Cookie保持机制解码IP · 标志：Set-Cookie: BIGipServer&amp;hellip;..
+· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git
+app渗透 · 目标家的app的请求地址是否泄露真实IP
+同ip站查询 · 平台查询：https://www.webscan.cc</description>
+    </item>
+    
+    <item>
+      <title>01.布尔逻辑</title>
+      <link>https://woieha320r.github.io/nand2tetris/01.%E5%B8%83%E5%B0%94%E9%80%BB%E8%BE%91/</link>
+      <pubDate>Wed, 17 Aug 2022 13:44:32 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/01.%E5%B8%83%E5%B0%94%E9%80%BB%E8%BE%91/</guid>
+      <description>布尔逻辑 概述 · 布尔函数可通过下图的代数性质简化为只有{And, Or, Not}。我们通过函数描述向参数枚举0、1来得到真值表，对于结果为1的每一行， 使用{And, Or, Not}联结这一行的参数们，再将这些联结通过或联结。比如res=f(x, y, z)，当{x=1, y=0, z=0}或者当{x=0, y=1, z=0}时，res=1， 那么其布尔函数表达式为(x And Not(y) And Not(z)) Or (Not(x) And y And Not(z))，然后再将其通过布尔代数性质转换为 简化的{And, Or, Not} 组合。
+· 根据摩根定律，Or可通过{Not, And}组成。而通过真值表，可以发现Not(x)=Nand(x, x)，And(x, y)=Not(Nand(x, y))
+· 所以任何布尔函数都可通过Nand组合，这种关系更像是一种发现而不是创造，没什么深刻的意义或原因。抛开Nand的物理实现，我们只要拿到足够多的 物理Nand，就能组装成任何布尔函数
+习题 ⚠️非HDL描述
+Nand的俩入参同时取反，可使00号和11结果互换，而中间两个结果不变，达到Or的效果。 out=Nand(Not(a), Not(b)) ⚠️非HDL描述
+Nand和Or的结果作and out=And(Nand(x, y), Or(x, y)) 或者将两个结果为1的行作Or out=Or(And(Not(a), b), And(a, Not(b))) ⚠️非HDL描述
+依照描述 out=Or(And(sel, b), And(!sel, a)) ⚠️非HDL描述
+依照描述 a=And(Not(sel), in) b=And(sel, in) ⚠️非HDL描述
+out[0]=Not(in[0]) ... out[15]=Not(in[15]) ⚠️非HDL描述</description>
+    </item>
+    
+    <item>
+      <title>域名</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E5%9F%9F%E5%90%8D/</link>
+      <pubDate>Wed, 17 Aug 2022 00:07:07 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E5%9F%9F%E5%90%8D/</guid>
+      <description>域名 DNS · n IP &amp;lt;-&amp;gt; n 域名，购买域名买的是二级域名（xxx.com），可自由编造多级域名创建多条“IP &amp;lt;-&amp;gt; 域名 绑定记录”（www.xxx.com、a.b.c.xxx.com）。
+· 浏览器将域名转为IP的过程：查询本机hosts文件，没有的话询问ISP提供的LDNS，此后的工作由LDNS负责直至得到IP地址返回给浏览器或无结果。LDNS没有的 话，它首先询问根DNS，递归式的询问被问者返回的NS记录中指定的DNS，期间也会处理CNAME别名，直到拿到A记录。LDNS可以拿到n个A记录，它根据算法得出一个 IP返回给浏览器使用。
+· 权威DNS也许是自家的也许是云厂商的，可能还负责CDN和WAF。
+报文Type的含义 Type取值 样例 含义 A xxx.com. IN A x.x.x.x xxx.com的IPv4地址是x.x.x.x AAAA xxx.com. IN AAAA X:X:X:X:X:X:X:X xxx.com的IPv6地址是X:X:X:X:X:X:X:X CNAME test1.xxx.com. IN CNAME test.xxx.com. test1.xxx.com是test.xxx.com的别名 MX xm.com. IN MX 10 mail.xxx.com. 发送给@xm.com的邮件，收件人邮件服务器域名是mail.xxx.com，优先级为10 NS xxx.com. IN NS ns1.xxx.com. xxx.com这个域名由ns1.xxx.com这个DNS负责解析 SOA 指定域名的众多NS记录中，哪个DNS是最佳数据来源 TXT xxx.com. IN TXT &amp;ldquo;备注说明&amp;rdquo; xxx.com的备注说明 TXT的SPF应用 xxx.com. IN TXT &amp;ldquo;v=spf1 include:mail.xxx.com -all&amp;rdquo; 一种写给收件服务器看的判定规则，防止他人伪装成我的邮箱服务器发邮件 AXFR 从DNS向主DNS索要指定域名的全部记录，用于备份容灾 SRV 类似A，但同时还指定了端口、提供的协议、优先级、权重，如何解读取决于客户端 PTR DNS返回指定IP绑定的域名列表，用于垃圾邮件过滤，需要主动配置 常见问题 泛解析</description>
+    </item>
+    
+    <item>
+      <title>杂记</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Mon, 15 Aug 2022 20:24:20 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E6%9D%82%E8%AE%B0/</guid>
+      <description>杂记 5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注 入时要编码绕过，像绕waf似的。 伪造http请求头ip地址，所有这些头都是不标准的 X-Forwarded-For: client, proxy1, proxy2 Proxy-Client-IP WL- Proxy-Client-IP HTTP_CLIENT_IP X-Real-IP java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代 理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip 使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP nmap扫描，proxychains不支持UDP，所以需要控制参数 -sT：指定为全连接而非SYN扫描 -PN：跳过寻找主机名 -n：确保不在Tor外执行DNS请求 -sT：检测开放端口的服务和版本 -p：扫描执行端口（逗号分隔） nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP 靶场：墨者、sqli-lab、vulhub、vulnhub 试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF 扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录 IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了 加解密
+单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com 加密方式除非拿到源码，不然不好猜 URL编码一般在做绕过时使用 ⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密 </description>
+    </item>
+    
+    <item>
+      <title>Google语法</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/google%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Mon, 15 Aug 2022 20:00:05 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/google%E8%AF%AD%E6%B3%95/</guid>
+      <description>Google语法 url：https://www.google.com/search?q= 除表示“或”必须用“OR”外，一律不区分大小写 通配符“*”表示任意一个单词，“.”表示任意一个字符 条件最多包含32个单词，多个通配符算一个，多个引号算一个 &amp;#34;Google Hacker&amp;#34; 在任意位置必须包含同等顺序的单词组合 Google +Hacker 任意位置包含Google并且必须包含Hacker，不可忽略 Google -gogle -goo 任意位置出现Google并且排除gogle和goo intitle、inurl、intext 标题中出现、URL中出现、正文中出现 site:google.com 所有托管在google.com域名下的网页，包括子域 url中添加&amp;amp;lr=lang_ch限定中文的xxx搜索结果，但实际上它的工作方式是返回主机可能位于中国的网页，判断方式包括顶级域、IP... 设定每页x个结果，返回第y页 url中添加&amp;amp;num=x&amp;amp;start=(y-1)*x filetype:pdf 后缀名为pdf的文件 link:www.xxx.com 可以链接到www.xxx.com的网页 inanchor:xxx 搜索如下形式的链接：&amp;lt;a href=&amp;#34;yyyyyyy&amp;#34;&amp;gt;xxx&amp;lt;/a&amp;gt; numrange:1-4 搜索包含这个范围的数字文本的 daterange:2452164-2452164 限制为google在儒略日2452164这一天索引到的页面 URL中使用&amp;amp;as_qdr=m3 限制为google在过去3个月中索引到的页面 cache:www.baidu.com 访问google缓存的www.baidu.com的页面，但图片仍然会从baidu站点下载，要想不和baidu有任何联系只查看google的文本缓存，在url尾部添加&amp;amp;strip=1 inurl:backup | inurl:bak | inurl:temp | inurl:tmp inrul:db_connect.inc &amp;#34;&amp;lt;?&amp;#34; 搜索泄露数据库信息的php文件 filetype:mdb 搜索access数据库文件 搜索电子邮件的方式，谷歌可能会忽略@和.，可以适当添加email或邮箱等关键字来缩小结果 前缀 at 邮箱域名.com 前缀 at 邮箱域名 dot com 前缀@邮箱域名 dot com 前缀_at_邮箱域名.com 前缀_at_邮箱域名 dot com 前缀_at_邮箱域名_dot_com 前缀@邮箱域名.remove.com 前缀@_removethis_邮箱域名.com 验证是否存在这个邮箱：nc或telnet到邮箱服务器的25端口，RCPT TO: &amp;lt;目标邮箱&amp;gt;，不存在的话会返回失败 如果一个网站使用的都是.</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/readme/</link>
+      <pubDate>Sun, 14 Aug 2022 23:58:12 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/readme/</guid>
+      <description>渗透测试 按照书或培训视频作为大纲，网上找资料实践，把实际可行的方法记录下来</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/nand2tetris/readme/</link>
+      <pubDate>Sun, 14 Aug 2022 10:52:52 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/readme/</guid>
+      <description>nand2tetris 《计算机系统要素——从零开始构建现代计算机（第2版）》学习记录
+· 博客：https://woieha320r.github.io/nand2tetris
+· GitHub：https://github.com/woieha320r/nand2tetris
+概述 与非门 -&amp;gt; 与、或、非、抑或 -&amp;gt; 选择器、分解器 ↓ 半加器 -&amp;gt; 全加器 -&amp;gt; 自增、算术逻辑单元 ↓ + DFF 寄存器 -&amp;gt; 随机访问内存、程序计数器 ↓ + 机器指令设计 中央控制单元、内存 -&amp;gt; 计算机整体架构 ↓ + 任一门语言 汇编器 汇编 ↑ + 任一门语言实现Jack VM翻译器 Jack VM中间代码 ↑ + Jack标准库 + 任一门语言实现Jack编译器 ↑ ↑ Jack 源码 -&amp;gt; + 算法 要点 · 把复杂问题分解为可管理的模块，当使用下一层的模块时，专注于抽象而忽略其实现细节。
+· 多位二进制的表达顺序是[n]～[0]，不是[0]~[n]。
+· 多注意二进制串的规律。
+· HDL语法的=代表线路连接而非赋值。
+· HDL语法可以直接置入多位0、1，并且内部节点不能直接使用子总线，需要先输出，下面是个综合的例子，用于判断in中是否含有有效位1。
+// 描述：if in[16] contains 1; then hasTrue=1; fi Or16(a=in, b[0.</description>
+    </item>
+    
+    <item>
+      <title>历法</title>
+      <link>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E5%8E%86%E6%B3%95/</link>
+      <pubDate>Wed, 26 Jan 2022 00:02:12 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E5%8E%86%E6%B3%95/</guid>
+      <description>历法 节气 是干支历年月的依据。古以昏见北斗星指向来确定，现以太阳黄经度数确定，基本一致。
+历法 · 农业活动依据阴阳合历，命理依据干支历。
+· 自殷商至清末3000多年，历法数十改，制历逾百家，除太平天国天历外，皆阴阳合历。辛亥革命后改行民国元年格里历，新中国改行公元纪年格里历，但仍由南京 紫金台确定阴阳合历。在干支历的换算上，格里历相比农历更方便。
+阴阳合历 · 年长是回归年，平均365.2422天。
+· 月长依据朔望月，平均29.530588天，但12个朔望月的天数比回归年少10.875144天，所以要置闰。以二十四节气作为确定月名月序与设置闰月的凭籍。月亮存 在循环的视觉变化：完全不见-&amp;gt;西侧显现-&amp;gt;圆月-&amp;gt;西侧欠缺-&amp;gt; 完全不见。这一个周期被称为“朔望月”，完全不见的那天称“朔日”。
+· 日长依据太阳视运动形成的昼夜。
+干支历 · 以立春为岁首，所以年长是回归年。民间会将年支换为生肖，藏族会同时配合天干，如戊寅年生肖表示为土虎。
+· 节气交节日为月首，寅正，节气实际反映的是太阳的位置，那么干支历的月也和太阳位置相关。
+· 日长依据太阳视运动形成的昼夜。一日分十二时辰，子初换日：23:00。
+· 所以干支历的年月日皆以太阳为依据，是纯阳历。
+格里历 -&amp;gt; 干支历 · 年：第 (格里历年份-3)%10 个天干 + 第 (格里历年份+7)%12 个地支，即为格里历年份立春日至下个格里历年份立春日的干支年。
+· 月：第(年干次序x2+月支次序)%10 个天干，即为月干。
+· 日：找一个知道对应干支日的格里日作为基准，以六十甲子次序向前或向后数。比如格里历1900年1月1日是甲戌日，那么格里历1900年1月4日就是丁丑日。
+· 时：23:00为子时始，向前推至甲子日，甲子日的子时是甲子时，向后依照六十花甲子排列。</description>
+    </item>
+    
+    <item>
+      <title>休囚</title>
+      <link>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E4%BC%91%E5%9B%9A/</link>
+      <pubDate>Sat, 15 Jan 2022 23:23:46 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E4%BC%91%E5%9B%9A/</guid>
+      <description>休囚 生旺死绝 定出十二种状态以表达随时间由生至死的过程。只有处于渐盛渐衰过程中的状态时，被表达者才是真实存在的。其中渐盛过程的状态统称阳，渐衰过程的状态统 称阴。只有“长生、临官、帝旺、衰、墓”这五种状态被称之为“有用”。 | 阳 | 阴 | 不存在 | 渐盛 |盛极 | 渐衰 |不存在 胎、养 | 长生、沐浴、冠带、临官 | 帝旺 | 衰、病、死、墓 | 绝 · 胎、养：自无而有的酝酿。 · 长生：萌芽初长。 · 沐浴、冠带：初生幼稚，气渐生长，犹如登场前的穿衣准备。 · 临官（禄）：人值壮年，锐气正盛。 · 帝旺：极旺之时，由盛转衰的临界，但仍处于旺时，盛气已竭，此后开始转衰。 · 衰、病、死：逐渐衰退的过程，力量递减。 · 墓：死后仍留存余气。 · 绝：彻底没了。 五行论休囚 干支论休囚 八卦论休囚 </description>
+    </item>
+    
+    <item>
+      <title>六十甲子</title>
+      <link>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E5%85%AD%E5%8D%81%E7%94%B2%E5%AD%90/</link>
+      <pubDate>Tue, 28 Dec 2021 20:59:32 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E5%85%AD%E5%8D%81%E7%94%B2%E5%AD%90/</guid>
+      <description>六十甲子 十干十二支，让天干循环与地支按次序搭配，每轮多出俩地支，天干共需循环五轮，共六十个组合，称“六十花甲子”。
+六十甲子五行配属（纳音五行） 甲子、乙丑——海中金，丙寅、丁卯——炉中火。 戊辰、己巳——大林木，庚午、辛未——路旁土。 壬申、癸酉——剑锋金，甲戌、乙亥——山头火。 丙子、丁丑——涧下水，戊寅、己卯——城头土。 庚辰、辛巳——白蜡金，壬午、癸未——杨柳木。 甲申、乙酉——泉中水，丙戌、丁亥——屋上土。 戊子、己丑——霹雳火，庚寅、辛卯——松柏木。 壬辰、癸巳——长流水，甲午、乙未——沙中金。 丙申、丁酉——山下火，戊戌、己亥——平地木。 庚子、辛丑——壁上土，壬寅、癸卯——金箔金。 甲辰、乙巳——覆灯火，丙午、丁未——天河水。 戊申、己酉——大驿土，庚戌、辛亥——钗钏金。 壬子、癸丑——桑柘木，甲寅、乙卯——大溪水。 丙辰、丁巳——沙中土，戊午、己未——天上火。 庚申、辛酉——石榴木，壬戌、癸亥——大海水。 六甲孤虚 · 按照甲子对的组合方式，每一轮天干都会多出两个地支，这多出来的俩称&amp;quot;孤&amp;quot;，其在二十四方位上对冲的支，称&amp;quot;虚&amp;quot;。
+· 对战或谈判，坐孤击虚，根据人数分别使用年、月、日、时孤虚。如乙丑年位于甲子旬，则戌亥孤，辰巳虚。
+· 占卜中亦称空亡，它本身不定吉凶，但影响吉凶结果。占吉逢空亡则吉无，占凶逢空亡凶亦去。
+· 《虎铃经·孤虚第一百十七》中有相关描述。</description>
+    </item>
+    
+    <item>
+      <title>干支</title>
+      <link>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E5%B9%B2%E6%94%AF/</link>
+      <pubDate>Sat, 25 Dec 2021 23:01:59 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E5%B9%B2%E6%94%AF/</guid>
+      <description>干支 天干常用以表达五行之气：甲乙丙丁戊己庚辛壬癸
+地支常用以表达时令：子丑寅卯辰巳午未申酉戌亥
+气的状态是随时令而更改的
+干支的方位及五行配属 干/支 时令 方位 五行 甲乙/寅卯 春 东 木 丙丁/巳午 夏 南 火 戊己/辰未戌丑 每季末月的末18天 中央(辰未上/戌丑下) 土 庚辛/申酉 秋 西 金 壬癸/亥子 冬 北 水 时令的依据是节气 干支阴阳 · 干支：干阳支阴
+· 天干：奇数位阳，偶数位阴
+· 地支：奇数位阳，偶数位阴
+地支三合局 子年是夜半交冬至，同一时刻交冬至的各年组成三合五行局。要以休囚论的话，就是五行生旺墓的时令。
+· 水局：申子辰
+· 木局：亥卯未
+· 火局：寅午戌
+· 金局：巳酉丑
+二十四方位 这种图首先要分清南北，这张是上南下北的 以上是正五行，原点在子 中针五行的原点在正五行的壬子中间 缝针五行的原点在正五行的子癸之间 </description>
+    </item>
+    
+    <item>
+      <title>五行</title>
+      <link>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E4%BA%94%E8%A1%8C/</link>
+      <pubDate>Wed, 22 Dec 2021 21:56:01 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/%E4%BA%94%E8%A1%8C/</guid>
+      <description>五行 相生 木 -&amp;gt; 火 -&amp;gt; 土 -&amp;gt; 金 -&amp;gt; 水
+相胜 木 -&amp;gt; 土 -&amp;gt; 水 -&amp;gt; 火 -&amp;gt; 金
+生成数 · 天一生水，地六成之
+· 天二生火，地七成之
+· 天三生木，地八成之
+· 天四生金，地九成之
+· 天五生土，地十成之</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/readme/</link>
+      <pubDate>Sun, 19 Dec 2021 22:43:20 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E5%AD%90%E5%B9%B3%E6%9C%AF/readme/</guid>
+      <description>子平术 · 目前主要参考自《中国古代星占学》、《中国命理学史论》、《中国古代历法》、维基、百度
+· 占卜从最初的观测星象发展到后来的仪器模型模拟天象，进而脱离仪器开始“公式化”：太乙、遁甲、六壬。但所用规则确是星占时传下的，而星象早变了。像 子平术这种没那么“星占”但依赖时间维度的体系，随着历法的计算方式修改，在日用上准确度提升，但在占卜上是否该用古历法（以星象确立）排盘？
+· &amp;ldquo;干表气，支表时，及其五行配属&amp;quot;的含义是源自中原的季节和气候变化，这是否代表着阴阳干支五行这套体系只适用于中原地区🤔️？子平术的盘从生辰排出， 缺乏地理空间维度，面对各地在同节气中的不同气候表现，得令生旺的含义有普适性吗？
+· 排盘代码位于 https://github.com/woieha320r/ziping</description>
+    </item>
+    
+    <item>
+      <title>CSRF-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</link>
+      <pubDate>Thu, 19 Aug 2021 22:50:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</guid>
+      <description>CSRF-低 制作假网页，诱使用户携带dvwa的cookie向dvwa发起修改密码请求。
+但这样的方式在点击后会跳转到form的target地址，暴露目的，可用ajax发请求</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-高</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E9%AB%98/</link>
+      <pubDate>Tue, 17 Aug 2021 00:02:47 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E9%AB%98/</guid>
+      <description>暴力破解-高 使用Burp Suite抓包，发现多了一个令牌参数
+再次请求，发现令牌改变了。选择拦截此次请求的响应，然后发送请求。
+查看拦截到的响应，发现令牌位于一个隐藏的input的标签中。那么攻击思路为：遍历用户名、密码、令牌，令牌来自于前一次响应的提取。其初始值和cookie需要 抓包查看
+跑出用户名密码为admin，password</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-中</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%B8%AD/</link>
+      <pubDate>Mon, 16 Aug 2021 23:40:04 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%B8%AD/</guid>
+      <description>暴力破解-中 行为： username：username password：password 反馈： URL地址栏：http://localhost/vulnerabilities/brute/?username=username&amp;amp;password=password&amp;amp;Login=Login# 推理： GET方式提交参数，无需抓包工具了，在地址栏测试 行为： http://localhost/vulnerabilities/brute/?username=%27&amp;amp;password=password&amp;amp;Login=Login# username：’ password：password 反馈： 用户名或密码错误 推理： 不存在SQL注入漏洞 开始暴力破解，使用Burp Suite拦截请求，将请求发送至入侵器
+为username和password字段设置有效载荷标记。攻击类型选择“集束炸弹”，分别为每个有效载荷设置字典，依次遍历所有的字典
+为username设置字典
+为password设置字典并开始攻击
+寻找结果中长度不同的，按照长度排序位于开头或结尾，那两个有效载荷就是用户名和密码</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BD%8E/</link>
+      <pubDate>Mon, 16 Aug 2021 21:43:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BD%8E/</guid>
+      <description>暴力破解-低 行为： username：username password：password 反馈： URL地址栏：http://localhost/vulnerabilities/brute/?username=username&amp;amp;password=password&amp;amp;Login=Login# 推理： GET方式提交参数，无需抓包工具了，在地址栏测试 行为： http://localhost/vulnerabilities/brute/?username=%27&amp;amp;password=password&amp;amp;Login=Login# username：’ password：password 反馈： 报错：You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near &amp;#39;5f4dcc3b5aa765d61d8327deb882cf99&amp;#39;&amp;#39; at line 1 推理： 存在SQL注入漏洞 数据库为MariaDB 5f4dcc3b5aa765d61d8327deb882cf99使用md5反编译为password，库中密码存储的是32位md5 报错中出现了密码值，猜测SQL为：select 列 from 表 where username = &amp;#39;输入&amp;#39; and password = &amp;#39;md5(输入)&amp;#39; 尝试写入永真进行登录 行为： http://localhost/vulnerabilities/brute/?username=%27+or+1%3D1+or+%271%27%3D%271&amp;amp;password=&amp;amp;Login=Login# username：’ or 1=1 or &amp;#39;1&amp;#39;=&amp;#39;1 password： 反馈： 用户名或密码错误 推理： 执行跳过了username和password验证的永真语句确不能登录，可能限制结果集仅能查询出一条 尝试只查询一条 行为： http://localhost/vulnerabilities/brute/?</description>
+    </item>
+    
+  </channel>
+</rss>

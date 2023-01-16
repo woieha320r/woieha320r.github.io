@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>渗透测试 on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</link>
+    <description>Recent content in 渗透测试 on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 05 Sep 2022 17:58:50 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网络代理</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 05 Sep 2022 17:58:50 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/</guid>
+      <description>网络代理 IP问题详情见：https://developer.android.google.cn/studio/run/emulator-networking?hl=zh-cn emulator启动时携带-http-proxy参数，或如下设置</description>
+    </item>
+    
+    <item>
+      <title>安装apk</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/</link>
+      <pubDate>Mon, 05 Sep 2022 10:57:30 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/</guid>
+      <description>安装apk 查看可用设备
+adb devices 把apk软件安装到指定设备
+adb -s 设备名 软件.apk </description>
+    </item>
+    
+    <item>
+      <title>抓取https</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/</link>
+      <pubDate>Wed, 31 Aug 2022 10:53:37 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/</guid>
+      <description>抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29+不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&amp;#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&amp;#34; mv burp.pem &amp;#34;${hash_pem}.0&amp;#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &amp;#34;${hash_pem}.</description>
+    </item>
+    
+    <item>
+      <title>sql注入</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Mon, 29 Aug 2022 10:29:54 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>sql注入 · 在数据库每次都解析语法且SQL构成包含外部来源参数的情况下，通过在传给SQL的参数中添油加醋改变其原本语法，查询自己需要的信息。
+sql预编译 · 数据库执行一条SQL语句需要先分析其语法，但大部分SQL查询语法是相同的，只是条件不同。
+· 现在提前将这个SQL的语法解析出来，后期查询通过填入不同参数来获得不同结果，无需每次都解析语法。在省去多次解析时间的同时还能防止SQL注入，因为不 再每次都解析语法，传入的参数就只是查询条件，不影响SQL的原本语法。
+· 预编译只能将字段值作为条件占位符，如果连字段都不确定，是不能预编译的，比如where name = ?可以预编译，但如果连是name还是nickname都是动态的， 就不能预编译。
+· 预编译分服务端和客户端，即便不开启服务端预编译，JVM完成的预编译也能阻止SQL注入。
+java中的sql注入 · java.sql包下的PreparedStatement用于预编译。mybatis框架中的#{}是通过PreparedStatement预编译的。但like、in、order by直接用#{}会 报错，若开发者使用了${}代替，则可被注入。</description>
+    </item>
+    
+    <item>
+      <title>sqli-labs</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</link>
+      <pubDate>Sat, 27 Aug 2022 10:28:05 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</guid>
+      <description>sqli-labs docker run -dt \ -p 80:80 \ -p 3306:3306 \ --name sqli-labs \ acgpiano/sqli-labs #访问localhost #点击 Setup/reset Database for labs 返回后点击图片中的各个关卡</description>
+    </item>
+    
+    <item>
+      <title>WAF绕过</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/waf%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Thu, 25 Aug 2022 21:23:27 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/waf%E7%BB%95%E8%BF%87/</guid>
+      <description>WAF绕过 TODO:待看绕过思路
+https://zhuanlan.zhihu.com/p/411351728 https://www.freebuf.com/articles/web/336869.html https://www.freebuf.com/articles/network/326312.html https://cloud.tencent.com/developer/article/1969001 https://blog.csdn.net/weixin_55837124/article/details/118034812 https://www.secpulse.com/archives/176763.html https://blog.csdn.net/weixin_50464560/article/details/120926097 https://harmoc.com/secnote/waf绕过思路整理.html https://blog.csdn.net/qq_53577336/article/details/119897773 WAF · 识别目标站是否使用了防火墙。WAF可以是硬件的、软件的、云厂商的、代码注入式的。
+· 如果存在WAF，后续的所有操作需要人工进行绕过，不可用工具频繁自动化进行，会被封IP。
+WAF识别 看响应头字段
+常见的WAF拦截页面
+https://github.com/stamparm/identYwaf/tree/master/screenshots
+https://mp.weixin.qq.com/s/8F060FU9g_78z57UKS-JsQ
+⚠️频繁探测目标站⚠️工具识别（一般是根据http头、拦截页的文字图片特征来识别
+wafw00f WAF绕过 TODO</description>
+    </item>
+    
+    <item>
+      <title>敏感文件</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Tue, 23 Aug 2022 23:21:06 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6/</guid>
+      <description>敏感文件 CMS · 查询其使用的CMS的默认配置文件等敏感文件
+写给爬虫的文件、flash跨域策略文件 /robots.txt
+定义了哪些路径不想被爬虫爬取 /crossdomain.xml
+flash的跨域策略文件，可配置允许哪些域服务器读写自己服务器的数据 /sitemap.xml
+告知搜索引擎网站中可供抓取的网址 代码版本管理工具文件泄露 /.git/
+利用工具：https://github.com/BugScanTeam/GitHack /CVS/
+利用工具：https://github.com/kost/dvcs-ripper.git /.svn/
+利用工具：https://github.com/admintony/svnExploit /.hg/
+利用工具：https://github.com/kost/dvcs-ripper.git WEB-INF/
+WEB-INF/web.xml：Web应用程序配置文件
+WEB-INF/database.properties：数据库配置文件
+WEB-INF/classes/：class文件
+WEB-INF/lib/：jar包
+WEB-INF/src/：源码
+其他泄露 .DS_store
+Mac下Finder用来保存如何展示 文件/文件夹 的数据文件，每个文件夹下对应一个。
+利用工具：https://github.com/lijiejie/ds_store_exp
+Google
+管理页/错误页：site:目标域 system | 系统 | 内部 | admin | 管理 | center | 中心 | manage | login | 登录 | 登陆 | 后台 | api | 接口 | 用户名 | 密码 | err | 错误 | warn | 警告 | denied | 拒绝 | username | passw | old | bak | backup | 备份 | 日志 | log 某后缀名的文件：site:目标域 filetype:txt | filetype:log | filetype:sql | filetype:xml | filetype:pdf | filetype:doc | filetype:docx | filetype:xls | filetype:xlsx | filetype:rar | filetype:zip | filetype:7z | filetype:tar.</description>
+    </item>
+    
+    <item>
+      <title>CMS识别</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cms%E8%AF%86%E5%88%AB/</link>
+      <pubDate>Sun, 21 Aug 2022 22:13:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cms%E8%AF%86%E5%88%AB/</guid>
+      <description>CMS识别 CMS · 看网站是否采用搭建模版搭建。一方面模版本身会存在漏洞，另一方面模版会有固定的配置文件路径、管理后台页、默认管理员用户密码&amp;hellip;&amp;hellip;
+CMS识别 如果响应头的Server字段很全，大概率是CMS
+找线索
+站点页脚的声明
+站点向搜索引擎或爬虫声明的策略文件：/robots.txt
+响应头
+代码中的注释
+url等路径名称
+是否是CMS统一的报错页面
+在线平台
+http://whatweb.bugscaner.com/look/
+https://whatcms.org
+利用工具暴力猜测（⚠️频繁试探目标会遭到waf拦截⚠️工具识别（一般是记录CMS轻易不会被修改的特征路径或文件，做成字典，去访问下目标站有没有这个路径或文件
+whatweb </description>
+    </item>
+    
+    <item>
+      <title>CDN绕过</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cdn%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Fri, 19 Aug 2022 00:11:02 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cdn%E7%BB%95%E8%BF%87/</guid>
+      <description>CDN绕过 · 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单
+CDN 如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返 回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。
+需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：
+是个服务器但不一定就只有一个网站
+是个反向代理，真实服务器在内网
+不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点
+多站点技术-虚拟主机
+多个网站位于同台服务器，配置不同域名指向不同目录 多站点技术-反向代理
+多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器 CDN判定和绕过 如果host解析过程中有cname记录，多半有cdn
+host xxx.com 多地DNS解析A记录
+平台：https://www.itdog.cn/dns/
+手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm
+找只有1条结果且都相同的那个IP
+如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP
+如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述 过程。但也不一定就和目标是同一台服务器
+如果都猜不到，我也不知道了🤷‍♂️，比如douban.com
+寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务 器的IP
+得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。
+F5 BIG-IP LTM Cookie保持机制解码IP · 标志：Set-Cookie: BIGipServer&amp;hellip;..
+· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git
+app渗透 · 目标家的app的请求地址是否泄露真实IP
+同ip站查询 · 平台查询：https://www.webscan.cc</description>
+    </item>
+    
+    <item>
+      <title>域名</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E5%9F%9F%E5%90%8D/</link>
+      <pubDate>Wed, 17 Aug 2022 00:07:07 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E5%9F%9F%E5%90%8D/</guid>
+      <description>域名 DNS · n IP &amp;lt;-&amp;gt; n 域名，购买域名买的是二级域名（xxx.com），可自由编造多级域名创建多条“IP &amp;lt;-&amp;gt; 域名 绑定记录”（www.xxx.com、a.b.c.xxx.com）。
+· 浏览器将域名转为IP的过程：查询本机hosts文件，没有的话询问ISP提供的LDNS，此后的工作由LDNS负责直至得到IP地址返回给浏览器或无结果。LDNS没有的 话，它首先询问根DNS，递归式的询问被问者返回的NS记录中指定的DNS，期间也会处理CNAME别名，直到拿到A记录。LDNS可以拿到n个A记录，它根据算法得出一个 IP返回给浏览器使用。
+· 权威DNS也许是自家的也许是云厂商的，可能还负责CDN和WAF。
+报文Type的含义 Type取值 样例 含义 A xxx.com. IN A x.x.x.x xxx.com的IPv4地址是x.x.x.x AAAA xxx.com. IN AAAA X:X:X:X:X:X:X:X xxx.com的IPv6地址是X:X:X:X:X:X:X:X CNAME test1.xxx.com. IN CNAME test.xxx.com. test1.xxx.com是test.xxx.com的别名 MX xm.com. IN MX 10 mail.xxx.com. 发送给@xm.com的邮件，收件人邮件服务器域名是mail.xxx.com，优先级为10 NS xxx.com. IN NS ns1.xxx.com. xxx.com这个域名由ns1.xxx.com这个DNS负责解析 SOA 指定域名的众多NS记录中，哪个DNS是最佳数据来源 TXT xxx.com. IN TXT &amp;ldquo;备注说明&amp;rdquo; xxx.com的备注说明 TXT的SPF应用 xxx.com. IN TXT &amp;ldquo;v=spf1 include:mail.xxx.com -all&amp;rdquo; 一种写给收件服务器看的判定规则，防止他人伪装成我的邮箱服务器发邮件 AXFR 从DNS向主DNS索要指定域名的全部记录，用于备份容灾 SRV 类似A，但同时还指定了端口、提供的协议、优先级、权重，如何解读取决于客户端 PTR DNS返回指定IP绑定的域名列表，用于垃圾邮件过滤，需要主动配置 常见问题 泛解析</description>
+    </item>
+    
+    <item>
+      <title>杂记</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Mon, 15 Aug 2022 20:24:20 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E6%9D%82%E8%AE%B0/</guid>
+      <description>杂记 5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注 入时要编码绕过，像绕waf似的。 伪造http请求头ip地址，所有这些头都是不标准的 X-Forwarded-For: client, proxy1, proxy2 Proxy-Client-IP WL- Proxy-Client-IP HTTP_CLIENT_IP X-Real-IP java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代 理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip 使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP nmap扫描，proxychains不支持UDP，所以需要控制参数 -sT：指定为全连接而非SYN扫描 -PN：跳过寻找主机名 -n：确保不在Tor外执行DNS请求 -sT：检测开放端口的服务和版本 -p：扫描执行端口（逗号分隔） nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP 靶场：墨者、sqli-lab、vulhub、vulnhub 试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF 扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录 IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了 加解密
+单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com 加密方式除非拿到源码，不然不好猜 URL编码一般在做绕过时使用 ⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密 </description>
+    </item>
+    
+    <item>
+      <title>Google语法</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/google%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Mon, 15 Aug 2022 20:00:05 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/google%E8%AF%AD%E6%B3%95/</guid>
+      <description>Google语法 url：https://www.google.com/search?q= 除表示“或”必须用“OR”外，一律不区分大小写 通配符“*”表示任意一个单词，“.”表示任意一个字符 条件最多包含32个单词，多个通配符算一个，多个引号算一个 &amp;#34;Google Hacker&amp;#34; 在任意位置必须包含同等顺序的单词组合 Google +Hacker 任意位置包含Google并且必须包含Hacker，不可忽略 Google -gogle -goo 任意位置出现Google并且排除gogle和goo intitle、inurl、intext 标题中出现、URL中出现、正文中出现 site:google.com 所有托管在google.com域名下的网页，包括子域 url中添加&amp;amp;lr=lang_ch限定中文的xxx搜索结果，但实际上它的工作方式是返回主机可能位于中国的网页，判断方式包括顶级域、IP... 设定每页x个结果，返回第y页 url中添加&amp;amp;num=x&amp;amp;start=(y-1)*x filetype:pdf 后缀名为pdf的文件 link:www.xxx.com 可以链接到www.xxx.com的网页 inanchor:xxx 搜索如下形式的链接：&amp;lt;a href=&amp;#34;yyyyyyy&amp;#34;&amp;gt;xxx&amp;lt;/a&amp;gt; numrange:1-4 搜索包含这个范围的数字文本的 daterange:2452164-2452164 限制为google在儒略日2452164这一天索引到的页面 URL中使用&amp;amp;as_qdr=m3 限制为google在过去3个月中索引到的页面 cache:www.baidu.com 访问google缓存的www.baidu.com的页面，但图片仍然会从baidu站点下载，要想不和baidu有任何联系只查看google的文本缓存，在url尾部添加&amp;amp;strip=1 inurl:backup | inurl:bak | inurl:temp | inurl:tmp inrul:db_connect.inc &amp;#34;&amp;lt;?&amp;#34; 搜索泄露数据库信息的php文件 filetype:mdb 搜索access数据库文件 搜索电子邮件的方式，谷歌可能会忽略@和.，可以适当添加email或邮箱等关键字来缩小结果 前缀 at 邮箱域名.com 前缀 at 邮箱域名 dot com 前缀@邮箱域名 dot com 前缀_at_邮箱域名.com 前缀_at_邮箱域名 dot com 前缀_at_邮箱域名_dot_com 前缀@邮箱域名.remove.com 前缀@_removethis_邮箱域名.com 验证是否存在这个邮箱：nc或telnet到邮箱服务器的25端口，RCPT TO: &amp;lt;目标邮箱&amp;gt;，不存在的话会返回失败 如果一个网站使用的都是.</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/readme/</link>
+      <pubDate>Sun, 14 Aug 2022 23:58:12 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/readme/</guid>
+      <description>渗透测试 按照书或培训视频作为大纲，网上找资料实践，把实际可行的方法记录下来</description>
+    </item>
+    
+    <item>
+      <title>CSRF-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</link>
+      <pubDate>Thu, 19 Aug 2021 22:50:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</guid>
+      <description>CSRF-低 制作假网页，诱使用户携带dvwa的cookie向dvwa发起修改密码请求。
+但这样的方式在点击后会跳转到form的target地址，暴露目的，可用ajax发请求</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-高</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E9%AB%98/</link>
+      <pubDate>Tue, 17 Aug 2021 00:02:47 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E9%AB%98/</guid>
+      <description>暴力破解-高 使用Burp Suite抓包，发现多了一个令牌参数
+再次请求，发现令牌改变了。选择拦截此次请求的响应，然后发送请求。
+查看拦截到的响应，发现令牌位于一个隐藏的input的标签中。那么攻击思路为：遍历用户名、密码、令牌，令牌来自于前一次响应的提取。其初始值和cookie需要 抓包查看
+跑出用户名密码为admin，password</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-中</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%B8%AD/</link>
+      <pubDate>Mon, 16 Aug 2021 23:40:04 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%B8%AD/</guid>
+      <description>暴力破解-中 行为： username：username password：password 反馈： URL地址栏：http://localhost/vulnerabilities/brute/?username=username&amp;amp;password=password&amp;amp;Login=Login# 推理： GET方式提交参数，无需抓包工具了，在地址栏测试 行为： http://localhost/vulnerabilities/brute/?username=%27&amp;amp;password=password&amp;amp;Login=Login# username：’ password：password 反馈： 用户名或密码错误 推理： 不存在SQL注入漏洞 开始暴力破解，使用Burp Suite拦截请求，将请求发送至入侵器
+为username和password字段设置有效载荷标记。攻击类型选择“集束炸弹”，分别为每个有效载荷设置字典，依次遍历所有的字典
+为username设置字典
+为password设置字典并开始攻击
+寻找结果中长度不同的，按照长度排序位于开头或结尾，那两个有效载荷就是用户名和密码</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BD%8E/</link>
+      <pubDate>Mon, 16 Aug 2021 21:43:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BD%8E/</guid>
+      <description>暴力破解-低 行为： username：username password：password 反馈： URL地址栏：http://localhost/vulnerabilities/brute/?username=username&amp;amp;password=password&amp;amp;Login=Login# 推理： GET方式提交参数，无需抓包工具了，在地址栏测试 行为： http://localhost/vulnerabilities/brute/?username=%27&amp;amp;password=password&amp;amp;Login=Login# username：’ password：password 反馈： 报错：You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near &amp;#39;5f4dcc3b5aa765d61d8327deb882cf99&amp;#39;&amp;#39; at line 1 推理： 存在SQL注入漏洞 数据库为MariaDB 5f4dcc3b5aa765d61d8327deb882cf99使用md5反编译为password，库中密码存储的是32位md5 报错中出现了密码值，猜测SQL为：select 列 from 表 where username = &amp;#39;输入&amp;#39; and password = &amp;#39;md5(输入)&amp;#39; 尝试写入永真进行登录 行为： http://localhost/vulnerabilities/brute/?username=%27+or+1%3D1+or+%271%27%3D%271&amp;amp;password=&amp;amp;Login=Login# username：’ or 1=1 or &amp;#39;1&amp;#39;=&amp;#39;1 password： 反馈： 用户名或密码错误 推理： 执行跳过了username和password验证的永真语句确不能登录，可能限制结果集仅能查询出一条 尝试只查询一条 行为： http://localhost/vulnerabilities/brute/?</description>
+    </item>
+    
+  </channel>
+</rss>

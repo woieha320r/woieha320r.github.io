@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>线程&amp;锁 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="线程&amp;锁 指令重排序 · CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时 第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待
+· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的
+jvm的线程内存模型 · 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。
+volatile · volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）
+· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x&#43;&#43;，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4
+· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序
+· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）
+synchronized · synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）
+· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令
+· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。
+· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。
+双检锁式懒汉单例 · new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化
+· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生
+· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）
+通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false
+public class TestSynchronizedSeen { private static Integer x; public static void getInstance() { if (null == x) { synchronized (TestSynchronizedSeen.class) { if (null == x) { x = 1; x = 2; x = 3; } } } } public static void main(String[] args) { new Thread(() -&gt; TestSynchronizedSeen." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="线程&amp;锁" />
+<meta property="og:description" content="线程&amp;锁 指令重排序 · CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时 第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待
+· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的
+jvm的线程内存模型 · 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。
+volatile · volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）
+· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x&#43;&#43;，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4
+· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序
+· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）
+synchronized · synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）
+· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令
+· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。
+· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。
+双检锁式懒汉单例 · new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化
+· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生
+· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）
+通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false
+public class TestSynchronizedSeen { private static Integer x; public static void getInstance() { if (null == x) { synchronized (TestSynchronizedSeen.class) { if (null == x) { x = 1; x = 2; x = 3; } } } } public static void main(String[] args) { new Thread(() -&gt; TestSynchronizedSeen." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/java/%E7%BA%BF%E7%A8%8B%E9%94%81/" /><meta property="article:section" content="java" />
+<meta property="article:published_time" content="2022-11-30T23:32:52+08:00" />
+<meta property="article:modified_time" content="2022-11-30T23:32:52+08:00" />
+
+  
+  <meta itemprop="name" content="线程&amp;锁">
+<meta itemprop="description" content="线程&amp;锁 指令重排序 · CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时 第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待
+· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的
+jvm的线程内存模型 · 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。
+volatile · volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）
+· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x&#43;&#43;，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4
+· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序
+· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）
+synchronized · synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）
+· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令
+· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。
+· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。
+双检锁式懒汉单例 · new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化
+· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生
+· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）
+通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false
+public class TestSynchronizedSeen { private static Integer x; public static void getInstance() { if (null == x) { synchronized (TestSynchronizedSeen.class) { if (null == x) { x = 1; x = 2; x = 3; } } } } public static void main(String[] args) { new Thread(() -&gt; TestSynchronizedSeen."><meta itemprop="datePublished" content="2022-11-30T23:32:52+08:00" />
+<meta itemprop="dateModified" content="2022-11-30T23:32:52+08:00" />
+<meta itemprop="wordCount" content="131">
+<meta itemprop="keywords" content="java," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线程&amp;锁"/>
+<meta name="twitter:description" content="线程&amp;锁 指令重排序 · CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时 第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待
+· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的
+jvm的线程内存模型 · 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。
+volatile · volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）
+· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x&#43;&#43;，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4
+· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序
+· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）
+synchronized · synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）
+· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令
+· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。
+· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。
+双检锁式懒汉单例 · new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化
+· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生
+· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）
+通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false
+public class TestSynchronizedSeen { private static Integer x; public static void getInstance() { if (null == x) { synchronized (TestSynchronizedSeen.class) { if (null == x) { x = 1; x = 2; x = 3; } } } } public static void main(String[] args) { new Thread(() -&gt; TestSynchronizedSeen."/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="线程锁">线程&amp;锁</h1>
+<h3 id="指令重排序">指令重排序</h3>
+<p>· CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时
+第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待</p>
+<p>· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的</p>
+<h3 id="jvm的线程内存模型">jvm的线程内存模型</h3>
+<p>· 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。</p>
+<p><img src="../img/5FF57AC9-24B1-4EDD-9DA6-FF18560B7700.png" alt="线程模型"></p>
+<h3 id="volatile">volatile</h3>
+<p>· volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）</p>
+<p>· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x++，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4</p>
+<p>· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序</p>
+<p>· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）</p>
+<p><img src="../img/F09F449E-A871-4999-8B4B-69E0D1102D8C.png" alt="volatile"></p>
+<h3 id="synchronized">synchronized</h3>
+<p>· synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）</p>
+<p>· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令</p>
+<p>· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。
+每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。</p>
+<p>· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。</p>
+<h3 id="双检锁式懒汉单例">双检锁式懒汉单例</h3>
+<p><img src="../img/D0701AD0-4BAC-43C9-873E-34714102D0AC.png" alt="双检索单例"></p>
+<p>· new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化</p>
+<p>· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于
+不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生</p>
+<p>· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）</p>
+<p>通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestSynchronizedSeen</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Integer x<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">==</span> x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>TestSynchronizedSeen<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">==</span> x<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                    x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                    x <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> TestSynchronizedSeen<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;thread-1&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> TestSynchronizedSeen<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;thread-2&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="javautilconcurrentlockslock">java.util.concurrent.locks.lock</h3>
+<p>· 另一种互斥锁实现。以ReentrantLock重入锁为例，相较synchronized多了仨功能：等待可中断（正在等待的线程可选择放弃等待）、公平锁（按申请顺序 获得锁，性能下降）、锁绑定多个条件</p>
+<p>· 使用它需要编程者决定何时加锁放锁，一般在finally中释放锁，jvm不会像自动处理synchronized一样处理Lock接口的实现</p>
+<h3 id="原子类">原子类</h3>
+<p>· java.util.concurrent.atomic这个包下提供了一些原子类，它们的方法保证原子性</p>
+<h3 id="判断线程安全">判断线程安全</h3>
+<p>· 《深入理解Java虚拟机：JVM高级特性与最佳实践（第3版）》12.3.6先行发生原则</p>
+<h3 id="线程安全的类">线程安全的类</h3>
+<p>· 对于Java中声称线程安全的类，它表示对对象的单次操作是安全的，如果不同线程分别连续调用不同方法，仍需仔细考虑同步问题。比如如下例子虽然remove和
+get都线程安全但如果不对两个for添加以vector为锁的synchronized会导致越界异常</p>
+<p><img src="../img/DADA70D8-157A-4AB4-92D0-0151C8B81193.png" alt="示例"></p>
+<h3 id="异常处理">异常处理</h3>
+<p>· java.lang.Runable.run()不能抛异常，只能在内部捕获。对于非受查异常可以在Thread对象start前调用其setUncaughtExceptionHandler方法 来设置自定义异常处理。</p>
+<h3 id="jvm的线程实现">jvm的线程实现</h3>
+<p>· jvm对线程的实现方式，不影响编程，对编程者是透明的</p>
+<p>· jvm规范并未规定线程实现方式，一般有三种：内核线程、用户线程、用户线程+轻量级进程混合。主流的HotSpot采用1:1的内核线程，线程调度由操作系统 全权负责，所以在Java中设置线程优先级仅仅是对操作系统的建议，不一定有效</p>
+<h3 id="jvm对锁的优化">jvm对锁的优化</h3>
+<p>这些东西不影响编程，只是jvm对锁实现的优化手段，对编程者是透明的</p>
+<ul>
+<li>
+<p>自旋锁：线程获取不到锁的时候不挂起而是循环等待</p>
+</li>
+<li>
+<p>锁消除：jvm会判断加锁的地方是否真的会发生线程争夺，没有的话jit不会生成加锁的指令</p>
+</li>
+<li>
+<p>锁膨胀：把循环中的锁扩大到循环外</p>
+</li>
+<li>
+<p>轻量级锁、偏向锁：没明白🤷‍♂️</p>
+</li>
+</ul>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/java">java</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

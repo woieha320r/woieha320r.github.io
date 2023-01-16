@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>05.计算机架构 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="计算机架构 概述 · 目标：集成已经构建好的芯片，使其可运行第4章的机器语言
+· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD
+· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。
+冯诺依曼通用架构图 习题 一种可能的实现方式 本例机器语言的语法设计图 · 图中的c指的不是&#34;是否c指令&#34;，而是从指令中提取的控制位，ALU的c&#39;s代表C指令中用以选择函数的cccccc这6位 · A、D寄存器需分别使用内置芯片：ARegister、DRegister。 （结合语法设计图解释） · 通过指令最高位判断A、C指令。 · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。 · 对于C指令， · 通过a判断ALU除D外的另一个输入来自于A还是M · 通过cccccc选择ALU将执行的函数 · 通过ddd选择ALU将输入到哪个寄存器 · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC&#43;&#43;; fi · 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。 · 三个寄存器的load条件通过观察ddd真值表得出。 // 指令是否是c指令 Xor(a=instruction[15], b=false, out=isC); Not(in=isC, out=isA); // A寄存器 // C指令下，是否将ALU结果置入A Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA); And(a=instruction[5], b=isC, out=cInA); // A指令下直接置入A Or(a=cInA, b=isA, out=inA); // 输出addressM ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM); // ALU除D外的另一个寄存器的输入来自于A还是M Xor(a=instruction[12], b=false, out=whetherFromM); And(a=isC, b=whetherFromM, out=fromM); Mux16(a=outA, b=inM, sel=fromM, out=fromAM); // D寄存器 // C指令下，是否将ALU结果置入D And(a=instruction[4], b=isC, out=inD); DRegister(in=aluRes, load=inD, out=outD); // ALU // C指令，ALU才执行函数。否则执行000000 And(a=isC, b=instruction[11], out=isZx); And(a=isC, b=instruction[10], out=isNx); And(a=isC, b=instruction[9], out=isZy); And(a=isC, b=instruction[8], out=isNy); And(a=isC, b=instruction[7], out=isF); And(a=isC, b=instruction[6], out=isN); ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg); // ALU结果是否置入M // 输出writeM And(a=isC, b=instruction[3], out=writeM); // PC // 跳转 // 先假定是C指令，凭jjj和结果标志判断是否跳转 // ALU结果!" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="05.计算机架构" />
+<meta property="og:description" content="计算机架构 概述 · 目标：集成已经构建好的芯片，使其可运行第4章的机器语言
+· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD
+· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。
+冯诺依曼通用架构图 习题 一种可能的实现方式 本例机器语言的语法设计图 · 图中的c指的不是&#34;是否c指令&#34;，而是从指令中提取的控制位，ALU的c&#39;s代表C指令中用以选择函数的cccccc这6位 · A、D寄存器需分别使用内置芯片：ARegister、DRegister。 （结合语法设计图解释） · 通过指令最高位判断A、C指令。 · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。 · 对于C指令， · 通过a判断ALU除D外的另一个输入来自于A还是M · 通过cccccc选择ALU将执行的函数 · 通过ddd选择ALU将输入到哪个寄存器 · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC&#43;&#43;; fi · 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。 · 三个寄存器的load条件通过观察ddd真值表得出。 // 指令是否是c指令 Xor(a=instruction[15], b=false, out=isC); Not(in=isC, out=isA); // A寄存器 // C指令下，是否将ALU结果置入A Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA); And(a=instruction[5], b=isC, out=cInA); // A指令下直接置入A Or(a=cInA, b=isA, out=inA); // 输出addressM ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM); // ALU除D外的另一个寄存器的输入来自于A还是M Xor(a=instruction[12], b=false, out=whetherFromM); And(a=isC, b=whetherFromM, out=fromM); Mux16(a=outA, b=inM, sel=fromM, out=fromAM); // D寄存器 // C指令下，是否将ALU结果置入D And(a=instruction[4], b=isC, out=inD); DRegister(in=aluRes, load=inD, out=outD); // ALU // C指令，ALU才执行函数。否则执行000000 And(a=isC, b=instruction[11], out=isZx); And(a=isC, b=instruction[10], out=isNx); And(a=isC, b=instruction[9], out=isZy); And(a=isC, b=instruction[8], out=isNy); And(a=isC, b=instruction[7], out=isF); And(a=isC, b=instruction[6], out=isN); ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg); // ALU结果是否置入M // 输出writeM And(a=isC, b=instruction[3], out=writeM); // PC // 跳转 // 先假定是C指令，凭jjj和结果标志判断是否跳转 // ALU结果!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/nand2tetris/05.%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9E%B6%E6%9E%84/" /><meta property="article:section" content="nand2tetris" />
+<meta property="article:published_time" content="2022-09-14T23:36:55+08:00" />
+<meta property="article:modified_time" content="2022-09-14T23:36:55+08:00" />
+
+  
+  <meta itemprop="name" content="05.计算机架构">
+<meta itemprop="description" content="计算机架构 概述 · 目标：集成已经构建好的芯片，使其可运行第4章的机器语言
+· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD
+· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。
+冯诺依曼通用架构图 习题 一种可能的实现方式 本例机器语言的语法设计图 · 图中的c指的不是&#34;是否c指令&#34;，而是从指令中提取的控制位，ALU的c&#39;s代表C指令中用以选择函数的cccccc这6位 · A、D寄存器需分别使用内置芯片：ARegister、DRegister。 （结合语法设计图解释） · 通过指令最高位判断A、C指令。 · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。 · 对于C指令， · 通过a判断ALU除D外的另一个输入来自于A还是M · 通过cccccc选择ALU将执行的函数 · 通过ddd选择ALU将输入到哪个寄存器 · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC&#43;&#43;; fi · 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。 · 三个寄存器的load条件通过观察ddd真值表得出。 // 指令是否是c指令 Xor(a=instruction[15], b=false, out=isC); Not(in=isC, out=isA); // A寄存器 // C指令下，是否将ALU结果置入A Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA); And(a=instruction[5], b=isC, out=cInA); // A指令下直接置入A Or(a=cInA, b=isA, out=inA); // 输出addressM ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM); // ALU除D外的另一个寄存器的输入来自于A还是M Xor(a=instruction[12], b=false, out=whetherFromM); And(a=isC, b=whetherFromM, out=fromM); Mux16(a=outA, b=inM, sel=fromM, out=fromAM); // D寄存器 // C指令下，是否将ALU结果置入D And(a=instruction[4], b=isC, out=inD); DRegister(in=aluRes, load=inD, out=outD); // ALU // C指令，ALU才执行函数。否则执行000000 And(a=isC, b=instruction[11], out=isZx); And(a=isC, b=instruction[10], out=isNx); And(a=isC, b=instruction[9], out=isZy); And(a=isC, b=instruction[8], out=isNy); And(a=isC, b=instruction[7], out=isF); And(a=isC, b=instruction[6], out=isN); ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg); // ALU结果是否置入M // 输出writeM And(a=isC, b=instruction[3], out=writeM); // PC // 跳转 // 先假定是C指令，凭jjj和结果标志判断是否跳转 // ALU结果!"><meta itemprop="datePublished" content="2022-09-14T23:36:55+08:00" />
+<meta itemprop="dateModified" content="2022-09-14T23:36:55+08:00" />
+<meta itemprop="wordCount" content="274">
+<meta itemprop="keywords" content="nand2tetris," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="05.计算机架构"/>
+<meta name="twitter:description" content="计算机架构 概述 · 目标：集成已经构建好的芯片，使其可运行第4章的机器语言
+· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD
+· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。
+冯诺依曼通用架构图 习题 一种可能的实现方式 本例机器语言的语法设计图 · 图中的c指的不是&#34;是否c指令&#34;，而是从指令中提取的控制位，ALU的c&#39;s代表C指令中用以选择函数的cccccc这6位 · A、D寄存器需分别使用内置芯片：ARegister、DRegister。 （结合语法设计图解释） · 通过指令最高位判断A、C指令。 · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。 · 对于C指令， · 通过a判断ALU除D外的另一个输入来自于A还是M · 通过cccccc选择ALU将执行的函数 · 通过ddd选择ALU将输入到哪个寄存器 · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC&#43;&#43;; fi · 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。 · 三个寄存器的load条件通过观察ddd真值表得出。 // 指令是否是c指令 Xor(a=instruction[15], b=false, out=isC); Not(in=isC, out=isA); // A寄存器 // C指令下，是否将ALU结果置入A Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA); And(a=instruction[5], b=isC, out=cInA); // A指令下直接置入A Or(a=cInA, b=isA, out=inA); // 输出addressM ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM); // ALU除D外的另一个寄存器的输入来自于A还是M Xor(a=instruction[12], b=false, out=whetherFromM); And(a=isC, b=whetherFromM, out=fromM); Mux16(a=outA, b=inM, sel=fromM, out=fromAM); // D寄存器 // C指令下，是否将ALU结果置入D And(a=instruction[4], b=isC, out=inD); DRegister(in=aluRes, load=inD, out=outD); // ALU // C指令，ALU才执行函数。否则执行000000 And(a=isC, b=instruction[11], out=isZx); And(a=isC, b=instruction[10], out=isNx); And(a=isC, b=instruction[9], out=isZy); And(a=isC, b=instruction[8], out=isNy); And(a=isC, b=instruction[7], out=isF); And(a=isC, b=instruction[6], out=isN); ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg); // ALU结果是否置入M // 输出writeM And(a=isC, b=instruction[3], out=writeM); // PC // 跳转 // 先假定是C指令，凭jjj和结果标志判断是否跳转 // ALU结果!"/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="计算机架构">计算机架构</h1>
+<h3 id="概述">概述</h3>
+<p>· 目标：集成已经构建好的芯片，使其可运行第4章的机器语言</p>
+<p>· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD</p>
+<p>· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。</p>
+<h4 id="冯诺依曼通用架构图">冯诺依曼通用架构图</h4>
+<p><img src="../img/DECCD629-E2F4-4195-9FA0-CE486E1DBD56.png" alt="冯诺依曼通用架构图"></p>
+<h3 id="习题">习题</h3>
+<p><img src="../img/1AEBBFFD-F64B-4D82-A701-2C926195C56B.png" alt="CPU-1"></p>
+<p>一种可能的实现方式
+<img src="../img/09AA8DCA-F396-4BED-8590-61E2A4700AB1.png" alt="CPU-2"></p>
+<p>本例机器语言的语法设计图
+<img src="../img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>· 图中的c指的不是&#34;是否c指令&#34;，而是从指令中提取的控制位，ALU的c&#39;s代表C指令中用以选择函数的cccccc这6位
+</span></span><span style="display:flex;"><span>· A、D寄存器需分别使用内置芯片：ARegister、DRegister。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>（结合语法设计图解释）
+</span></span><span style="display:flex;"><span>· 通过指令最高位判断A、C指令。
+</span></span><span style="display:flex;"><span>    · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。
+</span></span><span style="display:flex;"><span>    · 对于C指令，
+</span></span><span style="display:flex;"><span>        · 通过a判断ALU除D外的另一个输入来自于A还是M
+</span></span><span style="display:flex;"><span>        · 通过cccccc选择ALU将执行的函数
+</span></span><span style="display:flex;"><span>        · 通过ddd选择ALU将输入到哪个寄存器
+</span></span><span style="display:flex;"><span>        · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC++; fi
+</span></span><span style="display:flex;"><span>· 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。
+</span></span><span style="display:flex;"><span>· 三个寄存器的load条件通过观察ddd真值表得出。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // 指令是否是c指令
+</span></span><span style="display:flex;"><span>    Xor(a=instruction[15], b=false, out=isC);
+</span></span><span style="display:flex;"><span>    Not(in=isC, out=isA);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // A寄存器
+</span></span><span style="display:flex;"><span>// C指令下，是否将ALU结果置入A
+</span></span><span style="display:flex;"><span>    Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA);
+</span></span><span style="display:flex;"><span>    And(a=instruction[5], b=isC, out=cInA);
+</span></span><span style="display:flex;"><span>// A指令下直接置入A
+</span></span><span style="display:flex;"><span>    Or(a=cInA, b=isA, out=inA);
+</span></span><span style="display:flex;"><span>    // 输出addressM
+</span></span><span style="display:flex;"><span>    ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // ALU除D外的另一个寄存器的输入来自于A还是M
+</span></span><span style="display:flex;"><span>    Xor(a=instruction[12], b=false, out=whetherFromM);
+</span></span><span style="display:flex;"><span>    And(a=isC, b=whetherFromM, out=fromM);
+</span></span><span style="display:flex;"><span>    Mux16(a=outA, b=inM, sel=fromM, out=fromAM);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // D寄存器
+</span></span><span style="display:flex;"><span>    // C指令下，是否将ALU结果置入D
+</span></span><span style="display:flex;"><span>    And(a=instruction[4], b=isC, out=inD);
+</span></span><span style="display:flex;"><span>    DRegister(in=aluRes, load=inD, out=outD);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // ALU
+</span></span><span style="display:flex;"><span>    // C指令，ALU才执行函数。否则执行000000
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[11], out=isZx);
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[10], out=isNx);
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[9], out=isZy);
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[8], out=isNy);
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[7], out=isF);
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[6], out=isN);
+</span></span><span style="display:flex;"><span>    ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // ALU结果是否置入M
+</span></span><span style="display:flex;"><span>    // 输出writeM
+</span></span><span style="display:flex;"><span>    And(a=isC, b=instruction[3], out=writeM);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // PC
+</span></span><span style="display:flex;"><span>// 跳转
+</span></span><span style="display:flex;"><span>// 先假定是C指令，凭jjj和结果标志判断是否跳转
+</span></span><span style="display:flex;"><span>    // ALU结果!=0
+</span></span><span style="display:flex;"><span>    Not(in=aluResZr, out=notZr);
+</span></span><span style="display:flex;"><span>    // ALU结果!&lt;0
+</span></span><span style="display:flex;"><span>    Not(in=aluResNg, out=notNg);
+</span></span><span style="display:flex;"><span>    // &gt;0 等同 !&lt; &amp;&amp; !=
+</span></span><span style="display:flex;"><span>    And(a=instruction[0], b=notNg, out=gz1);
+</span></span><span style="display:flex;"><span>    And(a=gz1, b=notZr, out=gz);
+</span></span><span style="display:flex;"><span>    // =0
+</span></span><span style="display:flex;"><span>    And(a=instruction[1], b=aluResZr, out=ez);
+</span></span><span style="display:flex;"><span>    // &lt;0
+</span></span><span style="display:flex;"><span>    And(a=instruction[2], b=aluResNg, out=lz);
+</span></span><span style="display:flex;"><span>    // 是否jump
+</span></span><span style="display:flex;"><span>    Or(a=gz, b=ez, out=jump1);
+</span></span><span style="display:flex;"><span>    Or(a=jump1, b=lz, out=jjjJump);
+</span></span><span style="display:flex;"><span>// 是c指令并且jjj，才跳转
+</span></span><span style="display:flex;"><span>    And(a=isC, b=jjjJump, out=toJump);
+</span></span><span style="display:flex;"><span>    PC(in=outA, load=toJump, inc=true, reset=reset, out[0..14]=pc);
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><img src="../img/1DA1FE96-434E-45D3-9899-E77323EFD8A7.png" alt="Memory"></p>
+<p>屏幕和键盘芯片是内置的</p>
+<p><img src="../img/C893CF6E-92D4-4319-88AF-EEA54010520E.png" alt="Screen"></p>
+<p><img src="../img/4066B9A8-A0DF-433C-9DEF-AEE95FDCAA06.png" alt="keyboard"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>地址(110000000000000, ~)无效
+</span></span><span style="display:flex;"><span>地址110000000000000是访问Keyboard
+</span></span><span style="display:flex;"><span>地址[100000000000000, 101111111111111]是访问Screen
+</span></span><span style="display:flex;"><span>地址[000000000000000, 100000000000000)是访问RAM16K
+</span></span><span style="display:flex;"><span>从规律来看，可通过最高两位作区分，作为sel传入4路16位选择器做结果选择。
+</span></span><span style="display:flex;"><span>原本我是直接把ram、screen、keyboard都执行，有load的就直接传load。看了https://github.com/woai3c/nand2tetris的，发现是用分解器把是否load也判断喽。那我原来写法的问题是：假如load 地址100000000000000，那么虽然确实改变了屏幕，但是ram[0]的值也被改变了🤷‍♂️。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>And(a=address[14], b=address[13], out=oo);
+</span></span><span style="display:flex;"><span>Or8Way(in=address[5..12], out=hasTrue1);
+</span></span><span style="display:flex;"><span>Or8Way(in[0..4]=address[0..4], in[5..7]=false, out=hasTrue2);
+</span></span><span style="display:flex;"><span>Or(a=hasTrue1, b=hasTrue2, out=hasTrue);
+</span></span><span style="display:flex;"><span>And(a=oo, b=hasTrue, out=errorAccess);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// 判断ram和screen是否应该读入in
+</span></span><span style="display:flex;"><span>DMux4Way(in=load, sel=address[13..14], a=loadRam1, b=loadRam2, c=loadScreen, d=unuse);
+</span></span><span style="display:flex;"><span>Or(a=loadRam1, b=loadRam2, out=loadRam);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// 00............. / 01.............
+</span></span><span style="display:flex;"><span>RAM16K(in=in, load=loadRam, address=address[0..13], out=outRam);
+</span></span><span style="display:flex;"><span>// 10.............
+</span></span><span style="display:flex;"><span>Screen(in=in, load=loadScreen, address=address[0..12], out=outScreen);
+</span></span><span style="display:flex;"><span>// 110000000000000
+</span></span><span style="display:flex;"><span>Keyboard(out=outKey);
+</span></span><span style="display:flex;"><span>// &gt; 110000000000000
+</span></span><span style="display:flex;"><span>Not16(in=true, out=outZero);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// 判断输出哪个芯片的结果
+</span></span><span style="display:flex;"><span>Mux4Way16(a=outRam, b=outRam, c=outScreen, d=outKey, sel=address[13..14], out=waitOut);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// 判断是否无效地址
+</span></span><span style="display:flex;"><span>Mux16(a=waitOut, b=outZero, sel=errorAccess, out=out);
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><img src="../img/94A40826-19E9-421C-9841-1BA10EABC664.png" alt="Computer-1"></p>
+<p><img src="../img/A50184C8-5BFB-4D5F-89F7-DA403B1720FC.png" alt="Computer-2"></p>
+<p>ROM32K芯片是内置的</p>
+<p><img src="../img/4A9DC8ED-F79D-4067-B7AA-EA8E9133C808.png" alt="ROM32K"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>按图连接
+</span></span><span style="display:flex;"><span>CPU(inM=memoryOut, instruction=romOut, reset=reset, outM=memoryIn, writeM=memoryLoad, addressM=memoryAddress, pc=romAddress);
+</span></span><span style="display:flex;"><span>Memory(in=memoryIn, load=memoryLoad, address=memoryAddress, out=memoryOut);
+</span></span><span style="display:flex;"><span>ROM32K(address=romAddress, out=romOut);
+</span></span></code></pre></div></section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/nand2tetris">nand2tetris</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

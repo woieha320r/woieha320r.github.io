@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>04.机器语言 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="机器语言 概述 · 硬件设计 &lt;-&gt; 机器语言 -&gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定 关系，汇编语言等同于机器语言，不能跨硬件架构。
+· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地 址，被称为可重定位的。
+语法设计图 语法解释 可读可写的RAM用于存放数据，只读的ROM用于存放指令。
+A寄存器的值同时是RAM、ROM的地址。
+M寄存器的值是RAM在地址A处的数据。
+D寄存器单纯的用于存放数据。
+使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D
+要跳转到ROM[29]执行：@29, 0;JMP
+当D==0时跳抓到ROM[29]：@29, D;JEQ
+设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。
+汇编器还处理一些内置符号：
+R0..R15，代表0..15，所以@R3等同于@3。
+SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN &#43; row*32 &#43; col/16]， 使其col%16位为1。
+KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作 将由操作系统负责完成。
+字符编码集 指针操作数组示例 习题 RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况 需要修改测试脚本的repeat全部为210，否则时间不够 // if (RAM[0] &gt; RAM[1]) { // count = RAM[1]; // num = RAM[0]; // } else { // count = RAM[0]; // num = RAM[1]; // } // res = 0; // count--; // for (i = 0; i &lt;= count; i&#43;&#43;) { // res &#43;= num; // } @R0 D=M @R1 D=D-M @R0_BIGGER D;JGT // r0 &lt;= r1 @R0 D=M @count M=D @R1 D=M @num M=D (CORE) // res = 0 @0 D=A @res M=D // n-- @1 D=A @count M=M-D // i = 0 @0 D=A @i M=D (LOOP) @i D=M @count D=D-M @STORE_RESULT D;JGT // res &#43;= num @num D=M @res M=D&#43;M // i&#43;&#43; @1 D=A @i M=D&#43;M @LOOP 0;JMP // r0 &gt; r1 (R0_BIGGER) @R1 D=M @count M=D @R0 D=M @num M=D @CORE 0;JMP (STORE_RESULT) @res D=M @R2 M=D (END) @END 0;JMP 循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。 检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。 // while (1) { // color = RAM[KBD] &gt; 0 ?" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="04.机器语言" />
+<meta property="og:description" content="机器语言 概述 · 硬件设计 &lt;-&gt; 机器语言 -&gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定 关系，汇编语言等同于机器语言，不能跨硬件架构。
+· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地 址，被称为可重定位的。
+语法设计图 语法解释 可读可写的RAM用于存放数据，只读的ROM用于存放指令。
+A寄存器的值同时是RAM、ROM的地址。
+M寄存器的值是RAM在地址A处的数据。
+D寄存器单纯的用于存放数据。
+使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D
+要跳转到ROM[29]执行：@29, 0;JMP
+当D==0时跳抓到ROM[29]：@29, D;JEQ
+设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。
+汇编器还处理一些内置符号：
+R0..R15，代表0..15，所以@R3等同于@3。
+SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN &#43; row*32 &#43; col/16]， 使其col%16位为1。
+KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作 将由操作系统负责完成。
+字符编码集 指针操作数组示例 习题 RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况 需要修改测试脚本的repeat全部为210，否则时间不够 // if (RAM[0] &gt; RAM[1]) { // count = RAM[1]; // num = RAM[0]; // } else { // count = RAM[0]; // num = RAM[1]; // } // res = 0; // count--; // for (i = 0; i &lt;= count; i&#43;&#43;) { // res &#43;= num; // } @R0 D=M @R1 D=D-M @R0_BIGGER D;JGT // r0 &lt;= r1 @R0 D=M @count M=D @R1 D=M @num M=D (CORE) // res = 0 @0 D=A @res M=D // n-- @1 D=A @count M=M-D // i = 0 @0 D=A @i M=D (LOOP) @i D=M @count D=D-M @STORE_RESULT D;JGT // res &#43;= num @num D=M @res M=D&#43;M // i&#43;&#43; @1 D=A @i M=D&#43;M @LOOP 0;JMP // r0 &gt; r1 (R0_BIGGER) @R1 D=M @count M=D @R0 D=M @num M=D @CORE 0;JMP (STORE_RESULT) @res D=M @R2 M=D (END) @END 0;JMP 循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。 检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。 // while (1) { // color = RAM[KBD] &gt; 0 ?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/nand2tetris/04.%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80/" /><meta property="article:section" content="nand2tetris" />
+<meta property="article:published_time" content="2022-09-07T22:12:57+08:00" />
+<meta property="article:modified_time" content="2022-09-07T22:12:57+08:00" />
+
+  
+  <meta itemprop="name" content="04.机器语言">
+<meta itemprop="description" content="机器语言 概述 · 硬件设计 &lt;-&gt; 机器语言 -&gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定 关系，汇编语言等同于机器语言，不能跨硬件架构。
+· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地 址，被称为可重定位的。
+语法设计图 语法解释 可读可写的RAM用于存放数据，只读的ROM用于存放指令。
+A寄存器的值同时是RAM、ROM的地址。
+M寄存器的值是RAM在地址A处的数据。
+D寄存器单纯的用于存放数据。
+使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D
+要跳转到ROM[29]执行：@29, 0;JMP
+当D==0时跳抓到ROM[29]：@29, D;JEQ
+设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。
+汇编器还处理一些内置符号：
+R0..R15，代表0..15，所以@R3等同于@3。
+SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN &#43; row*32 &#43; col/16]， 使其col%16位为1。
+KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作 将由操作系统负责完成。
+字符编码集 指针操作数组示例 习题 RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况 需要修改测试脚本的repeat全部为210，否则时间不够 // if (RAM[0] &gt; RAM[1]) { // count = RAM[1]; // num = RAM[0]; // } else { // count = RAM[0]; // num = RAM[1]; // } // res = 0; // count--; // for (i = 0; i &lt;= count; i&#43;&#43;) { // res &#43;= num; // } @R0 D=M @R1 D=D-M @R0_BIGGER D;JGT // r0 &lt;= r1 @R0 D=M @count M=D @R1 D=M @num M=D (CORE) // res = 0 @0 D=A @res M=D // n-- @1 D=A @count M=M-D // i = 0 @0 D=A @i M=D (LOOP) @i D=M @count D=D-M @STORE_RESULT D;JGT // res &#43;= num @num D=M @res M=D&#43;M // i&#43;&#43; @1 D=A @i M=D&#43;M @LOOP 0;JMP // r0 &gt; r1 (R0_BIGGER) @R1 D=M @count M=D @R0 D=M @num M=D @CORE 0;JMP (STORE_RESULT) @res D=M @R2 M=D (END) @END 0;JMP 循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。 检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。 // while (1) { // color = RAM[KBD] &gt; 0 ?"><meta itemprop="datePublished" content="2022-09-07T22:12:57+08:00" />
+<meta itemprop="dateModified" content="2022-09-07T22:12:57+08:00" />
+<meta itemprop="wordCount" content="282">
+<meta itemprop="keywords" content="nand2tetris," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="04.机器语言"/>
+<meta name="twitter:description" content="机器语言 概述 · 硬件设计 &lt;-&gt; 机器语言 -&gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定 关系，汇编语言等同于机器语言，不能跨硬件架构。
+· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地 址，被称为可重定位的。
+语法设计图 语法解释 可读可写的RAM用于存放数据，只读的ROM用于存放指令。
+A寄存器的值同时是RAM、ROM的地址。
+M寄存器的值是RAM在地址A处的数据。
+D寄存器单纯的用于存放数据。
+使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D
+要跳转到ROM[29]执行：@29, 0;JMP
+当D==0时跳抓到ROM[29]：@29, D;JEQ
+设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。
+汇编器还处理一些内置符号：
+R0..R15，代表0..15，所以@R3等同于@3。
+SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN &#43; row*32 &#43; col/16]， 使其col%16位为1。
+KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作 将由操作系统负责完成。
+字符编码集 指针操作数组示例 习题 RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况 需要修改测试脚本的repeat全部为210，否则时间不够 // if (RAM[0] &gt; RAM[1]) { // count = RAM[1]; // num = RAM[0]; // } else { // count = RAM[0]; // num = RAM[1]; // } // res = 0; // count--; // for (i = 0; i &lt;= count; i&#43;&#43;) { // res &#43;= num; // } @R0 D=M @R1 D=D-M @R0_BIGGER D;JGT // r0 &lt;= r1 @R0 D=M @count M=D @R1 D=M @num M=D (CORE) // res = 0 @0 D=A @res M=D // n-- @1 D=A @count M=M-D // i = 0 @0 D=A @i M=D (LOOP) @i D=M @count D=D-M @STORE_RESULT D;JGT // res &#43;= num @num D=M @res M=D&#43;M // i&#43;&#43; @1 D=A @i M=D&#43;M @LOOP 0;JMP // r0 &gt; r1 (R0_BIGGER) @R1 D=M @count M=D @R0 D=M @num M=D @CORE 0;JMP (STORE_RESULT) @res D=M @R2 M=D (END) @END 0;JMP 循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。 检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。 // while (1) { // color = RAM[KBD] &gt; 0 ?"/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="机器语言">机器语言</h1>
+<h3 id="概述">概述</h3>
+<p>· 硬件设计 &lt;-&gt; 机器语言 -&gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定
+关系，汇编语言等同于机器语言，不能跨硬件架构。</p>
+<p>· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地
+址，被称为可重定位的。</p>
+<h4 id="语法设计图">语法设计图</h4>
+<p><img src="../img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
+<h4 id="语法解释">语法解释</h4>
+<ul>
+<li>
+<p>可读可写的RAM用于存放数据，只读的ROM用于存放指令。</p>
+</li>
+<li>
+<p>A寄存器的值同时是RAM、ROM的地址。</p>
+</li>
+<li>
+<p>M寄存器的值是RAM在地址A处的数据。</p>
+</li>
+<li>
+<p>D寄存器单纯的用于存放数据。</p>
+</li>
+<li>
+<p>使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D</p>
+</li>
+<li>
+<p>要跳转到ROM[29]执行：@29, 0;JMP</p>
+</li>
+<li>
+<p>当D==0时跳抓到ROM[29]：@29, D;JEQ</p>
+</li>
+<li>
+<p>设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。</p>
+</li>
+<li>
+<p>汇编器还处理一些内置符号：</p>
+<ul>
+<li>
+<p>R0..R15，代表0..15，所以@R3等同于@3。</p>
+</li>
+<li>
+<p>SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN + row*32 + col/16]，
+使其col%16位为1。</p>
+</li>
+<li>
+<p>KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作
+将由操作系统负责完成。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="字符编码集">字符编码集</h4>
+<p><img src="../img/364B22AF-13F6-4A2D-A08D-36484A175C62.png" alt="字符编码集"></p>
+<h4 id="指针操作数组示例">指针操作数组示例</h4>
+<p><img src="../img/58065D37-22AD-403A-A616-8DE576AE6292.png" alt="指针操作数组示例"></p>
+<h3 id="习题">习题</h3>
+<h4 id="ram2--ram0--ram1不考虑操作数小于0的情况">RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>需要修改测试脚本的repeat全部为210，否则时间不够
+</span></span><span style="display:flex;"><span>    // if (RAM[0] &gt; RAM[1]) {
+</span></span><span style="display:flex;"><span>    //     count = RAM[1];
+</span></span><span style="display:flex;"><span>    //     num = RAM[0];
+</span></span><span style="display:flex;"><span>    // } else {
+</span></span><span style="display:flex;"><span>    //     count = RAM[0];
+</span></span><span style="display:flex;"><span>    //     num = RAM[1];
+</span></span><span style="display:flex;"><span>    // }
+</span></span><span style="display:flex;"><span>    // res = 0;
+</span></span><span style="display:flex;"><span>    // count--;
+</span></span><span style="display:flex;"><span>    // for (i = 0; i &lt;= count; i++) {
+</span></span><span style="display:flex;"><span>    //     res += num;
+</span></span><span style="display:flex;"><span>    // }
+</span></span><span style="display:flex;"><span>    @R0
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @R1
+</span></span><span style="display:flex;"><span>    D=D-M
+</span></span><span style="display:flex;"><span>    @R0_BIGGER
+</span></span><span style="display:flex;"><span>    D;JGT
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // r0 &lt;= r1
+</span></span><span style="display:flex;"><span>    @R0
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @count
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>    @R1
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @num
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>(CORE)
+</span></span><span style="display:flex;"><span>    // res = 0
+</span></span><span style="display:flex;"><span>    @0
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @res
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>    // n--
+</span></span><span style="display:flex;"><span>    @1
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @count
+</span></span><span style="display:flex;"><span>    M=M-D
+</span></span><span style="display:flex;"><span>    // i = 0
+</span></span><span style="display:flex;"><span>    @0
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>(LOOP)
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @count
+</span></span><span style="display:flex;"><span>    D=D-M
+</span></span><span style="display:flex;"><span>    @STORE_RESULT
+</span></span><span style="display:flex;"><span>    D;JGT
+</span></span><span style="display:flex;"><span>    // res += num
+</span></span><span style="display:flex;"><span>    @num
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @res
+</span></span><span style="display:flex;"><span>    M=D+M
+</span></span><span style="display:flex;"><span>    // i++
+</span></span><span style="display:flex;"><span>    @1
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    M=D+M
+</span></span><span style="display:flex;"><span>    @LOOP
+</span></span><span style="display:flex;"><span>    0;JMP
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// r0 &gt; r1
+</span></span><span style="display:flex;"><span>(R0_BIGGER)
+</span></span><span style="display:flex;"><span>    @R1
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @count
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>    @R0
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @num
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>    @CORE
+</span></span><span style="display:flex;"><span>    0;JMP
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(STORE_RESULT)
+</span></span><span style="display:flex;"><span>    @res
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @R2
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>(END)
+</span></span><span style="display:flex;"><span>    @END
+</span></span><span style="display:flex;"><span>    0;JMP
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<h4 id="循环监听按下键盘任意键则屏幕全黑否则屏幕全白">循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。
+</span></span><span style="display:flex;"><span>    // while (1) {
+</span></span><span style="display:flex;"><span>    //     color = RAM[KBD] &gt; 0 ? -1 : 0;
+</span></span><span style="display:flex;"><span>    //     屏幕256行，每行512像素，这里只弄前1024个像素，要不没完了，太慢太慢，但程序好像实际改变了65个寄存器，两行外加32位的颜色都被改了🤷‍♂️，懒得找原因了。
+</span></span><span style="display:flex;"><span>    //     // screen_max_address = SCREEN + 256*512/16;
+</span></span><span style="display:flex;"><span>    //     screen_max_address = SCREEN + 2*512/16;
+</span></span><span style="display:flex;"><span>    //     for (i = SCREEN; i &lt; screen_max_address; i++) {
+</span></span><span style="display:flex;"><span>    //     RAM[i] = color;
+</span></span><span style="display:flex;"><span>    //     }
+</span></span><span style="display:flex;"><span>    // }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    // @8192
+</span></span><span style="display:flex;"><span>    @64
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @SCREEN
+</span></span><span style="display:flex;"><span>    D=D+A
+</span></span><span style="display:flex;"><span>    @screen_max_address
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(LOOP_OUT)
+</span></span><span style="display:flex;"><span>    // 默认填充白色，默认0以便黑色时直接-1
+</span></span><span style="display:flex;"><span>    @0
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @color
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>    // 是否要填充黑色
+</span></span><span style="display:flex;"><span>    @KBD
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @BLACK_VALUE
+</span></span><span style="display:flex;"><span>    D;JGT
+</span></span><span style="display:flex;"><span>(CORE)
+</span></span><span style="display:flex;"><span>    @SCREEN
+</span></span><span style="display:flex;"><span>    D=A
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>(LOOP_IN)
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @screen_max_address
+</span></span><span style="display:flex;"><span>    D=D-M
+</span></span><span style="display:flex;"><span>    @LOOP_OUT
+</span></span><span style="display:flex;"><span>    D;JGE
+</span></span><span style="display:flex;"><span>    @color
+</span></span><span style="display:flex;"><span>    D=M
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    A=M
+</span></span><span style="display:flex;"><span>    M=D
+</span></span><span style="display:flex;"><span>    @i
+</span></span><span style="display:flex;"><span>    M=M+1
+</span></span><span style="display:flex;"><span>    @LOOP_IN
+</span></span><span style="display:flex;"><span>    0;JMP
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(BLACK_VALUE)
+</span></span><span style="display:flex;"><span>    @color
+</span></span><span style="display:flex;"><span>    M=M-1
+</span></span><span style="display:flex;"><span>    @CORE
+</span></span><span style="display:flex;"><span>    0;JMP
+</span></span></code></pre></div></section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/nand2tetris">nand2tetris</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>工厂 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Main %% Main ..&gt; Product : 局变 Main ..&gt; ProductA : 实例化 Main ..&gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Factory { &#43;produce(condition) Product } %% Factory ." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="工厂" />
+<meta property="og:description" content="工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Main %% Main ..&gt; Product : 局变 Main ..&gt; ProductA : 实例化 Main ..&gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Factory { &#43;produce(condition) Product } %% Factory ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/" /><meta property="article:section" content="设计模式" />
+<meta property="article:published_time" content="2023-01-12T22:26:38+08:00" />
+<meta property="article:modified_time" content="2023-01-12T22:26:38+08:00" />
+
+  
+  <meta itemprop="name" content="工厂">
+<meta itemprop="description" content="工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Main %% Main ..&gt; Product : 局变 Main ..&gt; ProductA : 实例化 Main ..&gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Factory { &#43;produce(condition) Product } %% Factory ."><meta itemprop="datePublished" content="2023-01-12T22:26:38+08:00" />
+<meta itemprop="dateModified" content="2023-01-12T22:26:38+08:00" />
+<meta itemprop="wordCount" content="309">
+<meta itemprop="keywords" content="设计模式," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="工厂"/>
+<meta name="twitter:description" content="工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Main %% Main ..&gt; Product : 局变 Main ..&gt; ProductA : 实例化 Main ..&gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &lt;&lt;interface&gt;&gt; } class ProductA ProductA ..|&gt; Product : 实现 class ProductB ProductB ..|&gt; Product : 实现 class Factory { &#43;produce(condition) Product } %% Factory ."/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="工厂">工厂</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>用于隐藏实例化过程
+</span></span></code></pre></div><h3 id="不隐藏">不隐藏</h3>
+<p>· Main直接根据条件实例化所需的ProductImpl</p>
+
+<div class="mermaid">
+    
+    classDiagram
+
+class Product {
+    &lt;&lt;interface&gt;&gt;
+}
+
+class ProductA
+ProductA ..|&gt; Product : 实现
+
+class ProductB
+ProductB ..|&gt; Product : 实现
+
+class Main
+%% Main ..&gt; Product : 局变
+Main ..&gt; ProductA : 实例化
+Main ..&gt; ProductB : 实例化
+</div>
+<h3 id="简单工厂">简单工厂</h3>
+<p>· 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl</p>
+<p>· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则</p>
+
+<div class="mermaid">
+    
+    classDiagram
+
+class Product {
+    &lt;&lt;interface&gt;&gt;
+}
+
+class ProductA
+ProductA ..|&gt; Product : 实现
+
+class ProductB
+ProductB ..|&gt; Product : 实现
+
+class Factory {
+    &#43;produce(condition) Product
+}
+%% Factory ..&gt; Product : 返回
+Factory ..&gt; ProductA : 实例化
+Factory ..&gt; ProductB : 实例化
+
+class Main
+%% Main ..&gt; Product : 局变
+Main ..&gt; Factory : 实例化
+</div>
+<h3 id="工厂方法">工厂方法</h3>
+<p>· 每个ProductImpl都由一个专属的Factory::produce负责实例化，这样在新增ProductImpl时，只需新增Factory而不用修改任何服务类，Main需要哪种
+ProductImpl仍由其自己判断并调用相应Factory的produce()获得</p>
+<p>· 这里并没有产生“倒退”，因为最开始的动机是为了向Main隐藏“实例化流程”而非条件判断</p>
+
+<div class="mermaid">
+    
+    classDiagram
+
+class Product {
+    &lt;&lt;interface&gt;&gt;
+}
+
+class ProductA
+ProductA ..|&gt; Product : 实现
+
+class ProductB
+ProductB ..|&gt; Product : 实现
+
+class Factory {
+    &lt;&lt;interface&gt;&gt;
+    &#43;produce() Product
+}
+
+class ProductAFactory {
+    &#43;produce() ProductA
+}
+ProductAFactory ..|&gt; Factory : 实现
+ProductAFactory ..&gt; ProductA : 返回
+
+class ProductBFactory {
+    &#43;produce() ProductB
+}
+ProductBFactory ..|&gt; Factory : 实现
+ProductBFactory ..&gt; ProductB : 返回
+
+class Main
+%% Main ..&gt; Factory : 局变
+Main ..&gt; ProductAFactory : 实例化
+Main ..&gt; ProductBFactory : 实例化
+%% Main ..&gt; Product : 局变
+</div>
+<h3 id="抽象工厂">抽象工厂</h3>
+<p>· 如果ProductImpl是分等级的：ProductAa、ProductAb、ProductBa、ProductBb，那么原本Factory中单一的produce()就需要扩展为a()、b()。这种
+扩展是违反开闭原则的，所以Factory（产品族）可随意添加，但产品等级需要一开始考虑全面，后期几乎不可扩展</p>
+
+<div class="mermaid">
+    
+    classDiagram
+
+class Product {
+    &lt;&lt;interface&gt;&gt;
+}
+
+class ProductAa
+ProductAa ..|&gt; Product : 实现
+class ProductAb
+ProductAb ..|&gt; Product : 实现
+
+class ProductBa
+ProductBa ..|&gt; Product : 实现
+class ProductBb
+ProductBb ..|&gt; Product : 实现
+
+class Factory {
+    &lt;&lt;interface&gt;&gt;
+    &#43;a() Product
+    &#43;b() Product
+}
+
+class ProductAFactory {
+    &#43;a() ProductAa
+    &#43;b() ProductAb
+}
+ProductAFactory ..|&gt; Factory : 实现
+ProductAFactory ..&gt; ProductAa : 返回
+ProductAFactory ..&gt; ProductAb : 返回
+
+class ProductBFactory {
+    &#43;a() ProductBa
+    &#43;b() ProductBb
+}
+ProductBFactory ..|&gt; Factory : 实现
+ProductBFactory ..&gt; ProductBa : 返回
+ProductBFactory ..&gt; ProductBb : 返回
+
+class Main
+%% Main ..&gt; Factory : 局变
+Main ..&gt; ProductAFactory : 实例化
+Main ..&gt; ProductBFactory : 实例化
+%% Main ..&gt; Product : 局变
+</div>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+     
+    .mermaid svg {
+      display: block;
+      margin: auto;
+    }
+  </style>
+  
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javae on woieha320r</title>
+    <link>https://woieha320r.github.io/java/</link>
+    <description>Recent content in Javae on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 01 Dec 2022 12:00:12 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>classpath</title>
+      <link>https://woieha320r.github.io/java/classpath/</link>
+      <pubDate>Thu, 01 Dec 2022 12:00:12 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/classpath/</guid>
+      <description>classpath · 指的是存放class的路径，告诉jvm去哪里加载需要的class
+· 在javaweb中，一般用于指示某文件的位置，具体指的是打包的war包里的META_INF/classes，自己写的代码生成的class文件会放在这里。比如通过配置 maven把xxx.conf放到classpath:conf下，那么代码中要用这个文件就得写classpath:conf/xxx.conf，打包之后这个文件会被放到META_INF/classes/conf下
+· 如果要手动读取classpath下的文件，可使用getClass().getResourceAsStream()，传入文件在META_INF/classes下的路径</description>
+    </item>
+    
+    <item>
+      <title>事务</title>
+      <link>https://woieha320r.github.io/java/%E4%BA%8B%E5%8A%A1/</link>
+      <pubDate>Thu, 01 Dec 2022 11:46:29 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E4%BA%8B%E5%8A%A1/</guid>
+      <description>事务 事务特性（ACID 原子性：中间中断则数据回退
+一致性：有点儿类似线程可见性吧
+隔离性：同一时间只能一个事务访问同一数据
+持久性：事务结束后结果不可回退
+MySQL事务隔离级别 读未提交级别
+脏读：读到了另一个事务未提交的数据
+解决方案：读已提交级别 不可重复读：因另一个事务修改值而导致前后两次读取不一致
+解决方案：可重复读级别（默认级别） 幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效
+解决方案：串行化级别 Spring事务 · 就像Spring Cache，是屏蔽具体实现的统一抽象
+传播机制 指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上 · 并入：合并进已有的事务，提交回滚是同步的 · 嵌入：内层跟随外层回滚，内层回滚不影响外层 必须有
+参与已有事务，否则新开
+并入（PROPAGATION_REQUIRED）
+嵌入（PROPAGATION_NESTED）
+参与已有事务，否则异常
+并入（PROPAGATION_MANDATORY）
+不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）
+可有可无：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）
+禁止有
+已有事务则异常（PROPAGATION_NEVER）
+已有事务则等待（PROPAGATION_NOT_SUPPORTED）</description>
+    </item>
+    
+    <item>
+      <title>代理</title>
+      <link>https://woieha320r.github.io/java/%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Thu, 01 Dec 2022 10:39:13 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E4%BB%A3%E7%90%86/</guid>
+      <description>代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。</description>
+    </item>
+    
+    <item>
+      <title>NIO</title>
+      <link>https://woieha320r.github.io/java/nio/</link>
+      <pubDate>Thu, 01 Dec 2022 09:37:43 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/nio/</guid>
+      <description>NIO · 一种基于通道（Channel）和缓冲区（Buffer）的I/O方式，它可使用Native函数库直接分配堆外内存，并通过一个存储在Java堆里的 DirectByteBuffer对象引用它。避免了在Java堆和Native堆间来回复制，提高了性能
+可参考https://www.zhihu.com/question/29005375/answer/184849551</description>
+    </item>
+    
+    <item>
+      <title>注解</title>
+      <link>https://woieha320r.github.io/java/%E6%B3%A8%E8%A7%A3/</link>
+      <pubDate>Thu, 01 Dec 2022 08:36:20 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E6%B3%A8%E8%A7%A3/</guid>
+      <description>注解 · 编程中自定义注解一般是使其工作在运行时，可以理解为在class上打个自定义标签，然后写代码时依据这个标签选择进行或不进行某些行为
+· jdk6通过的JSR-269提案引入了“插入式注解处理器”，编译器允许自定义代码修改语法树，从而可以自动生成代码，比如lombok的实现</description>
+    </item>
+    
+    <item>
+      <title>线程&amp;锁</title>
+      <link>https://woieha320r.github.io/java/%E7%BA%BF%E7%A8%8B%E9%94%81/</link>
+      <pubDate>Wed, 30 Nov 2022 23:32:52 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E7%BA%BF%E7%A8%8B%E9%94%81/</guid>
+      <description>线程&amp;amp;锁 指令重排序 · CPU为了保证流水线的效率，会在不影响最终结果的情况下将指令重排序，JIT也有类似机制。比如第二条指令依赖第一条指令的值，但第二条指令开始执行时 第一条指令还未出结果，CPU会从后续指令挑选若干执行顺序不影响最终结果的指令插到一二条指令之间以保证流水线无需等待
+· 但如果此时还有另外一个线程依赖第二条指令执行的时机，那么这个重排序机制会破坏原本的代码逻辑，因为第二条指令的执行时机在重排序下是不可控的
+jvm的线程内存模型 · 和堆栈内存模型是两种层面的东西，工作内存是当前线程的栈帧（线程独享），主内存是存“线程共享数据”的地方（实例字段、类字段、数组元素等位于 堆/方法区的数据）。线程之间共享数据只能通过主内存进行。
+volatile · volatile保证可见性（写操作后立即将结果更新到主内存，其他线程强制放弃工作内存而从主内存取新值）、有序性（禁止CPU发生指令重排序）
+· volatile并不对自身运算保证原子性，比如四个线程执行被volatile修饰的x++，Java里单纯的读写都是原子的，但在自增结果值写到x之前，其他线程已经 取走了x的旧值去进行自己的自增，虽然确实执行了四次，但最后的结果会小于4
+· volatile的另一个语义是阻止指令重排序，JIT会在生成的机器指令中促使CPU不要发生重排序
+· 这两个特性使得volatile的应用场景类似于如下所示（shutdown和dowork是俩线程）
+synchronized · synchronized对于持有同锁的其他线程保证原子性（要么不执行要么不中断）、可见性（锁释放前将结果更新到主内存）
+· jvm遇到方法调用时会查看class中的方法表，检查其是否被声明为synchronized，如果是，那么当前线程尝试获得class/obj的所有权（加锁）， class/obj取决于方法是否static，获得后才执行方法指令
+· 对于局部级别的synchronized，编译器会生成monitorenter指令尝试获得栈顶元素的所有权（加锁），栈顶元素也就是synchronized的参数。 每个monitorenter都必须搭配一个monitorenter来释放锁，这俩指令中间的指令就是被synchronize包裹的内容。
+· 它在持有锁的同时可再次持有，也就是可重入，否则会产生死锁。
+双检锁式懒汉单例 · new包含“创建空间”、“初始化”、“地址赋值”，如果“地址赋值”因为发生指令重排序而被提前到“初始化”之前，其他线程就可以直接通过引用操作数据了，但此时 数据还未初始化
+· 第一次if与锁无关，而synchronized保证的是在释放锁前的任意时机将结果同步到主内存，是为了保证同锁线程的可见性，也只能保证同锁线程的可见性。对于 不持有同锁的线程，可以在锁释放前就看到实例对象已非null，但它实际上却还未被初始化，所以需要将字段声明为volatile来阻止指令重排序的发生
+· 至于为啥要双检，见设计模式-单例篇（https://woieha320r.github.io/设计模式/单例）
+通过为x赋值三次模拟三条指令，用线程断点调试观察到，当thread-1将x赋值1后，thread-2的首次if为false
+public class TestSynchronizedSeen { private static Integer x; public static void getInstance() { if (null == x) { synchronized (TestSynchronizedSeen.class) { if (null == x) { x = 1; x = 2; x = 3; } } } } public static void main(String[] args) { new Thread(() -&amp;gt; TestSynchronizedSeen.</description>
+    </item>
+    
+    <item>
+      <title>构造实例对象</title>
+      <link>https://woieha320r.github.io/java/%E6%9E%84%E9%80%A0%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Wed, 30 Nov 2022 22:47:09 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E6%9E%84%E9%80%A0%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1/</guid>
+      <description>构造实例对象 编译器会将new编译为两条指令：new、invokespecial
+jvm处理new指令 · 拿到class的符号引用，若未加载过，执行类加载过程
+· 在堆中分配内存：方式取决于具体实现（指针碰撞、空闲列表记录），这个行为是“原子”的。空间需容纳所有父类的非static字段和本类的所有字段
+· 把除“对象头”（hash码、锁指针、class指针(非句柄方式访问对象，否则class指针在句柄中，如图)&amp;hellip;）的空间初始化为零值
+jvm处理invokespecial指令 执行编译器生成的“实例构造函数()”，即：调用父类构造、执行代码中的声明时赋值和构造方法</description>
+    </item>
+    
+    <item>
+      <title>加载class</title>
+      <link>https://woieha320r.github.io/java/%E5%8A%A0%E8%BD%BDclass/</link>
+      <pubDate>Wed, 30 Nov 2022 21:45:45 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E5%8A%A0%E8%BD%BDclass/</guid>
+      <description>加载class 虚方法 · class的若干方法引用中有一些是不可能在运行期被更改的：static/private/构造方法/super/final。除此之外剩下的方法也就是可被继承重写的了，称 为“虚方法”
+class加载流程 · 规范规定class只在被主动使用时才初始化（不是加载），且一定要先初始化父类和包含default方法的接口。可以通过给jvm添加-verbose:class启动参数 来跟踪class的加载情况
+加载：把class的内容存到逻辑上属于堆的方法区，并在堆中实例化一个java.lang.Class对象作为引用它的入口。class不一定是.class文件，也可以来自 于网络、压缩包、动态代理动态生成&amp;hellip;&amp;hellip;
+验证：安全性、完整性&amp;hellip;&amp;hellip;
+准备：把class变量初始化为零值，final static的值存于属性表，此时被赋值
+解析：用加载后class的实际内存地址替换字段和“非虚方法”的符号引用，规范只规定解析发生在实际使用之前
+初始化：执行编译器生成的“类构造函数()”，即代码中的声明时赋值和静态块。jvm需保证此过程是线程安全的
+· 不同的类加载器加载的相同的class被视为不相同，图中演示了这个结果，其中obj所属class来自于自定义加载器加载，它不同于jvm自己的加载器加载的class 方法重载 · 编译器以“方法名+参数”生成方法签名，即class中可存在同名方法。注意这是编译期，和继承/运行时类型没有任何关系，试图通过入参类型区分重载方法时，声 明的啥类型就按啥类型
+· 对于method(&amp;lsquo;a&amp;rsquo;)会调用method(int x)还是method(Character x)，虽然编译器允许但这种代码没有任何意义，应该显式声明&amp;rsquo;a&amp;rsquo;的类型
+虚方法调用和字段解析 · 继承关系中调用方法要求优先调用底层类的，也就是需要从实际类型开始按继承关系向上查找符合签名的方法。编译器做不到这一点，因为它无法知道实际类型， 比如：Father obj = (random() == 1) ? new Son() : new daughter();。所以由jvm在每次遇到虚方法调用指令时都执行一次方法查找：从当前对象 的实际class开始，按继承关系向上查找符合签名的方法
+· 关于实例字段，在继承语义下也是当前class有就用当前的，否则按继承关系向上查找（无关类型，同名即可）然后验证访问权限。但字段与运行时类型无关，字 段查找的起始class是声明的类型。《深入理解Java虚拟机》描述的字段解析过程和虚方法差不多，而且HotSpot中实例对象也会存储父实例的非static字 段（不是指针，是拷贝存储）</description>
+    </item>
+    
+    <item>
+      <title>字节码</title>
+      <link>https://woieha320r.github.io/java/%E5%AD%97%E8%8A%82%E7%A0%81/</link>
+      <pubDate>Wed, 30 Nov 2022 20:39:24 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E5%AD%97%E8%8A%82%E7%A0%81/</guid>
+      <description>字节码 · JVM识别字节码而非Java，字节码是图灵完备的，任何语言都可以编译为字节码以运行于JVM上
+· 一个class文件只有一个类或接口的信息，以8字节为基础单位，多个单位间用“大端表示法”（高位单位放在低地址处，就是反人类的那种）
+· jvm执行字节码是基于栈的
+class文件记录了啥 用以区别其他文件格式的魔数
+运行所要求的jvm最高版本
+常量池（字面量、类/接口的全限定名、字段/方法的名称/描述符、方法的句柄/类型、动态调用点和动态常量）
+一个字段/方法名只有65535位存储空间
+所有符号引用都存在这里，需要的地方指向这里
+访问标志：public、final、super、interface、enum、abstract、是否用户代码、annotation、module
+类名指针、父类名指针、接口集合名指针
+字段表，只有本class的字段（访问权限、static、final、volatile、transient、是否编译器生成、enum、名称指针、描述符指针（通过字符串表达类 型/参数/返回值，如byte应指向常量池的“B”字符）、属性表指针（如果字段同时被final、static修饰且是基本类型/字符串，则将常量值写在属性表，和类 字段零值一同赋值，否则由类初始化方法负责初始化））
+方法表，只有本class的方法（访问权限、static、final、synchronized、是否编译器产生的桥接方法、是否不定参数、是否本地、abstract 、strictfp、是否编译器生成的、属性表指针（方法体的字节码指令集））
+属性表</description>
+    </item>
+    
+    <item>
+      <title>调试工具</title>
+      <link>https://woieha320r.github.io/java/%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Wed, 30 Nov 2022 19:36:53 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/</guid>
+      <description>调试工具 jps · 如果跑了多个java程序，不知道哪个进程id对应哪个程序，可以使用jps -l列出所有java进程id(vmid)及其对应的main类名/jar包路径
+jstack jstack [option] vmid
+打印vm当前的线程快照(方法堆栈集合)，可排查为何停顿或无响应
+其他 查看class加载情况 · 添加启动参数：-verbose:class</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/java/readme/</link>
+      <pubDate>Wed, 30 Nov 2022 18:21:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/java/readme/</guid>
+      <description>java 不关心Java语法和JVM的具体实现，只记录一些可能对编程有帮助的内容 目前主要参考自《深入理解Java虚拟机：JVM高级特性与最佳实践（第3版）》 </description>
+    </item>
+    
+  </channel>
+</rss>

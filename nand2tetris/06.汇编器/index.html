@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>06.汇编器 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="汇编器 概述 目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。
+为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。
+初始化：将所有内置符号及其数字值写到符号表
+第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才&#43;。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。
+第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个 变量定义，本例中的变量都被依次绑定到[RAM[16], &#43;&#43;)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串 和111前缀按顺序合并为机器指令。
+本例机器语言的语法设计图 习题 · 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler
+解析器模块。用于分解汇编源码。 代码模块。用于将汇编源码转为对应的二进制码。 符号表模块。用于支持处理符号。 汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。 · 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack 文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&quot;静态链接&quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。
+· 另一种思想是&quot;动态链接&quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被 加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库 代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="06.汇编器" />
+<meta property="og:description" content="汇编器 概述 目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。
+为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。
+初始化：将所有内置符号及其数字值写到符号表
+第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才&#43;。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。
+第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个 变量定义，本例中的变量都被依次绑定到[RAM[16], &#43;&#43;)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串 和111前缀按顺序合并为机器指令。
+本例机器语言的语法设计图 习题 · 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler
+解析器模块。用于分解汇编源码。 代码模块。用于将汇编源码转为对应的二进制码。 符号表模块。用于支持处理符号。 汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。 · 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack 文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&quot;静态链接&quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。
+· 另一种思想是&quot;动态链接&quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被 加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库 代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/nand2tetris/06.%E6%B1%87%E7%BC%96%E5%99%A8/" /><meta property="article:section" content="nand2tetris" />
+<meta property="article:published_time" content="2022-09-16T00:19:51+08:00" />
+<meta property="article:modified_time" content="2022-09-16T00:19:51+08:00" />
+
+  
+  <meta itemprop="name" content="06.汇编器">
+<meta itemprop="description" content="汇编器 概述 目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。
+为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。
+初始化：将所有内置符号及其数字值写到符号表
+第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才&#43;。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。
+第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个 变量定义，本例中的变量都被依次绑定到[RAM[16], &#43;&#43;)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串 和111前缀按顺序合并为机器指令。
+本例机器语言的语法设计图 习题 · 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler
+解析器模块。用于分解汇编源码。 代码模块。用于将汇编源码转为对应的二进制码。 符号表模块。用于支持处理符号。 汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。 · 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack 文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&quot;静态链接&quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。
+· 另一种思想是&quot;动态链接&quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被 加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库 代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。"><meta itemprop="datePublished" content="2022-09-16T00:19:51+08:00" />
+<meta itemprop="dateModified" content="2022-09-16T00:19:51+08:00" />
+<meta itemprop="wordCount" content="25">
+<meta itemprop="keywords" content="nand2tetris," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="06.汇编器"/>
+<meta name="twitter:description" content="汇编器 概述 目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。
+为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。
+初始化：将所有内置符号及其数字值写到符号表
+第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才&#43;。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。
+第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个 变量定义，本例中的变量都被依次绑定到[RAM[16], &#43;&#43;)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串 和111前缀按顺序合并为机器指令。
+本例机器语言的语法设计图 习题 · 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler
+解析器模块。用于分解汇编源码。 代码模块。用于将汇编源码转为对应的二进制码。 符号表模块。用于支持处理符号。 汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。 · 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack 文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&quot;静态链接&quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。
+· 另一种思想是&quot;动态链接&quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被 加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库 代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。"/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="汇编器">汇编器</h1>
+<h3 id="概述">概述</h3>
+<ul>
+<li>
+<p>目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。</p>
+</li>
+<li>
+<p>为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。</p>
+<ul>
+<li>
+<p>初始化：将所有内置符号及其数字值写到符号表</p>
+</li>
+<li>
+<p>第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才+。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。</p>
+</li>
+<li>
+<p>第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个
+变量定义，本例中的变量都被依次绑定到[RAM[16], ++)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串
+和111前缀按顺序合并为机器指令。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="本例机器语言的语法设计图">本例机器语言的语法设计图</h4>
+<p><img src="../img/2D6B004B-6DE6-4206-A982-BCD26FE46D9D.png" alt="语法设计图"></p>
+<h3 id="习题">习题</h3>
+<p>· 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler</p>
+<h4 id="解析器模块用于分解汇编源码">解析器模块。用于分解汇编源码。</h4>
+<p><img src="../img/DC261802-9A8F-4B06-BC19-1BB4632ECA00.png" alt="解析器模块"></p>
+<h4 id="代码模块用于将汇编源码转为对应的二进制码">代码模块。用于将汇编源码转为对应的二进制码。</h4>
+<p><img src="../img/FA370610-7E5D-4495-BBFD-2E24A6B786FD.png" alt="代码模块"></p>
+<h4 id="符号表模块用于支持处理符号">符号表模块。用于支持处理符号。</h4>
+<p><img src="../img/BD55F6ED-25D6-48D9-98A2-4757747AD849.png" alt="符号表模块"></p>
+<h4 id="汇编器按照概述的处理方式在asm文件目录生成一个hack文件">汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。</h4>
+<!-- raw HTML omitted -->
+<p>· 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack
+文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&quot;静态链接&quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。</p>
+<p>· 另一种思想是&quot;动态链接&quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被
+加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库
+代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/nand2tetris">nand2tetris</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

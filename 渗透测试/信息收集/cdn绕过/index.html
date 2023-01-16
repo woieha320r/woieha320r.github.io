@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>CDN绕过 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="CDN绕过 · 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单
+CDN 如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返 回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。
+需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：
+是个服务器但不一定就只有一个网站
+是个反向代理，真实服务器在内网
+不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点
+多站点技术-虚拟主机
+多个网站位于同台服务器，配置不同域名指向不同目录 多站点技术-反向代理
+多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器 CDN判定和绕过 如果host解析过程中有cname记录，多半有cdn
+host xxx.com 多地DNS解析A记录
+平台：https://www.itdog.cn/dns/
+手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm
+找只有1条结果且都相同的那个IP
+如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP
+如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述 过程。但也不一定就和目标是同一台服务器
+如果都猜不到，我也不知道了🤷‍♂️，比如douban.com
+寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务 器的IP
+得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。
+F5 BIG-IP LTM Cookie保持机制解码IP · 标志：Set-Cookie: BIGipServer&hellip;..
+· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git
+app渗透 · 目标家的app的请求地址是否泄露真实IP
+同ip站查询 · 平台查询：https://www.webscan.cc" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="CDN绕过" />
+<meta property="og:description" content="CDN绕过 · 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单
+CDN 如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返 回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。
+需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：
+是个服务器但不一定就只有一个网站
+是个反向代理，真实服务器在内网
+不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点
+多站点技术-虚拟主机
+多个网站位于同台服务器，配置不同域名指向不同目录 多站点技术-反向代理
+多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器 CDN判定和绕过 如果host解析过程中有cname记录，多半有cdn
+host xxx.com 多地DNS解析A记录
+平台：https://www.itdog.cn/dns/
+手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm
+找只有1条结果且都相同的那个IP
+如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP
+如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述 过程。但也不一定就和目标是同一台服务器
+如果都猜不到，我也不知道了🤷‍♂️，比如douban.com
+寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务 器的IP
+得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。
+F5 BIG-IP LTM Cookie保持机制解码IP · 标志：Set-Cookie: BIGipServer&hellip;..
+· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git
+app渗透 · 目标家的app的请求地址是否泄露真实IP
+同ip站查询 · 平台查询：https://www.webscan.cc" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cdn%E7%BB%95%E8%BF%87/" /><meta property="article:section" content="渗透测试" />
+<meta property="article:published_time" content="2022-08-19T00:11:02+08:00" />
+<meta property="article:modified_time" content="2022-08-19T00:11:02+08:00" />
+
+  
+  <meta itemprop="name" content="CDN绕过">
+<meta itemprop="description" content="CDN绕过 · 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单
+CDN 如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返 回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。
+需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：
+是个服务器但不一定就只有一个网站
+是个反向代理，真实服务器在内网
+不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点
+多站点技术-虚拟主机
+多个网站位于同台服务器，配置不同域名指向不同目录 多站点技术-反向代理
+多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器 CDN判定和绕过 如果host解析过程中有cname记录，多半有cdn
+host xxx.com 多地DNS解析A记录
+平台：https://www.itdog.cn/dns/
+手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm
+找只有1条结果且都相同的那个IP
+如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP
+如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述 过程。但也不一定就和目标是同一台服务器
+如果都猜不到，我也不知道了🤷‍♂️，比如douban.com
+寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务 器的IP
+得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。
+F5 BIG-IP LTM Cookie保持机制解码IP · 标志：Set-Cookie: BIGipServer&hellip;..
+· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git
+app渗透 · 目标家的app的请求地址是否泄露真实IP
+同ip站查询 · 平台查询：https://www.webscan.cc"><meta itemprop="datePublished" content="2022-08-19T00:11:02+08:00" />
+<meta itemprop="dateModified" content="2022-08-19T00:11:02+08:00" />
+<meta itemprop="wordCount" content="47">
+<meta itemprop="keywords" content="渗透测试,信息收集," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CDN绕过"/>
+<meta name="twitter:description" content="CDN绕过 · 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单
+CDN 如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返 回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。
+需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：
+是个服务器但不一定就只有一个网站
+是个反向代理，真实服务器在内网
+不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点
+多站点技术-虚拟主机
+多个网站位于同台服务器，配置不同域名指向不同目录 多站点技术-反向代理
+多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器 CDN判定和绕过 如果host解析过程中有cname记录，多半有cdn
+host xxx.com 多地DNS解析A记录
+平台：https://www.itdog.cn/dns/
+手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm
+找只有1条结果且都相同的那个IP
+如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP
+如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述 过程。但也不一定就和目标是同一台服务器
+如果都猜不到，我也不知道了🤷‍♂️，比如douban.com
+寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务 器的IP
+得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。
+F5 BIG-IP LTM Cookie保持机制解码IP · 标志：Set-Cookie: BIGipServer&hellip;..
+· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git
+app渗透 · 目标家的app的请求地址是否泄露真实IP
+同ip站查询 · 平台查询：https://www.webscan.cc"/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="cdn绕过">CDN绕过</h1>
+<p>· 并不一定能找到源IP并在外部直接访问，它可能隐藏于CDN之后并且对访问设置了IP白名单</p>
+<h3 id="cdn">CDN</h3>
+<ul>
+<li>
+<p>如果目标站点使用了CDN，一般目标域名会被设置为另一个域名的cname记录，负责解析那个cname记录的DNS会依据负载均衡或LDNS的地理位置或其他算法返
+回给LDNS一个或多个IP，LDNS只会交给浏览器一个IP。</p>
+</li>
+<li>
+<p>需要绕开CDN得到真实服务器的IP地址，因为对CDN发起攻击是没有意义的，得到的这个IP的几种情况：</p>
+<ul>
+<li>
+<p>是个服务器但不一定就只有一个网站</p>
+</li>
+<li>
+<p>是个反向代理，真实服务器在内网</p>
+</li>
+</ul>
+</li>
+<li>
+<p>不管怎样，与这个站相关的操作都要用域名进行，与服务器相关的用IP进行，因为可能一个服务器上配置了多个站点</p>
+</li>
+<li>
+<p>多站点技术-虚拟主机</p>
+<ul>
+<li>多个网站位于同台服务器，配置不同域名指向不同目录</li>
+</ul>
+</li>
+<li>
+<p>多站点技术-反向代理</p>
+<ul>
+<li>多个网站位于内网中的其他多个服务器，配置不同域名指向不同内网服务器</li>
+</ul>
+</li>
+</ul>
+<h3 id="cdn判定和绕过">CDN判定和绕过</h3>
+<ul>
+<li>
+<p>如果host解析过程中有cname记录，多半有cdn</p>
+<ul>
+<li>host xxx.com</li>
+</ul>
+</li>
+<li>
+<p>多地DNS解析A记录</p>
+<ul>
+<li>
+<p>平台：https://www.itdog.cn/dns/</p>
+</li>
+<li>
+<p>手动：host -t a 世界各地DNS：http://ip.yqie.com/dns.htm</p>
+</li>
+</ul>
+</li>
+<li>
+<p>找只有1条结果且都相同的那个IP</p>
+<ul>
+<li>
+<p>如果各地解析得到的都是一个相同的IP列表，尝试通过IP归属地找到离公司城市最近的IP</p>
+</li>
+<li>
+<p>如果目标域名不是泛解析，找它业务量不大的子域名的ip，比如邮箱：尝试查询其mx和在txt记录里的的spf，拿到疑似同域名的邮箱服务器域名，重复上述
+过程。但也不一定就和目标是同一台服务器</p>
+</li>
+<li>
+<p>如果都猜不到，我也不知道了🤷‍♂️，比如douban.com</p>
+</li>
+</ul>
+</li>
+<li>
+<p>寻找目标站是否提供了主动链接外部站点的服务，比如通过url上传图片或发送邮件等，让其从自己的主机上下载内容，监听其来源IP，邮件源码会包含邮件服务
+器的IP</p>
+</li>
+<li>
+<p>得到的这个ip填入hosts文件，确保解析dns的工具或浏览器们清除历史缓存以确保解析修改过的hosts文件，浏览器访问以验证这个IP是否可以访问目标站。</p>
+</li>
+</ul>
+<h3 id="f5-big-ip-ltm-cookie保持机制解码ip">F5 BIG-IP LTM Cookie保持机制解码IP</h3>
+<p>· 标志：Set-Cookie: BIGipServer&hellip;..</p>
+<p>· 利用工具：https://github.com/ezelf/f5_cookieLeaks.git</p>
+<h3 id="app渗透">app渗透</h3>
+<p>· 目标家的app的请求地址是否泄露真实IP</p>
+<h3 id="同ip站查询">同ip站查询</h3>
+<p>· 平台查询：https://www.webscan.cc</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95">渗透测试</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] p-1.5 text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center rounded-md p-6 pr-3 no-underline hover:bg-black/[2%]"
+      href="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/cms%E8%AF%86%E5%88%AB/"><span class="mr-1.5">←</span><span>CMS识别</span></a>
+    
+    
+    <a class="ml-auto flex w-1/2 items-center justify-end rounded-md p-6 pl-3 no-underline hover:bg-black/[2%]"
+      href="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E5%9F%9F%E5%90%8D/"><span>域名</span><span class="ml-1.5">→</span></a>
+    
+  </nav>
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

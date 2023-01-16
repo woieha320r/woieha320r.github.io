@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>杂记 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="杂记 5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注 入时要编码绕过，像绕waf似的。 伪造http请求头ip地址，所有这些头都是不标准的 X-Forwarded-For: client, proxy1, proxy2 Proxy-Client-IP WL- Proxy-Client-IP HTTP_CLIENT_IP X-Real-IP java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代 理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip 使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP nmap扫描，proxychains不支持UDP，所以需要控制参数 -sT：指定为全连接而非SYN扫描 -PN：跳过寻找主机名 -n：确保不在Tor外执行DNS请求 -sT：检测开放端口的服务和版本 -p：扫描执行端口（逗号分隔） nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP 靶场：墨者、sqli-lab、vulhub、vulnhub 试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF 扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录 IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了 加解密
+单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com 加密方式除非拿到源码，不然不好猜 URL编码一般在做绕过时使用 ⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密 " />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="杂记" />
+<meta property="og:description" content="杂记 5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注 入时要编码绕过，像绕waf似的。 伪造http请求头ip地址，所有这些头都是不标准的 X-Forwarded-For: client, proxy1, proxy2 Proxy-Client-IP WL- Proxy-Client-IP HTTP_CLIENT_IP X-Real-IP java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代 理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip 使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP nmap扫描，proxychains不支持UDP，所以需要控制参数 -sT：指定为全连接而非SYN扫描 -PN：跳过寻找主机名 -n：确保不在Tor外执行DNS请求 -sT：检测开放端口的服务和版本 -p：扫描执行端口（逗号分隔） nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP 靶场：墨者、sqli-lab、vulhub、vulnhub 试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF 扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录 IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了 加解密
+单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com 加密方式除非拿到源码，不然不好猜 URL编码一般在做绕过时使用 ⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E6%9D%82%E8%AE%B0/" /><meta property="article:section" content="渗透测试" />
+<meta property="article:published_time" content="2022-08-15T20:24:20+08:00" />
+<meta property="article:modified_time" content="2022-08-15T20:24:20+08:00" />
+
+  
+  <meta itemprop="name" content="杂记">
+<meta itemprop="description" content="杂记 5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注 入时要编码绕过，像绕waf似的。 伪造http请求头ip地址，所有这些头都是不标准的 X-Forwarded-For: client, proxy1, proxy2 Proxy-Client-IP WL- Proxy-Client-IP HTTP_CLIENT_IP X-Real-IP java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代 理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip 使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP nmap扫描，proxychains不支持UDP，所以需要控制参数 -sT：指定为全连接而非SYN扫描 -PN：跳过寻找主机名 -n：确保不在Tor外执行DNS请求 -sT：检测开放端口的服务和版本 -p：扫描执行端口（逗号分隔） nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP 靶场：墨者、sqli-lab、vulhub、vulnhub 试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF 扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录 IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了 加解密
+单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com 加密方式除非拿到源码，不然不好猜 URL编码一般在做绕过时使用 ⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密 "><meta itemprop="datePublished" content="2022-08-15T20:24:20+08:00" />
+<meta itemprop="dateModified" content="2022-08-15T20:24:20+08:00" />
+<meta itemprop="wordCount" content="40">
+<meta itemprop="keywords" content="渗透测试," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="杂记"/>
+<meta name="twitter:description" content="杂记 5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注 入时要编码绕过，像绕waf似的。 伪造http请求头ip地址，所有这些头都是不标准的 X-Forwarded-For: client, proxy1, proxy2 Proxy-Client-IP WL- Proxy-Client-IP HTTP_CLIENT_IP X-Real-IP java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代 理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip 使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP nmap扫描，proxychains不支持UDP，所以需要控制参数 -sT：指定为全连接而非SYN扫描 -PN：跳过寻找主机名 -n：确保不在Tor外执行DNS请求 -sT：检测开放端口的服务和版本 -p：扫描执行端口（逗号分隔） nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP 靶场：墨者、sqli-lab、vulhub、vulnhub 试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF 扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录 IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了 加解密
+单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com 加密方式除非拿到源码，不然不好猜 URL编码一般在做绕过时使用 ⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密 "/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="杂记">杂记</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>    5.4.0版之前的php.ini中可配置的magic_quotes_gpc魔术引号，后来版本已移除这个特性。开启后会在流向数据库的字符串中的引号前加反斜杠转义，注
+</span></span><span style="display:flex;"><span>入时要编码绕过，像绕waf似的。
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>伪造http请求头ip地址，所有这些头都是不标准的
+</span></span><span style="display:flex;"><span>    X-Forwarded-For: client, proxy1, proxy2
+</span></span><span style="display:flex;"><span>    Proxy-Client-IP
+</span></span><span style="display:flex;"><span>    WL- Proxy-Client-IP
+</span></span><span style="display:flex;"><span>    HTTP_CLIENT_IP
+</span></span><span style="display:flex;"><span>    X-Real-IP
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>    java的request.getRemoteAddr()不可伪造，但在经过了nginx等反向代理之后，拿到的是代理的ip，因为访问请求不直接来自客户端，而是来自反向代
+</span></span><span style="display:flex;"><span>理。反向代理在代请求时会携带X-Forwarded-For头，并追加自己的ip，所以服务端可通过取此字段第一个非unkown值来确定客户端ip
+</span></span></code></pre></div><p><img src="../img/5A494478-37CA-4600-BA57-84D02CF0008C.png" alt="Java取IP"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>使用tor-resolve或proxychains host（proxychains支持UDP吗？？？），不要直接向目标发送UDP或ICMP
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>nmap扫描，proxychains不支持UDP，所以需要控制参数
+</span></span><span style="display:flex;"><span>    -sT：指定为全连接而非SYN扫描
+</span></span><span style="display:flex;"><span>    -PN：跳过寻找主机名
+</span></span><span style="display:flex;"><span>    -n：确保不在Tor外执行DNS请求
+</span></span><span style="display:flex;"><span>    -sT：检测开放端口的服务和版本
+</span></span><span style="display:flex;"><span>    -p：扫描执行端口（逗号分隔）
+</span></span><span style="display:flex;"><span>nmap -sT -PN -n -sT -p 21,22,53,80,110,139,143,443,3306等等 目标IP
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>靶场：墨者、sqli-lab、vulhub、vulnhub
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>试图找到目标站的IP地址，如果目标站允许以IP直接访问，则使用IP直接访问，因为有些WAF以DNS解析形式部署，直接使用IP访问可以绕过WAF
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>扫目录时以IP做目标范围更大，因为域名被配置为指向一个文件夹，访问ip访问的是存这些文件夹的目录
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>IIS如果设置来宾用户禁止访问，那么后门连接上去看不了目录，后门要放在有执行权限的目录，不然执行不了
+</span></span></code></pre></div><p>加解密</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>单独的加密算法有各自的特征，只能通过直观感受猜测，可尝试通过平台猜测破解：https://cmd5.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>加密方式除非拿到源码，不然不好猜
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>URL编码一般在做绕过时使用 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>⚠️访问路径、后台入参...都可能存在某种可逆加密，sql注入时注意参数是否需要加密
+</span></span></code></pre></div></section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95">渗透测试</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] p-1.5 text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center rounded-md p-6 pr-3 no-underline hover:bg-black/[2%]"
+      href="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/%E5%9F%9F%E5%90%8D/"><span class="mr-1.5">←</span><span>域名</span></a>
+    
+    
+    <a class="ml-auto flex w-1/2 items-center justify-end rounded-md p-6 pl-3 no-underline hover:bg-black/[2%]"
+      href="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/google%E8%AF%AD%E6%B3%95/"><span>Google语法</span><span class="ml-1.5">→</span></a>
+    
+  </nav>
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

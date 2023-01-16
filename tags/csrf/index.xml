@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>csrf on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/csrf/</link>
+    <description>Recent content in csrf on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 19 Aug 2021 22:50:18 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/csrf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CSRF-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</link>
+      <pubDate>Thu, 19 Aug 2021 22:50:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</guid>
+      <description>CSRF-低 制作假网页，诱使用户携带dvwa的cookie向dvwa发起修改密码请求。
+但这样的方式在点击后会跳转到form的target地址，暴露目的，可用ajax发请求</description>
+    </item>
+    
+  </channel>
+</rss>

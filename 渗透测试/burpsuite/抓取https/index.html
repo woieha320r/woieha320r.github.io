@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>抓取https - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29&#43;不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&#34; mv burp.pem &#34;${hash_pem}.0&#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &#34;${hash_pem}." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="抓取https" />
+<meta property="og:description" content="抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29&#43;不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&#34; mv burp.pem &#34;${hash_pem}.0&#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &#34;${hash_pem}." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/" /><meta property="article:section" content="渗透测试" />
+<meta property="article:published_time" content="2022-08-31T10:53:37+08:00" />
+<meta property="article:modified_time" content="2022-08-31T10:53:37+08:00" />
+
+  
+  <meta itemprop="name" content="抓取https">
+<meta itemprop="description" content="抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29&#43;不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&#34; mv burp.pem &#34;${hash_pem}.0&#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &#34;${hash_pem}."><meta itemprop="datePublished" content="2022-08-31T10:53:37+08:00" />
+<meta itemprop="dateModified" content="2022-08-31T10:53:37+08:00" />
+<meta itemprop="wordCount" content="89">
+<meta itemprop="keywords" content="渗透测试,burp-suite," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="抓取https"/>
+<meta name="twitter:description" content="抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29&#43;不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&#34; mv burp.pem &#34;${hash_pem}.0&#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &#34;${hash_pem}."/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="抓取https">抓取https</h1>
+<h3 id="导出证书">导出证书</h3>
+<p>从burp导出https证书</p>
+<p><img src="../../img/4430D1EE-2D8C-445D-BADE-B5AEBD8B0186.png" alt="1"></p>
+<h3 id="macos导入">macOS导入</h3>
+<p>双击导入钥匙串访问后，双击改为“始终信任”</p>
+<p><img src="../../img/79A565B5-06C1-482A-9DFC-8D869A552542.png" alt="2"></p>
+<h3 id="windows导入">Windows导入</h3>
+<p>双击导入，将证书存储在“受信任的证书颁发机构”</p>
+<p><img src="../../img/DD7D3F98-3372-4B96-90AE-A9DCC6C32598.png" alt="3"></p>
+<h3 id="linux下的firefox导入">Linux下的Firefox导入</h3>
+<p><img src="../../img/B7031D4E-38F0-45E7-A5FB-240B8C927DAE.png" alt="4"></p>
+<h3 id="androidstudiom模拟器导入">AndroidStudiom模拟器导入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>示例为api 28，29+不可行
+</span></span><span style="display:flex;"><span># emulator可执行文件路径
+</span></span><span style="display:flex;"><span># 	macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator
+</span></span><span style="display:flex;"><span># 	macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb
+</span></span><span style="display:flex;"><span># 查看现有模拟器的名称
+</span></span><span style="display:flex;"><span>emulator -list-avds
+</span></span><span style="display:flex;"><span># 以可写文件系统启动指定名称的模拟器
+</span></span><span style="display:flex;"><span>emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口
+</span></span><span style="display:flex;"><span># 将证书转为pem格式并修改为hash名称
+</span></span><span style="display:flex;"><span>openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem
+</span></span><span style="display:flex;"><span>hash_pem=&#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&#34;
+</span></span><span style="display:flex;"><span>mv burp.pem &#34;${hash_pem}.0&#34;
+</span></span><span style="display:flex;"><span># 列出正在运行的设备
+</span></span><span style="display:flex;"><span>adb devices
+</span></span><span style="display:flex;"><span># 获取运行设备的root权限
+</span></span><span style="display:flex;"><span>adb -s 设备名 root
+</span></span><span style="display:flex;"><span># adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity
+</span></span><span style="display:flex;"><span>adb -s 设备名 remount
+</span></span><span style="display:flex;"><span>adb -s 设备名 push &#34;${hash_pem}.0&#34; /system/etc/security/cacerts
+</span></span><span style="display:flex;"><span>adb -s 设备名 shell chmod 644 &#34;/system/etc/security/cacerts/${hash_pem}.0&#34;
+</span></span></code></pre></div></section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95">渗透测试</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/burp-suite">burp-suite</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] p-1.5 text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center rounded-md p-6 pr-3 no-underline hover:bg-black/[2%]"
+      href="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/androidstudio/%E5%AE%89%E8%A3%85apk/"><span class="mr-1.5">←</span><span>安装apk</span></a>
+    
+    
+    <a class="ml-auto flex w-1/2 items-center justify-end rounded-md p-6 pl-3 no-underline hover:bg-black/[2%]"
+      href="https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sql%E6%B3%A8%E5%85%A5/"><span>sql注入</span><span class="ml-1.5">→</span></a>
+    
+  </nav>
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

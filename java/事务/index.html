@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>事务 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="事务 事务特性（ACID 原子性：中间中断则数据回退
+一致性：有点儿类似线程可见性吧
+隔离性：同一时间只能一个事务访问同一数据
+持久性：事务结束后结果不可回退
+MySQL事务隔离级别 读未提交级别
+脏读：读到了另一个事务未提交的数据
+解决方案：读已提交级别 不可重复读：因另一个事务修改值而导致前后两次读取不一致
+解决方案：可重复读级别（默认级别） 幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效
+解决方案：串行化级别 Spring事务 · 就像Spring Cache，是屏蔽具体实现的统一抽象
+传播机制 指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上 · 并入：合并进已有的事务，提交回滚是同步的 · 嵌入：内层跟随外层回滚，内层回滚不影响外层 必须有
+参与已有事务，否则新开
+并入（PROPAGATION_REQUIRED）
+嵌入（PROPAGATION_NESTED）
+参与已有事务，否则异常
+并入（PROPAGATION_MANDATORY）
+不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）
+可有可无：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）
+禁止有
+已有事务则异常（PROPAGATION_NEVER）
+已有事务则等待（PROPAGATION_NOT_SUPPORTED）" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="事务" />
+<meta property="og:description" content="事务 事务特性（ACID 原子性：中间中断则数据回退
+一致性：有点儿类似线程可见性吧
+隔离性：同一时间只能一个事务访问同一数据
+持久性：事务结束后结果不可回退
+MySQL事务隔离级别 读未提交级别
+脏读：读到了另一个事务未提交的数据
+解决方案：读已提交级别 不可重复读：因另一个事务修改值而导致前后两次读取不一致
+解决方案：可重复读级别（默认级别） 幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效
+解决方案：串行化级别 Spring事务 · 就像Spring Cache，是屏蔽具体实现的统一抽象
+传播机制 指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上 · 并入：合并进已有的事务，提交回滚是同步的 · 嵌入：内层跟随外层回滚，内层回滚不影响外层 必须有
+参与已有事务，否则新开
+并入（PROPAGATION_REQUIRED）
+嵌入（PROPAGATION_NESTED）
+参与已有事务，否则异常
+并入（PROPAGATION_MANDATORY）
+不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）
+可有可无：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）
+禁止有
+已有事务则异常（PROPAGATION_NEVER）
+已有事务则等待（PROPAGATION_NOT_SUPPORTED）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/java/%E4%BA%8B%E5%8A%A1/" /><meta property="article:section" content="java" />
+<meta property="article:published_time" content="2022-12-01T11:46:29+08:00" />
+<meta property="article:modified_time" content="2022-12-01T11:46:29+08:00" />
+
+  
+  <meta itemprop="name" content="事务">
+<meta itemprop="description" content="事务 事务特性（ACID 原子性：中间中断则数据回退
+一致性：有点儿类似线程可见性吧
+隔离性：同一时间只能一个事务访问同一数据
+持久性：事务结束后结果不可回退
+MySQL事务隔离级别 读未提交级别
+脏读：读到了另一个事务未提交的数据
+解决方案：读已提交级别 不可重复读：因另一个事务修改值而导致前后两次读取不一致
+解决方案：可重复读级别（默认级别） 幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效
+解决方案：串行化级别 Spring事务 · 就像Spring Cache，是屏蔽具体实现的统一抽象
+传播机制 指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上 · 并入：合并进已有的事务，提交回滚是同步的 · 嵌入：内层跟随外层回滚，内层回滚不影响外层 必须有
+参与已有事务，否则新开
+并入（PROPAGATION_REQUIRED）
+嵌入（PROPAGATION_NESTED）
+参与已有事务，否则异常
+并入（PROPAGATION_MANDATORY）
+不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）
+可有可无：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）
+禁止有
+已有事务则异常（PROPAGATION_NEVER）
+已有事务则等待（PROPAGATION_NOT_SUPPORTED）"><meta itemprop="datePublished" content="2022-12-01T11:46:29+08:00" />
+<meta itemprop="dateModified" content="2022-12-01T11:46:29+08:00" />
+<meta itemprop="wordCount" content="35">
+<meta itemprop="keywords" content="java," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="事务"/>
+<meta name="twitter:description" content="事务 事务特性（ACID 原子性：中间中断则数据回退
+一致性：有点儿类似线程可见性吧
+隔离性：同一时间只能一个事务访问同一数据
+持久性：事务结束后结果不可回退
+MySQL事务隔离级别 读未提交级别
+脏读：读到了另一个事务未提交的数据
+解决方案：读已提交级别 不可重复读：因另一个事务修改值而导致前后两次读取不一致
+解决方案：可重复读级别（默认级别） 幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效
+解决方案：串行化级别 Spring事务 · 就像Spring Cache，是屏蔽具体实现的统一抽象
+传播机制 指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上 · 并入：合并进已有的事务，提交回滚是同步的 · 嵌入：内层跟随外层回滚，内层回滚不影响外层 必须有
+参与已有事务，否则新开
+并入（PROPAGATION_REQUIRED）
+嵌入（PROPAGATION_NESTED）
+参与已有事务，否则异常
+并入（PROPAGATION_MANDATORY）
+不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）
+可有可无：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）
+禁止有
+已有事务则异常（PROPAGATION_NEVER）
+已有事务则等待（PROPAGATION_NOT_SUPPORTED）"/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="事务">事务</h1>
+<h3 id="事务特性acid">事务特性（ACID</h3>
+<p>原子性：中间中断则数据回退</p>
+<p>一致性：有点儿类似线程可见性吧</p>
+<p>隔离性：同一时间只能一个事务访问同一数据</p>
+<p>持久性：事务结束后结果不可回退</p>
+<h3 id="mysql事务隔离级别">MySQL事务隔离级别</h3>
+<p>读未提交级别</p>
+<ul>
+<li>
+<p>脏读：读到了另一个事务未提交的数据</p>
+<ul>
+<li>解决方案：读已提交级别</li>
+</ul>
+</li>
+<li>
+<p>不可重复读：因另一个事务修改值而导致前后两次读取不一致</p>
+<ul>
+<li>解决方案：可重复读级别（默认级别）</li>
+</ul>
+</li>
+<li>
+<p>幻读：在未提交前被其他事务修改了已操作过的值，操作成功，但看起来像未生效</p>
+<ul>
+<li>解决方案：串行化级别</li>
+</ul>
+</li>
+</ul>
+<h3 id="spring事务">Spring事务</h3>
+<p>· 就像Spring Cache，是屏蔽具体实现的统一抽象</p>
+<h4 id="传播机制">传播机制</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>指的是在同线程方法调用链上，spring把Connection和TransactionStatus存在ThreadLocal上
+</span></span><span style="display:flex;"><span>· 并入：合并进已有的事务，提交回滚是同步的
+</span></span><span style="display:flex;"><span>· 嵌入：内层跟随外层回滚，内层回滚不影响外层
+</span></span></code></pre></div><p><em>必须有</em></p>
+<ul>
+<li>
+<p>参与已有事务，否则新开</p>
+<ul>
+<li>
+<p>并入（PROPAGATION_REQUIRED）</p>
+</li>
+<li>
+<p>嵌入（PROPAGATION_NESTED）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>参与已有事务，否则异常</p>
+<ul>
+<li>
+<p>并入（PROPAGATION_MANDATORY）</p>
+</li>
+<li>
+<p>不参与已有事务，必须新开，有则等待（ROPAGATION_REQUIRES_NEW）</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><em>可有可无</em>：已有事务则并入，没有拉倒（PROPAGATION_SUPPORTS）</p>
+<p><em>禁止有</em></p>
+<ul>
+<li>
+<p>已有事务则异常（PROPAGATION_NEVER）</p>
+</li>
+<li>
+<p>已有事务则等待（PROPAGATION_NOT_SUPPORTED）</p>
+</li>
+</ul>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/java">java</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

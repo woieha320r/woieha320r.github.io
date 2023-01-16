@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nand2tetris on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/nand2tetris/</link>
+    <description>Recent content in nand2tetris on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 08 Nov 2022 19:00:07 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/nand2tetris/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>12.标准库</title>
+      <link>https://woieha320r.github.io/nand2tetris/12.%E6%A0%87%E5%87%86%E5%BA%93/</link>
+      <pubDate>Tue, 08 Nov 2022 19:00:07 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/12.%E6%A0%87%E5%87%86%E5%BA%93/</guid>
+      <description>标准库 ⚠️大略看了下，没做
+数学运算 ⚠️没看懂
+本例的加法在ALU级实现，并根据补码实现剑法，乘除由标准库提供
+字符串（字符串/整数转换 找一个基准点，比如’0’码点是48，对整数字符x的码点可表示为：x+48
+内存 本例的堆基址初始化为2048。书中介绍使用链表记录可用空间的方式和两个查找可用空间的算法： best-fit：返回符合大小的空间中最不浪费的。 first-fit：返回符合大小的空间中最早被找到的。 class Node { int address; int size; Node next; } ⚠️实现Memory不能用class抽象和new，因为new是编译器用Memory实现的，编译过后就成递归了。需要想办法用基本类型实现上述抽象，Node本身也需要空间来存储 屏幕 像素点 · 将屏幕视为(x行, y列)的像素点，一个像素点对应RAM中的一bit，但RAM只能16bit读写，所以开关某像素点需要经过运算以只改变这16个bit位中的一个。
+行 像素点是规整的，对于斜线，只是在视觉上欺骗观看者。
+圆 依赖数学函数计算实现
+字符 · 需要将满屏幕像素分组用来绘制单个字符，绘制方案被称为“字体”，本例用没11行8列区域展示一个字符，要为周边留白防止字符连到一起，“N”示例如下。同时需要 一个行列表示的光标来指示下一个字符的位置，换行、退格等的实现就是通过操纵光标。
+键盘 · 只负责从KBD读取数字（无按键值为0），通过字符集可得知是哪个字符，要回显在屏幕上的。Hack不支持中断，进入函数后要一直循环直到中止，至于何时中止 取决于具体函数，比如readInt只读一个有效按键，readLine读到回车为止。</description>
+    </item>
+    
+    <item>
+      <title>11.Jack语言——编译器（生成vm）</title>
+      <link>https://woieha320r.github.io/nand2tetris/11.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E7%94%9F%E6%88%90vm/</link>
+      <pubDate>Tue, 25 Oct 2022 12:33:30 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/11.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E7%94%9F%E6%88%90vm/</guid>
+      <description>Jack语言——编译器（生成vm） 变量 生命周期 这里无需处理生命周期，已在07和08章的VM翻译器中实现了：
+· 静态（类级）：和代码同生死。在汇编中以&amp;quot;@CLASS名.变量名&amp;quot;方式作为汇编变量出现。
+· 字段（实例级）：和对象同生死。构造函数为对象开辟空间就是为它所有的字段开辟空间。
+· 局部变量（方法级）：和方法同生死。汇编中在实际的函数跳转发生前，由调用者负责为被调用者的局部变量开辟空间，并将LCL修改到正确的位置。
+符号表 · 就像汇编器用符号表记录vm变量和RAM地址的关系一样，这里也需要用符号表记录Jack变量和VM内存地址的关系。
+· 但高级语言中在不同作用域/生命周期（static/field、var）下可存在同名变量，本例使用两个符号表（类级、局部级）分别存储，这两个表分别在每次遇到 “class”、“constructor/method/funciton”时被初始化。method需要初始化一个this条目，在下面叙述。
+作用域 · 编译器应当先从局部符号表取值，没有的话再检查类级符号表，这被称为“内部作用域隐藏外部作用域”。本例只有这两种作用域级别，对于其他支持无限嵌套 作用域的语言，可以使用链表形式实现符号表（⚠️没明白咋实现）。
+表达式 · 需要把运算符的中缀表示转为后缀表示（包括函数调用），所以需要修改上一章的CompilationEngine.compileExpression()，使其以后缀方式输出表达式。
+字符串 Jack标准库封装了String类（标准库在12章中实现，现在只需假定已经存在）用以处理字符串，字符串常量写法是语法糖。这个过程和大多数高级语言的处理 相似，但Jack不提供垃圾回收。
+例如：x = &amp;ldquo;abc&amp;rdquo;; 编译器将按如下代码处理。
+x = String.new();
+x = x.appendChar(&amp;lsquo;a&amp;rsquo;);
+x = x.appendChar(&amp;lsquo;b&amp;rsquo;);
+x = x.appendChar(&amp;lsquo;c&amp;rsquo;);
+语句 return（return x + y; 先翻译x + y，其值自然会出现在栈顶，然后直接生成return即可。
+let（let x = y + 1; 先翻译y + 1，结果位于栈顶，再pop到x在符号表中绑定的vm内存地址。数组处理在下面叙述。
+do（do className.functionName(&amp;hellip;) do调用的方法不一定有返回值，如何知道方法是否有返回值？不能，那就让所有方法都必须有返回值(void返回0)，在do中一定会抛弃返回值：pop temp 0
+if、while 在vm语言中把它们转成用goto、if-goto表达，要先处理条件表达式，好让其值位于栈顶作为跳转判断条件。 * if示例 … 条件表达式的boolean值 (bool取反) if-goto 失败标签 if成立的逻辑 goto 后续标签 失败标签 [else的逻辑] 后续标签 … * while示例 … while开始标签 条件表达式的boolean值 (bool取反) if-goto 后续标签 while成立的逻辑 goto while开始标签 后续标签 … * 布尔取反 书中设计的true/false分别用-1/0表示，在图8.</description>
+    </item>
+    
+    <item>
+      <title>10.Jack语言——编译器（语法分析）</title>
+      <link>https://woieha320r.github.io/nand2tetris/10.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 25 Sep 2022 23:47:17 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/10.jack%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/</guid>
+      <description>Jack语言——编译器（语法分析） 概述 · 通过制定“标记”组合方式来表示什么是正确的语法，这被称为“句法模式”。
+· 本例通过“标记化、解析”两个步骤完成Jack编译器的语法分析部分，并通过输出xml来验证是否按照预期进行。
+· “标记化”步骤即将源码拆分为原子并打上“标记”，“解析”步骤即判断这些“标记”组合是否符合“句法模式”。
+标记化 · 将源码（除注释和空白）拆分为原子，并打上标记。
+· “标记化”步骤产生的xml作为“解析”步骤的输入。
+· 注意&amp;lt;, &amp;gt;, &amp;ldquo;, &amp;amp;在xml中需要被转义为&amp;lt;, &amp;gt;, &amp;quot;, &amp;amp;。
+句法模式 · 本例的句法模式（class, classVarDec, subroutine, parameterList, subroutineBody, varDec, statements, letStatement, ifStatement, whileStatement, doStatement, returnStatement, expression, term, expressionList）及对模式中|、*等符号的说明如下。
+· 本例的声明、赋值都需要专用关键字，从左至右解析，只需根据前一个标记便可知道它应匹配哪个句法模式，这被称为LL(1)。
+解析 · 需要将给定的标记组合和句法模式对应起来才能验证标记是否符合句法模式，这种对应关系可被“解析树”结构表达，不能构建解析树的标记组合，被视为语法错误。
+· 本例的语法是LL(1)的（subroutineCall是例外，需要用前两个标记判断），所以解析器很适合使用“递归下降”算法实现。
+输出结构 &amp;lt;句法模式&amp;gt; &amp;lt;标记&amp;gt;值&amp;lt;/标记&amp;gt; … &amp;lt;句法模式&amp;gt; &amp;lt;标记&amp;gt;值&amp;lt;/标记&amp;gt; … &amp;lt;/句法模式&amp;gt; … &amp;lt;/句法模式&amp;gt; … 习题 代码位于https://github.com/woieha320r/nand2tetris/tree/main/JackAnalyzer/src/com/example
+JackAnalyzer模块：JackTokenizer（标记化 JackAnalyzer模块：CompilationEngine（解析器 </description>
+    </item>
+    
+    <item>
+      <title>09.Jack语言——语法</title>
+      <link>https://woieha320r.github.io/nand2tetris/09.jack%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Sat, 24 Sep 2022 23:18:59 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/09.jack%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95/</guid>
+      <description>Jack语言——语法 概述 · 程序入口点是Main.main
+class Main { function void main() { // 程序入口; } } · 构造函数constructor，实例方法method，静态函数function
+· 所有方法/函数必须以return结束，构造函数return this
+· 赋值采用Java一样的“值传递”，⚠️不知道有没有其他传递方法，应该没有吧，难道不都是把变量的值拷贝给另一个吗
+· 一个文件只能一个class，class名必须与文件名同。⚠️这个规定应该是给VM翻译器用的，翻译后的vm中没有可以体现类名的东西，只能取文件名。
+为了编译器实现方便 · 变量声明得在方法/函数之前
+· 类型转换无需显式声明
+· 运算符优先级需要手工写括号，一律从左到右运算
+· 没有垃圾回收，需要调用Memory.deAlloc(引用)来回收内存
+· 没有方法重载
+· 静态函数必须用类名调用
+· 字段一律私有，方法/函数一律公有
+示例 支持的符号 </description>
+    </item>
+    
+    <item>
+      <title>07.08.Jack语言——vm翻译器</title>
+      <link>https://woieha320r.github.io/nand2tetris/07.08.jack%E8%AF%AD%E8%A8%80vm%E7%BF%BB%E8%AF%91%E5%99%A8/</link>
+      <pubDate>Wed, 21 Sep 2022 19:03:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/07.08.jack%E8%AF%AD%E8%A8%80vm%E7%BF%BB%E8%AF%91%E5%99%A8/</guid>
+      <description>Jack语言——vm翻译器 概述 · 本例的Jack是面向对象的语言，像Java一样采用运行于VM（虚拟机）的方式。先被一个编译器编译为运行于VM的VM语言，再由VM翻译器将其翻译为汇编。这种方式 只需编译一次就可借助不同硬件架构的VM运行在不同硬件架构上。其他语言也可以选择编译为特定VM的中间代码，以借助其VM实现跨平台。虽然这种方式生成的汇编命 令相比之下更多。但好处除了一次编译到处运行外，还可以通过审查中间代码来发现恶意代码。
+· 目的：实现VM翻译器（VMTranslator），用以将Jack的中间代码翻译为Hack汇编。重要的是了解Jack的VM设计和语言规范，以及了解如何在汇编中表达 栈、 分支、函数调用。
+· 栈：这种数据结构可以很好的表达函数运行状态和调用链，用它来存储那些随函数生亡而生亡的数据。不符合此描述的无需也不能放入栈，比如静态变量。而且在函 数之中不能直接跳转（goto）到函数外，再次操作栈时会导致混乱。
+VM内存模型 为VM构想一个内存模型来代替真实的RAM和寄存器，然后据此模型设计指令（VM语言）。所以“中间语言运行于VM”是虚构的，因为这个模型并没有真正的硬件实现， 本例的虚拟内存模型分如下几个段。中间语言没有变量，全部用&amp;quot;内存段 非负索引&amp;quot;表示，索引由编译器负责生成，VM翻译器实现无需关心。
+local 实例方法局部变量
+argument 实例方法参数
+this
+that
+temp
+static 类静态变量
+pointer 只有两个索引：0、1，pointer 0指代用于保存this段基址的存储器，而1同理指代that，在编译器实现时详述
+constant 常量标志。将常量3写入vm语言的唯一方式是push constant 3，3不是内存段索引，而是常量3。constant也不是内存段，而是给编译器 看的关键字，所以constant不能是pop的操作对象，它没有内存位置
+VM语言规范 只能通过唯一的栈操作数据（运算、函数传参/返回值），通过push/pop将数据在栈和内存段间转移：&amp;ldquo;push/pop 内存段名称 非负索引&amp;rdquo;
+只有一种数据类型：有符号16位整数
+所有运算无需指定操作数，因为都是从栈里取，第一个操作数相较第二个位于栈中更底层的位置（先入栈）。
+add 加
+sub 减
+neg 取负
+eq 相等
+gt 大于
+lt 小于
+and 与
+or 或
+not 非
+有条件跳转：if-goto：弹出栈顶元素，当其非false时发生跳转
+无条件跳转：goto
+调用自定义函数使用&amp;quot;call 函数名 参数个数&amp;quot;，标记函数执行结束使用return，编译器以此为标记进行翻译。
+main函数是Jack程序的入口点，当存在多个vm文件时，必须存在一个名为Main的vm文件，其中必须存在一个名为main的函数。
+编译器生成的vm文件的函数名命名方式为“文件名.函数名 局部变量个数”，例如：Main.main，以此做到全局唯一。
+程序示例 实际中vm语言没有变量名，都应被转为 &amp;ldquo;内存段 非负索引&amp;rdquo;）</description>
+    </item>
+    
+    <item>
+      <title>06.汇编器</title>
+      <link>https://woieha320r.github.io/nand2tetris/06.%E6%B1%87%E7%BC%96%E5%99%A8/</link>
+      <pubDate>Fri, 16 Sep 2022 00:19:51 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/06.%E6%B1%87%E7%BC%96%E5%99%A8/</guid>
+      <description>汇编器 概述 目的：将构造的易于编写的汇编语法翻译为可被计算机执行的机器指令。
+为了支持使用标签代替指令地址，常见解决方案是读取两遍汇编源码，第一遍将标签添加到符号表且不生成任何指令，第二遍根据符号表生成指令。
+初始化：将所有内置符号及其数字值写到符号表
+第一次读取：逐行读取汇编源码，从0开始记录指令地址。每当遇到A/C指令时地址才+。遇到L指令时，将这个符号与下一个的A/C指令地址绑定并添加到符号表。
+第二次读取：逐行读取汇编源码，如果遇到了引用符号的A指令，查找符号表用数字值代替这个符号后翻译为机器指令。如果符号表中不存在，那表示它是一个 变量定义，本例中的变量都被依次绑定到[RAM[16], ++)，将其和内存地址绑定并添加到符号表后翻译为机器指令。如果遇到C指令，将各部分翻译为二进制串 和111前缀按顺序合并为机器指令。
+本例机器语言的语法设计图 习题 · 代码位于https://github.com/woieha320r/nand2tetris/tree/main/Assembler/src/com/example/assembler
+解析器模块。用于分解汇编源码。 代码模块。用于将汇编源码转为对应的二进制码。 符号表模块。用于支持处理符号。 汇编器：按照概述的处理方式，在asm文件目录生成一个hack文件。 · 方法调用即汇编中的goto至某标签（汇编地址）继续执行，如果goto的地址位于另一个汇编文件则方法调用无法发生，所以需要将多个汇编文件转成一个hack 文件，使用统一的地址索引。这个过程被称为“链接”，书中的思想是&amp;quot;静态链接&amp;quot;：在编译时把所有用到的指令都拷贝到同一个可执行文件并重新计算地址。
+· 另一种思想是&amp;quot;动态链接&amp;quot;，即把链接过程延后到加载时或运行时，它不仅减少可执行文件的磁盘占用，也减少加载后的内存占用，因为不同进程可共用同一份被 加载到内存中的库。对于加载时动态链接：不再将库代码复制到可执行文件里，而是在引用了外部代码/符号的地方打上标记。如果要运行程序的话，在将可执行文件加载到内存后，检查其依赖的库，把库 代码也加载到内存，然后执行链接过程。而运行时动态链接甚至都没有调用外部代码的标记，需要程序员在写源码时声明此处在运行时调用外部代码。</description>
+    </item>
+    
+    <item>
+      <title>05.计算机架构</title>
+      <link>https://woieha320r.github.io/nand2tetris/05.%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9E%B6%E6%9E%84/</link>
+      <pubDate>Wed, 14 Sep 2022 23:36:55 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/05.%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9E%B6%E6%9E%84/</guid>
+      <description>计算机架构 概述 · 目标：集成已经构建好的芯片，使其可运行第4章的机器语言
+· 架构：CPU（ALU、D、A、PC）、RAM、ROM（不能动态加载程序）、SCREEN、KBD
+· I/O驱动的作用：由硬件厂商提供，将系统发来的指令解释为可被自己硬件执行的指令，接口由操作系统提供，接口的实现由厂商实现。以此屏蔽不同硬件的指令差异。
+冯诺依曼通用架构图 习题 一种可能的实现方式 本例机器语言的语法设计图 · 图中的c指的不是&amp;#34;是否c指令&amp;#34;，而是从指令中提取的控制位，ALU的c&amp;#39;s代表C指令中用以选择函数的cccccc这6位 · A、D寄存器需分别使用内置芯片：ARegister、DRegister。 （结合语法设计图解释） · 通过指令最高位判断A、C指令。 · 对于A指令，将所有低位置入A寄存器，所有位也可以，因为只支持正数常量。 · 对于C指令， · 通过a判断ALU除D外的另一个输入来自于A还是M · 通过cccccc选择ALU将执行的函数 · 通过ddd选择ALU将输入到哪个寄存器 · 通过jjj和ALU的zr、ng输出判断是否跳转：if jump; then PC=A; else PC++; fi · 观察acccccc，D、A/M分别以x、y作为ALU的两个输入。 · 三个寄存器的load条件通过观察ddd真值表得出。 // 指令是否是c指令 Xor(a=instruction[15], b=false, out=isC); Not(in=isC, out=isA); // A寄存器 // C指令下，是否将ALU结果置入A Mux16(a=instruction, b=aluRes, sel=isC, out=waitInA); And(a=instruction[5], b=isC, out=cInA); // A指令下直接置入A Or(a=cInA, b=isA, out=inA); // 输出addressM ARegister(in=waitInA, load=inA, out=outA, out[0..14]=addressM); // ALU除D外的另一个寄存器的输入来自于A还是M Xor(a=instruction[12], b=false, out=whetherFromM); And(a=isC, b=whetherFromM, out=fromM); Mux16(a=outA, b=inM, sel=fromM, out=fromAM); // D寄存器 // C指令下，是否将ALU结果置入D And(a=instruction[4], b=isC, out=inD); DRegister(in=aluRes, load=inD, out=outD); // ALU // C指令，ALU才执行函数。否则执行000000 And(a=isC, b=instruction[11], out=isZx); And(a=isC, b=instruction[10], out=isNx); And(a=isC, b=instruction[9], out=isZy); And(a=isC, b=instruction[8], out=isNy); And(a=isC, b=instruction[7], out=isF); And(a=isC, b=instruction[6], out=isN); ALU(x=outD, y=fromAM, zx=isZx, nx=isNx, zy=isZy, ny=isNy, f=isF, no=isN, out=outM, out=aluRes, zr=aluResZr, ng=aluResNg); // ALU结果是否置入M // 输出writeM And(a=isC, b=instruction[3], out=writeM); // PC // 跳转 // 先假定是C指令，凭jjj和结果标志判断是否跳转 // ALU结果!</description>
+    </item>
+    
+    <item>
+      <title>04.机器语言</title>
+      <link>https://woieha320r.github.io/nand2tetris/04.%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80/</link>
+      <pubDate>Wed, 07 Sep 2022 22:12:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/04.%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80/</guid>
+      <description>机器语言 概述 · 硬件设计 &amp;lt;-&amp;gt; 机器语言 -&amp;gt; 汇编语言，硬件设计旨在运行指定的机器语言，为了方便编写，我们制造汇编器以将汇编语言翻译为机器语言。所以这三者存在绑定 关系，汇编语言等同于机器语言，不能跨硬件架构。
+· 汇编中声明标签之类的被称为伪指令，它没有对应的机器指令。机器指令第一行为0行，本例中，第n行会被加载到ROM[n]。goto到一个符号而不是goto到汇编地 址，被称为可重定位的。
+语法设计图 语法解释 可读可写的RAM用于存放数据，只读的ROM用于存放指令。
+A寄存器的值同时是RAM、ROM的地址。
+M寄存器的值是RAM在地址A处的数据。
+D寄存器单纯的用于存放数据。
+使用常量的唯一方式是@17，这将会把17置入A，如果要使用它，还要通过D=A将其复制到D。例如要将RAM[100]置为17：@17, D=A, @100, M=D
+要跳转到ROM[29]执行：@29, 0;JMP
+当D==0时跳抓到ROM[29]：@29, D;JEQ
+设置变量x=17：@17, D=A, @x, M=D。汇编器将为x分配一个内存地址并保管x和内存地址的映射关系。
+汇编器还处理一些内置符号：
+R0..R15，代表0..15，所以@R3等同于@3。
+SCREEN代表16384，是将显存映射到内存的商定地址。那么要使屏幕的第row行第col列的像素变黑，就要计算RAM[SCREEN + row*32 + col/16]， 使其col%16位为1。
+KBD代表24576，是将键盘映射到内存的商定地址。当按下键盘时，对应字母的码值会以16位二进制形式放置在RAM[KBD]上，没有按键时为0。其他高级操作 将由操作系统负责完成。
+字符编码集 指针操作数组示例 习题 RAM[2] = RAM[0] * RAM[1]，不考虑操作数小于0的情况 需要修改测试脚本的repeat全部为210，否则时间不够 // if (RAM[0] &amp;gt; RAM[1]) { // count = RAM[1]; // num = RAM[0]; // } else { // count = RAM[0]; // num = RAM[1]; // } // res = 0; // count--; // for (i = 0; i &amp;lt;= count; i++) { // res += num; // } @R0 D=M @R1 D=D-M @R0_BIGGER D;JGT // r0 &amp;lt;= r1 @R0 D=M @count M=D @R1 D=M @num M=D (CORE) // res = 0 @0 D=A @res M=D // n-- @1 D=A @count M=M-D // i = 0 @0 D=A @i M=D (LOOP) @i D=M @count D=D-M @STORE_RESULT D;JGT // res += num @num D=M @res M=D+M // i++ @1 D=A @i M=D+M @LOOP 0;JMP // r0 &amp;gt; r1 (R0_BIGGER) @R1 D=M @count M=D @R0 D=M @num M=D @CORE 0;JMP (STORE_RESULT) @res D=M @R2 M=D (END) @END 0;JMP 循环监听，按下键盘任意键则屏幕全黑，否则屏幕全白。 检测是否按键，按键则在整个屏幕变黑后才再次检测，变色过程很耗时，调到最快要花分钟。太慢了，这里只做524个像素变色。 // while (1) { // color = RAM[KBD] &amp;gt; 0 ?</description>
+    </item>
+    
+    <item>
+      <title>03.内存</title>
+      <link>https://woieha320r.github.io/nand2tetris/03.%E5%86%85%E5%AD%98/</link>
+      <pubDate>Wed, 31 Aug 2022 21:51:02 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/03.%E5%86%85%E5%AD%98/</guid>
+      <description>内存 概述 · 书中例子，内存的底层设备选用数据触发器（DFF），现代计算机内存底层设备不一定是DFF，可能是其他独有的物理特性。DFF也可以仅通过Nand构建，但很复 杂，所以书中的例子将其作为原始逻辑门使用。其使用方式如下图
+· 所有内存芯片都含数据触发器（DFF）。所有的DFF通过专用的时间总线同时接收到由振荡器发出的时钟周期信号（tick-tock），DFF在每个周期结束（tock） 时输出结束前时间还处于周期内（范围：(上一个tock, 当前tock) ）时的输入。
+· 时序逻辑既结合DFF达到“记忆/存储”的效果，也用于同步不同的物理时延。假如ALU的两个入参在不同时间到达ALU，那么ALU将输出错误的结果。所以时钟周期在 必须大于整个硬件最长时延的同时，又要尽可能短，周期越短速度越快。
+· 访问RAM的不同地址，所花时间是相同的。
+习题 按照图示连接 Mux(a=dffOut, b=in, sel=load, out=dffIn); DFF(in=dffIn, out=dffOut, out=out); 如果有16位的DFF，可以像Bit一样连接。因为没有，所以使用16个Bit Bit(in = in[0], load = load, out = out[0]); ... Bit(in = in[15], load = load, out = out[15]); 这个n指的是地址数，将依次实现这些n数{8, 64, 512, 4K, 16K}，其对应的address位数k={3, 6, 9, 12, 14}，地址位数递增的个数有助于使用已构建好的RAM RAM8 在输入时，要根据3位地址的值来选取8个寄存器，可用8路分解器。而在输出时使用16位8路选择器。 8路分解器是1位的，不能用来传递in，但可以用来传递load，它选择的结果作为各寄存器的load位。没有被选择的寄存器不读入值，但它们依旧输出，所以它们的输出还要经过16位8路选择器筛选。 DMux8Way(in=load, sel=address, a=inR0, b=inR1, c=inR2, d=inR3, e=inR4, f=inR5, g=inR6, h=inR7); Register(in=in, load=inR0, out=outR0); Register(in=in, load=inR1, out=outR1); Register(in=in, load=inR2, out=outR2); Register(in=in, load=inR3, out=outR3); Register(in=in, load=inR4, out=outR4); Register(in=in, load=inR5, out=outR5); Register(in=in, load=inR6, out=outR6); Register(in=in, load=inR7, out=outR7); Mux8Way16(a=outR0, b=outR1, c=outR2, d=outR3, e=outR4, f=outR5, g=outR6, h=outR7, sel=address, out=out); RAM64 把RAM8看成整体使用，用address的高3位选择使用哪个RAM8 DMux8Way(in=load, sel=address[3.</description>
+    </item>
+    
+    <item>
+      <title>02.布尔算术</title>
+      <link>https://woieha320r.github.io/nand2tetris/02.%E5%B8%83%E5%B0%94%E7%AE%97%E6%9C%AF/</link>
+      <pubDate>Wed, 24 Aug 2022 20:39:16 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/02.%E5%B8%83%E5%B0%94%E7%AE%97%E6%9C%AF/</guid>
+      <description>布尔算术 概述 计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小 的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。
+在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过 观察结果，可发现补码的如下特性：
+在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]
+正数最高位是0，负数最高位是1
+将x取反有两种方法
+找到最小有效位1，将它的更高位（不包括自身）全部反转
+反转所有位，结果加1
+x-y可被x+(-y)实现
+全加器的得名因为其实现细节可由两个半加器组成。
+对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环： 0, 1, 2, 3, 0, -1, -2, -3, -4……
+习题 ⚠️非HDL描述
+通过观察真值表，得出 sum=Xor(a, b) carry=And(a, b) 和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和 HalfAdder(a=a, b=b, sum=sumab, carry=carry1); HalfAdder(a=sumab, b=c, sum=sum, carry=carry2); HalfAdder(a=carry1, b=carry2, sum=carry); 使用全加实现，c为上次的进位，首次进位0，每次的sum作为out FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0); FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1); ... FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]); Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out); // 所有条件分支通过选择器实现 // zx And16(a=x[0..15], b[0..15]=false, out=zeroX); Mux16(a=x[0.</description>
+    </item>
+    
+    <item>
+      <title>01.布尔逻辑</title>
+      <link>https://woieha320r.github.io/nand2tetris/01.%E5%B8%83%E5%B0%94%E9%80%BB%E8%BE%91/</link>
+      <pubDate>Wed, 17 Aug 2022 13:44:32 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/01.%E5%B8%83%E5%B0%94%E9%80%BB%E8%BE%91/</guid>
+      <description>布尔逻辑 概述 · 布尔函数可通过下图的代数性质简化为只有{And, Or, Not}。我们通过函数描述向参数枚举0、1来得到真值表，对于结果为1的每一行， 使用{And, Or, Not}联结这一行的参数们，再将这些联结通过或联结。比如res=f(x, y, z)，当{x=1, y=0, z=0}或者当{x=0, y=1, z=0}时，res=1， 那么其布尔函数表达式为(x And Not(y) And Not(z)) Or (Not(x) And y And Not(z))，然后再将其通过布尔代数性质转换为 简化的{And, Or, Not} 组合。
+· 根据摩根定律，Or可通过{Not, And}组成。而通过真值表，可以发现Not(x)=Nand(x, x)，And(x, y)=Not(Nand(x, y))
+· 所以任何布尔函数都可通过Nand组合，这种关系更像是一种发现而不是创造，没什么深刻的意义或原因。抛开Nand的物理实现，我们只要拿到足够多的 物理Nand，就能组装成任何布尔函数
+习题 ⚠️非HDL描述
+Nand的俩入参同时取反，可使00号和11结果互换，而中间两个结果不变，达到Or的效果。 out=Nand(Not(a), Not(b)) ⚠️非HDL描述
+Nand和Or的结果作and out=And(Nand(x, y), Or(x, y)) 或者将两个结果为1的行作Or out=Or(And(Not(a), b), And(a, Not(b))) ⚠️非HDL描述
+依照描述 out=Or(And(sel, b), And(!sel, a)) ⚠️非HDL描述
+依照描述 a=And(Not(sel), in) b=And(sel, in) ⚠️非HDL描述
+out[0]=Not(in[0]) ... out[15]=Not(in[15]) ⚠️非HDL描述</description>
+    </item>
+    
+    <item>
+      <title>README</title>
+      <link>https://woieha320r.github.io/nand2tetris/readme/</link>
+      <pubDate>Sun, 14 Aug 2022 10:52:52 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/nand2tetris/readme/</guid>
+      <description>nand2tetris 《计算机系统要素——从零开始构建现代计算机（第2版）》学习记录
+· 博客：https://woieha320r.github.io/nand2tetris
+· GitHub：https://github.com/woieha320r/nand2tetris
+概述 与非门 -&amp;gt; 与、或、非、抑或 -&amp;gt; 选择器、分解器 ↓ 半加器 -&amp;gt; 全加器 -&amp;gt; 自增、算术逻辑单元 ↓ + DFF 寄存器 -&amp;gt; 随机访问内存、程序计数器 ↓ + 机器指令设计 中央控制单元、内存 -&amp;gt; 计算机整体架构 ↓ + 任一门语言 汇编器 汇编 ↑ + 任一门语言实现Jack VM翻译器 Jack VM中间代码 ↑ + Jack标准库 + 任一门语言实现Jack编译器 ↑ ↑ Jack 源码 -&amp;gt; + 算法 要点 · 把复杂问题分解为可管理的模块，当使用下一层的模块时，专注于抽象而忽略其实现细节。
+· 多位二进制的表达顺序是[n]～[0]，不是[0]~[n]。
+· 多注意二进制串的规律。
+· HDL语法的=代表线路连接而非赋值。
+· HDL语法可以直接置入多位0、1，并且内部节点不能直接使用子总线，需要先输出，下面是个综合的例子，用于判断in中是否含有有效位1。
+// 描述：if in[16] contains 1; then hasTrue=1; fi Or16(a=in, b[0.</description>
+    </item>
+    
+  </channel>
+</rss>

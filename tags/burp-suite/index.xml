@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>burp-suite on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/burp-suite/</link>
+    <description>Recent content in burp-suite on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 31 Aug 2022 10:53:37 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/burp-suite/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>抓取https</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/</link>
+      <pubDate>Wed, 31 Aug 2022 10:53:37 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/burpsuite/%E6%8A%93%E5%8F%96https/</guid>
+      <description>抓取https 导出证书 从burp导出https证书
+macOS导入 双击导入钥匙串访问后，双击改为“始终信任”
+Windows导入 双击导入，将证书存储在“受信任的证书颁发机构”
+Linux下的Firefox导入 AndroidStudiom模拟器导入 示例为api 28，29+不可行 # emulator可执行文件路径 # macOS上通过brew安装的Android studio的emulator默认路径：~/Library/Android/sdk/emulator/emulator # macOS上通过brew安装的Android studio的adb默认路径：~/Library/Android/sdk/platform-tools/adb # 查看现有模拟器的名称 emulator -list-avds # 以可写文件系统启动指定名称的模拟器 emulator -avd 模拟器名称 -writable-system -http-proxy 代理地址:代理端口 # 将证书转为pem格式并修改为hash名称 openssl x509 -inform DER -in burp.crt(或.der，注意后缀) -out burp.pem hash_pem=&amp;#34;$(openssl x509 -inform PEM -subject_hash_old -in burp.pem|head -1)&amp;#34; mv burp.pem &amp;#34;${hash_pem}.0&amp;#34; # 列出正在运行的设备 adb devices # 获取运行设备的root权限 adb -s 设备名 root # adb -s 设备名 shell avbctl disable-verification、adb -s 设备名 disable-verity adb -s 设备名 remount adb -s 设备名 push &amp;#34;${hash_pem}.</description>
+    </item>
+    
+  </channel>
+</rss>

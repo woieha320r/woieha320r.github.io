@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>02.布尔算术 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="布尔算术 概述 计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小 的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。
+在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过 观察结果，可发现补码的如下特性：
+在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]
+正数最高位是0，负数最高位是1
+将x取反有两种方法
+找到最小有效位1，将它的更高位（不包括自身）全部反转
+反转所有位，结果加1
+x-y可被x&#43;(-y)实现
+全加器的得名因为其实现细节可由两个半加器组成。
+对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环： 0, 1, 2, 3, 0, -1, -2, -3, -4……
+习题 ⚠️非HDL描述
+通过观察真值表，得出 sum=Xor(a, b) carry=And(a, b) 和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和 HalfAdder(a=a, b=b, sum=sumab, carry=carry1); HalfAdder(a=sumab, b=c, sum=sum, carry=carry2); HalfAdder(a=carry1, b=carry2, sum=carry); 使用全加实现，c为上次的进位，首次进位0，每次的sum作为out FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0); FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1); ... FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]); Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out); // 所有条件分支通过选择器实现 // zx And16(a=x[0..15], b[0..15]=false, out=zeroX); Mux16(a=x[0." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="02.布尔算术" />
+<meta property="og:description" content="布尔算术 概述 计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小 的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。
+在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过 观察结果，可发现补码的如下特性：
+在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]
+正数最高位是0，负数最高位是1
+将x取反有两种方法
+找到最小有效位1，将它的更高位（不包括自身）全部反转
+反转所有位，结果加1
+x-y可被x&#43;(-y)实现
+全加器的得名因为其实现细节可由两个半加器组成。
+对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环： 0, 1, 2, 3, 0, -1, -2, -3, -4……
+习题 ⚠️非HDL描述
+通过观察真值表，得出 sum=Xor(a, b) carry=And(a, b) 和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和 HalfAdder(a=a, b=b, sum=sumab, carry=carry1); HalfAdder(a=sumab, b=c, sum=sum, carry=carry2); HalfAdder(a=carry1, b=carry2, sum=carry); 使用全加实现，c为上次的进位，首次进位0，每次的sum作为out FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0); FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1); ... FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]); Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out); // 所有条件分支通过选择器实现 // zx And16(a=x[0..15], b[0..15]=false, out=zeroX); Mux16(a=x[0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/nand2tetris/02.%E5%B8%83%E5%B0%94%E7%AE%97%E6%9C%AF/" /><meta property="article:section" content="nand2tetris" />
+<meta property="article:published_time" content="2022-08-24T20:39:16+08:00" />
+<meta property="article:modified_time" content="2022-08-24T20:39:16+08:00" />
+
+  
+  <meta itemprop="name" content="02.布尔算术">
+<meta itemprop="description" content="布尔算术 概述 计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小 的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。
+在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过 观察结果，可发现补码的如下特性：
+在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]
+正数最高位是0，负数最高位是1
+将x取反有两种方法
+找到最小有效位1，将它的更高位（不包括自身）全部反转
+反转所有位，结果加1
+x-y可被x&#43;(-y)实现
+全加器的得名因为其实现细节可由两个半加器组成。
+对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环： 0, 1, 2, 3, 0, -1, -2, -3, -4……
+习题 ⚠️非HDL描述
+通过观察真值表，得出 sum=Xor(a, b) carry=And(a, b) 和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和 HalfAdder(a=a, b=b, sum=sumab, carry=carry1); HalfAdder(a=sumab, b=c, sum=sum, carry=carry2); HalfAdder(a=carry1, b=carry2, sum=carry); 使用全加实现，c为上次的进位，首次进位0，每次的sum作为out FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0); FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1); ... FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]); Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out); // 所有条件分支通过选择器实现 // zx And16(a=x[0..15], b[0..15]=false, out=zeroX); Mux16(a=x[0."><meta itemprop="datePublished" content="2022-08-24T20:39:16+08:00" />
+<meta itemprop="dateModified" content="2022-08-24T20:39:16+08:00" />
+<meta itemprop="wordCount" content="160">
+<meta itemprop="keywords" content="nand2tetris," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="02.布尔算术"/>
+<meta name="twitter:description" content="布尔算术 概述 计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小 的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。
+在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过 观察结果，可发现补码的如下特性：
+在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]
+正数最高位是0，负数最高位是1
+将x取反有两种方法
+找到最小有效位1，将它的更高位（不包括自身）全部反转
+反转所有位，结果加1
+x-y可被x&#43;(-y)实现
+全加器的得名因为其实现细节可由两个半加器组成。
+对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环： 0, 1, 2, 3, 0, -1, -2, -3, -4……
+习题 ⚠️非HDL描述
+通过观察真值表，得出 sum=Xor(a, b) carry=And(a, b) 和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和 HalfAdder(a=a, b=b, sum=sumab, carry=carry1); HalfAdder(a=sumab, b=c, sum=sum, carry=carry2); HalfAdder(a=carry1, b=carry2, sum=carry); 使用全加实现，c为上次的进位，首次进位0，每次的sum作为out FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0); FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1); ... FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]); Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out); // 所有条件分支通过选择器实现 // zx And16(a=x[0..15], b[0..15]=false, out=zeroX); Mux16(a=x[0."/>
+
+  
+  
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="布尔算术">布尔算术</h1>
+<h3 id="概述">概述</h3>
+<ul>
+<li>
+<p>计算机的所有功能都可简化为二进制加法。硬件构造时位数是确定的，假如只有非负整数，那么n位寄存器只能表示[0, (2^n)-1]。而高级语言提供的无限大小
+的数字运算通常是将足够的寄存器捆绑使用，这种运算的效率较低。</p>
+</li>
+<li>
+<p>在若干表示符号二进制的编码方案中，几乎所有现代计算机都采用硬件实现不复杂的“补码”方式。采用“补码”方式，-x在n位二进制系统中以被表示为(2^n)-x。通过
+观察结果，可发现补码的如下特性：</p>
+<ul>
+<li>
+<p>在n位系统中的表示范围为：[-(2^(n-1)), (2^(n-1))-1]</p>
+</li>
+<li>
+<p>正数最高位是0，负数最高位是1</p>
+</li>
+<li>
+<p>将x取反有两种方法</p>
+<ul>
+<li>
+<p>找到最小有效位1，将它的更高位（不包括自身）全部反转</p>
+</li>
+<li>
+<p>反转所有位，结果加1</p>
+</li>
+</ul>
+</li>
+<li>
+<p>x-y可被x+(-y)实现</p>
+</li>
+</ul>
+</li>
+<li>
+<p>全加器的得名因为其实现细节可由两个半加器组成。</p>
+</li>
+<li>
+<p>对计算结果忽略溢出，从产生的结果来看。对于3位二进制系统，表示范围为-4~3，假如从0开始不断加1，结果会出现如下循环：
+0, 1, 2, 3, 0, -1, -2, -3, -4……</p>
+</li>
+</ul>
+<h3 id="习题">习题</h3>
+<p><img src="../img/E30E03F3-BEAB-4CB5-91D5-A91A4BBAFC25.png" alt="HalfAdder"></p>
+<p>⚠️非HDL描述</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>通过观察真值表，得出
+</span></span><span style="display:flex;"><span>sum=Xor(a, b)
+</span></span><span style="display:flex;"><span>carry=And(a, b)
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><img src="../img/E2FB58C7-3945-4480-9A37-AACDB1D8623D.png" alt="FullAdder"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>和是a、b、c两次半加的和，进位是a、b、c两次半加的进位的和
+</span></span><span style="display:flex;"><span>HalfAdder(a=a, b=b, sum=sumab, carry=carry1);
+</span></span><span style="display:flex;"><span>HalfAdder(a=sumab, b=c, sum=sum, carry=carry2);
+</span></span><span style="display:flex;"><span>HalfAdder(a=carry1, b=carry2, sum=carry);
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><img src="../img/90BC73A3-1AF4-413C-A66D-0B47CB6913B0.png" alt="Add16"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>使用全加实现，c为上次的进位，首次进位0，每次的sum作为out
+</span></span><span style="display:flex;"><span>FullAdder(a=a[0], b=b[0], c=0, sum=out[0], carry=c0);
+</span></span><span style="display:flex;"><span>FullAdder(a=a[1], b=b[1], c=c0, sum=out[1], carry=c1);
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>FullAdder(a=a[15], b=b[15], c=c14, sum=out[15]);
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><img src="../img/6DD8E235-F2C2-4ECB-9D55-5313D153BA55.png" alt="Inc16"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Add16(a=in[0..15], b[0]=true, b[0..15]=false, out=out);
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><img src="../img/C1D16189-1FBA-4361-8BA2-3603E971B31F.png" alt="ALU"></p>
+<p><img src="../img/18148012-D1DA-4757-A677-C2B1C1D45C03.png" alt="ALU"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>// 所有条件分支通过选择器实现
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// zx
+</span></span><span style="display:flex;"><span>And16(a=x[0..15], b[0..15]=false, out=zeroX);
+</span></span><span style="display:flex;"><span>Mux16(a=x[0..15], b=zeroX, sel=zx, out=afterZx);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// nx
+</span></span><span style="display:flex;"><span>Not16(in=afterZx, out=notX);
+</span></span><span style="display:flex;"><span>Mux16(a=afterZx, b=notX, sel=nx, out=afterNx);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// zy
+</span></span><span style="display:flex;"><span>And16(a=y[0..15], b[0..15]=false, out=zeroY);
+</span></span><span style="display:flex;"><span>Mux16(a=y[0..15], b=zeroY, sel=zy, out=afterZy);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// ny
+</span></span><span style="display:flex;"><span>Not16(in=afterZy, out=notY);
+</span></span><span style="display:flex;"><span>Mux16(a=afterZy, b=notY, sel=ny, out=afterNy);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// f
+</span></span><span style="display:flex;"><span>Add16(a=afterNx, b=afterNy, out=addXy);
+</span></span><span style="display:flex;"><span>And16(a=afterNx, b=afterNy, out=andXy);
+</span></span><span style="display:flex;"><span>Mux16(a=andXy, b=addXy, sel=f, out=afterF);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// no
+</span></span><span style="display:flex;"><span>Not16(in=afterF, out=notOut);
+</span></span><span style="display:flex;"><span>// 输出out
+</span></span><span style="display:flex;"><span>Mux16(a=afterF, b=notOut, sel=no, out=res, out=out);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// zr
+</span></span><span style="display:flex;"><span>// 如果结果值的低15位全0，则结果=0
+</span></span><span style="display:flex;"><span>Or16(a=res, b[0..15]=false, out[0..7]=lowRes, out[8..14]=highRes);
+</span></span><span style="display:flex;"><span>// 不可直接使用res[0..7]，需要先通过某个逻辑门将指定位范围输出
+</span></span><span style="display:flex;"><span>Or8Way(in=lowRes, out=lowZr8);
+</span></span><span style="display:flex;"><span>Or8Way(in[0..6]=highRes, in[7]=false, out=highZr8);
+</span></span><span style="display:flex;"><span>Or(a=lowZr8, b=highZr8, out=notZr);
+</span></span><span style="display:flex;"><span>// 输出zr
+</span></span><span style="display:flex;"><span>Not(in=notZr, out=zr);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// ng
+</span></span><span style="display:flex;"><span>// 如果最高位为1，并且结果非0，则ng=1
+</span></span><span style="display:flex;"><span>Or16(a=res, b[0..15]=false, out[15]=highestRes);
+</span></span><span style="display:flex;"><span>Or(a=highestRes, b=false, out=highestResTrue);
+</span></span><span style="display:flex;"><span>// 输出ng
+</span></span><span style="display:flex;"><span>And(a=highestResTrue, b=notZr, out=ng);
+</span></span></code></pre></div></section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/nand2tetris">nand2tetris</a>
+    
+  </footer>
+  
+
+  
+  
+  
+
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://woieha320r.github.io">woieha320r BY-NC-SA</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

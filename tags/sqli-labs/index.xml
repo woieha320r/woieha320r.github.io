@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sqli-labs on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/sqli-labs/</link>
+    <description>Recent content in sqli-labs on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 27 Aug 2022 10:28:05 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/sqli-labs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sqli-labs</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</link>
+      <pubDate>Sat, 27 Aug 2022 10:28:05 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</guid>
+      <description>sqli-labs docker run -dt \ -p 80:80 \ -p 3306:3306 \ --name sqli-labs \ acgpiano/sqli-labs #访问localhost #点击 Setup/reset Database for labs 返回后点击图片中的各个关卡</description>
+    </item>
+    
+  </channel>
+</rss>

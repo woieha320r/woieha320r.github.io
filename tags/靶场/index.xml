@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>靶场 on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/%E9%9D%B6%E5%9C%BA/</link>
+    <description>Recent content in 靶场 on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 27 Aug 2022 10:28:05 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E9%9D%B6%E5%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sqli-labs</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</link>
+      <pubDate>Sat, 27 Aug 2022 10:28:05 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/sql%E6%B3%A8%E5%85%A5/sqli-labs/sqli-labs/</guid>
+      <description>sqli-labs docker run -dt \ -p 80:80 \ -p 3306:3306 \ --name sqli-labs \ acgpiano/sqli-labs #访问localhost #点击 Setup/reset Database for labs 返回后点击图片中的各个关卡</description>
+    </item>
+    
+    <item>
+      <title>CSRF-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</link>
+      <pubDate>Thu, 19 Aug 2021 22:50:18 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/csrf-%E4%BD%8E/</guid>
+      <description>CSRF-低 制作假网页，诱使用户携带dvwa的cookie向dvwa发起修改密码请求。
+但这样的方式在点击后会跳转到form的target地址，暴露目的，可用ajax发请求</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-高</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E9%AB%98/</link>
+      <pubDate>Tue, 17 Aug 2021 00:02:47 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E9%AB%98/</guid>
+      <description>暴力破解-高 使用Burp Suite抓包，发现多了一个令牌参数
+再次请求，发现令牌改变了。选择拦截此次请求的响应，然后发送请求。
+查看拦截到的响应，发现令牌位于一个隐藏的input的标签中。那么攻击思路为：遍历用户名、密码、令牌，令牌来自于前一次响应的提取。其初始值和cookie需要 抓包查看
+跑出用户名密码为admin，password</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-中</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%B8%AD/</link>
+      <pubDate>Mon, 16 Aug 2021 23:40:04 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%B8%AD/</guid>
+      <description>暴力破解-中 行为： username：username password：password 反馈： URL地址栏：http://localhost/vulnerabilities/brute/?username=username&amp;amp;password=password&amp;amp;Login=Login# 推理： GET方式提交参数，无需抓包工具了，在地址栏测试 行为： http://localhost/vulnerabilities/brute/?username=%27&amp;amp;password=password&amp;amp;Login=Login# username：’ password：password 反馈： 用户名或密码错误 推理： 不存在SQL注入漏洞 开始暴力破解，使用Burp Suite拦截请求，将请求发送至入侵器
+为username和password字段设置有效载荷标记。攻击类型选择“集束炸弹”，分别为每个有效载荷设置字典，依次遍历所有的字典
+为username设置字典
+为password设置字典并开始攻击
+寻找结果中长度不同的，按照长度排序位于开头或结尾，那两个有效载荷就是用户名和密码</description>
+    </item>
+    
+    <item>
+      <title>暴力破解-低</title>
+      <link>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BD%8E/</link>
+      <pubDate>Mon, 16 Aug 2021 21:43:57 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/dvwa/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3-%E4%BD%8E/</guid>
+      <description>暴力破解-低 行为： username：username password：password 反馈： URL地址栏：http://localhost/vulnerabilities/brute/?username=username&amp;amp;password=password&amp;amp;Login=Login# 推理： GET方式提交参数，无需抓包工具了，在地址栏测试 行为： http://localhost/vulnerabilities/brute/?username=%27&amp;amp;password=password&amp;amp;Login=Login# username：’ password：password 反馈： 报错：You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near &amp;#39;5f4dcc3b5aa765d61d8327deb882cf99&amp;#39;&amp;#39; at line 1 推理： 存在SQL注入漏洞 数据库为MariaDB 5f4dcc3b5aa765d61d8327deb882cf99使用md5反编译为password，库中密码存储的是32位md5 报错中出现了密码值，猜测SQL为：select 列 from 表 where username = &amp;#39;输入&amp;#39; and password = &amp;#39;md5(输入)&amp;#39; 尝试写入永真进行登录 行为： http://localhost/vulnerabilities/brute/?username=%27+or+1%3D1+or+%271%27%3D%271&amp;amp;password=&amp;amp;Login=Login# username：’ or 1=1 or &amp;#39;1&amp;#39;=&amp;#39;1 password： 反馈： 用户名或密码错误 推理： 执行跳过了username和password验证的永真语句确不能登录，可能限制结果集仅能查询出一条 尝试只查询一条 行为： http://localhost/vulnerabilities/brute/?</description>
+    </item>
+    
+  </channel>
+</rss>
