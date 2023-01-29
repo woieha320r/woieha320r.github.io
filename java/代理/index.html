@@ -44,8 +44,9 @@
   
   <meta name="theme-color" />
   
-  <meta name="description" content="代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
-@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。" />
+  <meta name="description" content="代理 · 详见 https://woieha320r.github.io/tags/设计模式/代理/
+· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } " />
   <meta name="author" content="" />
   
 
@@ -96,8 +97,9 @@
   
   
   <meta property="og:title" content="代理" />
-<meta property="og:description" content="代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
-@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。" />
+<meta property="og:description" content="代理 · 详见 https://woieha320r.github.io/tags/设计模式/代理/
+· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://woieha320r.github.io/java/%E4%BB%A3%E7%90%86/" /><meta property="article:section" content="java" />
 <meta property="article:published_time" content="2022-12-01T10:39:13+08:00" />
@@ -105,16 +107,18 @@
 
   
   <meta itemprop="name" content="代理">
-<meta itemprop="description" content="代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
-@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。"><meta itemprop="datePublished" content="2022-12-01T10:39:13+08:00" />
+<meta itemprop="description" content="代理 · 详见 https://woieha320r.github.io/tags/设计模式/代理/
+· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } "><meta itemprop="datePublished" content="2022-12-01T10:39:13+08:00" />
 <meta itemprop="dateModified" content="2022-12-01T10:39:13+08:00" />
-<meta itemprop="wordCount" content="20">
+<meta itemprop="wordCount" content="19">
 <meta itemprop="keywords" content="java," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="代理"/>
-<meta name="twitter:description" content="代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
-@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。"/>
+<meta name="twitter:description" content="代理 · 详见 https://woieha320r.github.io/tags/设计模式/代理/
+· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } "/>
 
   
   
@@ -213,8 +217,7 @@
 <article>
 
   <section><h1 id="代理">代理</h1>
-<p>· 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。
-<img src="../img/4991EA3F-4CBA-4D65-9890-41BD44DF2B80.png" alt="代理"></p>
+<p>· 详见 <a href="https://woieha320r.github.io/tags/">https://woieha320r.github.io/tags/</a>设计模式/代理/</p>
 <p>· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring
 将其注入到字段上，然后通过它调用方法。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
@@ -224,8 +227,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Test self<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类）
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><p>· 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。</p>
-</section>
+</span></span></code></pre></div></section>
 
   
   

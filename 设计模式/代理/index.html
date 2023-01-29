@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>代理 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&#34;Hello &#34; &#43; msg &#43; &#34; !&#34;); } public static void main(String[] args) { //非代理 System.out.println(&#34;非代理&#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&#34;World&#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&#34;\njdk动态代理&#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&gt; { System.out.println(&#34;before&#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&#34;after&#34;); return returnVal; }))).hello(&#34;World&#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="代理" />
+<meta property="og:description" content="代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&#34;Hello &#34; &#43; msg &#43; &#34; !&#34;); } public static void main(String[] args) { //非代理 System.out.println(&#34;非代理&#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&#34;World&#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&#34;\njdk动态代理&#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&gt; { System.out.println(&#34;before&#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&#34;after&#34;); return returnVal; }))).hello(&#34;World&#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86/" /><meta property="article:section" content="设计模式" />
+<meta property="article:published_time" content="2023-01-29T17:23:14+08:00" />
+<meta property="article:modified_time" content="2023-01-29T17:23:14+08:00" />
+
+  
+  <meta itemprop="name" content="代理">
+<meta itemprop="description" content="代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&#34;Hello &#34; &#43; msg &#43; &#34; !&#34;); } public static void main(String[] args) { //非代理 System.out.println(&#34;非代理&#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&#34;World&#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&#34;\njdk动态代理&#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&gt; { System.out.println(&#34;before&#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&#34;after&#34;); return returnVal; }))).hello(&#34;World&#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static."><meta itemprop="datePublished" content="2023-01-29T17:23:14+08:00" />
+<meta itemprop="dateModified" content="2023-01-29T17:23:14+08:00" />
+<meta itemprop="wordCount" content="100">
+<meta itemprop="keywords" content="设计模式," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="代理"/>
+<meta name="twitter:description" content="代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&#34;Hello &#34; &#43; msg &#43; &#34; !&#34;); } public static void main(String[] args) { //非代理 System.out.println(&#34;非代理&#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&#34;World&#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&#34;\njdk动态代理&#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&gt; { System.out.println(&#34;before&#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&#34;after&#34;); return returnVal; }))).hello(&#34;World&#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static."/>
+
+  
+  
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="代理">代理</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>· 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用
+</span></span><span style="display:flex;"><span>自己的方法是和代理无关的，代理行为不会生效。
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> net.sf.cglib.proxy.Enhancer<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> net.sf.cglib.proxy.MethodInterceptor<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Proxy<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">BeProxy</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span>String msg<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BeProxyImpl</span> <span style="color:#66d9ef">implements</span> BeProxy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span>String msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello &#34;</span> <span style="color:#f92672">+</span> msg <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; !&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//非代理
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;非代理&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        BeProxy beProxy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BeProxyImpl<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        beProxy<span style="color:#f92672">.</span><span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;World&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\njdk动态代理&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">((</span>BeProxy<span style="color:#f92672">)</span> Proxy<span style="color:#f92672">.</span><span style="color:#a6e22e">newProxyInstance</span><span style="color:#f92672">(</span>BeProxy<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">(),</span> BeProxyImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInterfaces</span><span style="color:#f92672">(),</span> <span style="color:#f92672">((</span>proxy<span style="color:#f92672">,</span> method<span style="color:#f92672">,</span> arguments<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;before&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            Object returnVal <span style="color:#f92672">=</span> method<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>beProxy<span style="color:#f92672">,</span> arguments<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;after&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> returnVal<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}))).</span><span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;World&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//避免直接访问字段，访问的会是子类（代理）的字段，但cglib生成的子类不负责初始化字段
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\ncglib动态代理&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        Enhancer enhancer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Enhancer<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        enhancer<span style="color:#f92672">.</span><span style="color:#a6e22e">setSuperclass</span><span style="color:#f92672">(</span>BeProxyImpl<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        enhancer<span style="color:#f92672">.</span><span style="color:#a6e22e">setCallback</span><span style="color:#f92672">((</span>MethodInterceptor<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> method<span style="color:#f92672">,</span> arguments<span style="color:#f92672">,</span> methodProxy<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;before&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            Object returnVal <span style="color:#f92672">=</span> methodProxy<span style="color:#f92672">.</span><span style="color:#a6e22e">invokeSuper</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> arguments<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;after&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> returnVal<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">});</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">((</span>BeProxyImpl<span style="color:#f92672">)</span> enhancer<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">hello</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;World&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div></section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  
+
+</article>
+
+<article>
+  <div id="gitalk-container"></div>
+  <script>
+    const domain = 'woieha320r.github.io';
+    let gitalk = new Gitalk({
+      
+      clientID: '2e96a90ab00e1abaa3dd',
+      clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
+      
+      repo: 'woieha320r.github.io',
+      owner: 'woieha320r',
+      admin: 'woieha320r',
+      
+      id: location.pathname.substr(-50),
+      
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container')
+  </script>
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2021-2023
+    <a class="link" href="https://woieha320r.github.io"> woieha320r </a>
+    BY(转载署名)-NC(非商用)-SA(同式共享)
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+</footer>
+</body>
+
+</html>

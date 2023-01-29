@@ -6,7 +6,48 @@
     <description>Recent content in 设计模式 on woieha320r</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 14 Jan 2023 01:32:21 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 Jan 2023 18:50:01 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>适配器</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/</link>
+      <pubDate>Sun, 29 Jan 2023 18:50:01 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/</guid>
+      <description>适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
+classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;sourceServiceA() void &amp;#43;sourceServiceB() void &amp;#43;targetService() void } Adapter ..|&amp;gt; Target : 实现 Adapter --|&amp;gt; SourceA : 继承 Adapter --|&amp;gt; SourceB : 继承 class Main Main ..&amp;gt; Target : 局变 Main ..&amp;gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口，以此解决&amp;quot;类适配器违背迪米特原则&amp;quot;
+classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;targetService() void } Adapter .</description>
+    </item>
+    
+    <item>
+      <title>代理</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Sun, 29 Jan 2023 17:23:14 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86/</guid>
+      <description>代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&amp;#34;Hello &amp;#34; + msg + &amp;#34; !&amp;#34;); } public static void main(String[] args) { //非代理 System.out.println(&amp;#34;非代理&amp;#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&amp;#34;World&amp;#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&amp;#34;\njdk动态代理&amp;#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&amp;gt; { System.out.println(&amp;#34;before&amp;#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&amp;#34;after&amp;#34;); return returnVal; }))).hello(&amp;#34;World&amp;#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static.</description>
+    </item>
+    
+    <item>
+      <title>建造者</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BB%BA%E9%80%A0%E8%80%85/</link>
+      <pubDate>Sun, 29 Jan 2023 17:00:36 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BB%BA%E9%80%A0%E8%80%85/</guid>
+      <description>建造者 用于将复杂对象的构建过程分步，比如MybatisPlus中对sql语句的构建。 · 外界使用时类似setter，一般对外屏蔽构造方法，并且与链式调用结合较广泛。简单场景可使用lombok的@Builder，它会为class生成一个静态的Builder类， 内含相同的全部成员和一个全参构造，new的时机被延迟到build()。
+import lombok.Singular; import lombok.ToString; import java.util.List; @lombok.Builder @ToString public class Builder { private final String strMember; private final Object othersComplexMember1; private final Object othersComplexMember2; @Singular(&amp;#34;collectionMember&amp;#34;) private final List&amp;lt;Object&amp;gt; collectionMember; public static void main(String[] args) { System.out.println( Builder.builder() .strMember(&amp;#34;test&amp;#34;) .othersComplexMember1(new Object()) .othersComplexMember2(new Object()) .collectionMember(new Object()) .collectionMember(new Object()) .build() ); } } </description>
+    </item>
+    
+    <item>
+      <title>原型</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B/</link>
+      <pubDate>Sun, 29 Jan 2023 14:32:01 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B/</guid>
+      <description>原型 用于复制已有对象，⚠️和单例相悖 · java的Object中有一个protected native Object clone()用于新建对象空间并复制成员值。在Java中做原型可通过实现标记型接口Cloneable 并重写clone()，但这只是浅克隆：只复制成员值，引用类型则只是复制了引用值。
+· 在说单例时提到Java的反序列化可以保证新建对象，除非其声明了Object readResolve()。可以用这个机制达到深克隆的效果。
+import lombok.AllArgsConstructor; import lombok.Getter; import lombok.Setter; import java.io.*; abstract class Prototype implements Cloneable, Serializable { @Override public Prototype clone() throws CloneNotSupportedException { return (Prototype) super.clone(); } public Prototype deepClone() throws IOException, ClassNotFoundException { try ( ByteArrayOutputStream byteArrOutputStream = new ByteArrayOutputStream(); ObjectOutputStream objOutputStream = new ObjectOutputStream(byteArrOutputStream) ) { objOutputStream.writeObject(this); try ( ByteArrayInputStream byteArrInputStream = new ByteArrayInputStream(byteArrOutputStream.toByteArray()); ObjectInputStream objInputStream = new ObjectInputStream(byteArrInputStream); ) { return (Prototype) objInputStream.</description>
+    </item>
+    
     <item>
       <title>单例</title>
       <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</link>
@@ -28,9 +69,9 @@ public enum EnumRegisterSingleton { INSTANCE; private Object readResolve() { ret
       
       <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</guid>
       <description>工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
-classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main %% Main ..&amp;gt; Product : 局变 Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main Main ..&amp;gt; Product : 局变 Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
 · 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
-classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } %% Factory .</description>
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } Factory .</description>
     </item>
     
     <item>

@@ -52,8 +52,9 @@ MySQL事务隔离级别 读未提交级别
       <pubDate>Thu, 01 Dec 2022 10:39:13 +0800</pubDate>
       
       <guid>https://woieha320r.github.io/java/%E4%BB%A3%E7%90%86/</guid>
-      <description>代理 · 代理是通过另一个类来调用被代理者，然后在调用前后添加新逻辑。那么要想代理生效就必须通过代理实例调用方法，在被代理类内部调用是和代理无关的。 · 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
-@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } · 使用cglib代理时，不要通过代理实例直接访问字段，那样访问的是代理实例的字段，但代理实例不会为继承来的字段执行初始化，它的目的是代理方法的执行。</description>
+      <description>代理 · 详见 https://woieha320r.github.io/tags/设计模式/代理/
+· 如果使用Spring的声明式切面、声明式事务、声明式缓存，它们都是通过cglib动态代理实现的，要想在同类间方法调用时也触发代理行为，可以通过Spring 将其注入到字段上，然后通过它调用方法。
+@Component public class Test { @Autowried private Test self; // 然后通过self.method()来调用，就可以触发代理行为了。这里注入的实例不是Test类型，而是Test的代理类型（jdk为同接口的另一个类实例，cglib为Test的子类） } </description>
     </item>
     
     <item>
