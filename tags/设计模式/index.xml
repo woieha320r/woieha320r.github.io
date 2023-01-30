@@ -6,7 +6,17 @@
     <description>Recent content in 设计模式 on woieha320r</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 29 Jan 2023 18:50:01 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Jan 2023 11:52:51 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>桥接</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A1%A5%E6%8E%A5/</link>
+      <pubDate>Mon, 30 Jan 2023 11:52:51 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A1%A5%E6%8E%A5/</guid>
+      <description>桥接 组合各实现类的接口并实现抽象服务接口，以此将抽象服务和具体实现连接，并允许实现类的多种组合可能 · 被桥接者
+classDiagram class IO { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Calculate { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Memory { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Computer { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Screen Screen ..|&amp;gt; IO : 实现 class Keyboard Keyboard ..|&amp;gt; IO : 实现 class Alu Alu ..|&amp;gt; Calculate : 实现 class Ram Ram ..|&amp;gt; Memory : 实现 class Register Register ..|&amp;gt; Memory : 实现 class ComputerNoScreen ComputerNoScreen ..|&amp;gt; Computer : 实现 class ComputerNoRam ComputerNoRam .</description>
+    </item>
+    
     <item>
       <title>适配器</title>
       <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/</link>
