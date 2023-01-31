@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #faf6f1"
+  lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>策略 - woieha320r</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://woieha320r.github.io/main.min.css" />
+
+  
+  <script defer src="https://woieha320r.github.io/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://woieha320r.github.io/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://woieha320r.github.io/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://woieha320r.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://woieha320r.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.108.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="策略" />
+<meta property="og:description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/" /><meta property="article:section" content="设计模式" />
+<meta property="article:published_time" content="2023-01-31T14:22:50+08:00" />
+<meta property="article:modified_time" content="2023-01-31T14:22:50+08:00" />
+
+  
+  <meta itemprop="name" content="策略">
+<meta itemprop="description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ."><meta itemprop="datePublished" content="2023-01-31T14:22:50+08:00" />
+<meta itemprop="dateModified" content="2023-01-31T14:22:50+08:00" />
+<meta itemprop="wordCount" content="149">
+<meta itemprop="keywords" content="设计模式," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="策略"/>
+<meta name="twitter:description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ."/>
+
+  
+  
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+</head>
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    
+    
+    
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+      <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+        src="https://avatars.githubusercontent.com/u/93914341?s=400&amp;u=a4b046bf4a17b3d96cf8c718d12db1fb21caadb8&amp;v=4" />
+    </div>
+    
+    
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="https://woieha320r.github.io">woieha320r的博客</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href=" https://github.com/woieha320r "
+        target="_blank"></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+
+  <section><h1 id="策略">策略</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️
+</span></span></code></pre></div>
+<div class="mermaid">
+    
+    classDiagram
+
+class Strategy {
+    &lt;&lt;interface&gt;&gt;
+    &#43;doOperation() void
+}
+
+class StrategyA
+StrategyA ..|&gt; Strategy : 实现
+
+class StrategyB
+StrategyB ..|&gt; Strategy : 实现
+
+class Context {
+    -Strategy strategy
+    &#43;execStrategy(Strategy strategy) void
+}
+Context *-- Strategy : 构造器初始化成员
+
+class Main
+Main ..&gt; Context : 实例化
+Main ..&gt; StrategyA : 实例化
+Main ..&gt; StrategyB : 实例化
+</div>
+<p>· 如果想隐藏实例化过程，那就需要工厂实例化策略</p>
+
+<div class="mermaid">
+    
+    classDiagram
+
+class Strategy {
+    &lt;&lt;interface&gt;&gt;
+    &#43;doOperation() void
+}
+
+class StrategyA
+StrategyA ..|&gt; Strategy : 实现
+
+class StrategyB
+StrategyB ..|&gt; Strategy : 实现
+
+class Context {
+    -Strategy strategy
+    &#43;execStrategy(Strategy strategy) void
+}
+Context *-- Strategy : 构造器初始化成员
+
+class StrategyFactory {
+    &lt;&lt;interface&gt;&gt;
+    &#43;produceStrategy() Strategy
+}
+
+class StrategyFactoryA {
+    &#43;produceStrategy() StrategyA
+}
+StrategyFactoryA ..|&gt; StrategyFactory : 实现
+StrategyFactoryA ..&gt; StrategyA : 返回
+
+class StrategyFactoryB {
+    &#43;produceStrategy() StrategyB
+}
+StrategyFactoryB ..|&gt; StrategyFactory : 实现
+StrategyFactoryB ..&gt; StrategyB : 返回
+
+class Main
+Main ..&gt; Context : 实例化
+Main ..&gt; StrategyFactoryA : 实例化
+Main ..&gt; StrategyFactoryB : 实例化
+</div>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  
+
+</article>
+
+<article>
+  <div id="gitalk-container"></div>
+  <script>
+    const domain = 'woieha320r.github.io';
+    let gitalk = new Gitalk({
+      
+      clientID: '2e96a90ab00e1abaa3dd',
+      clientSecret: 'c8220151a1a6ca96412d17faa0df323b09377b25',
+      
+      repo: 'woieha320r.github.io',
+      owner: 'woieha320r',
+      admin: 'woieha320r',
+      
+      id: location.pathname.substr(-50),
+      
+      distractionFreeMode: false
+    });
+    gitalk.render('gitalk-container')
+  </script>
+</article>
+
+
+  </main>
+
+  <footer class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60">
+  <div class="mr-auto">
+    &copy; 2021-2023
+    <a class="link" href="https://woieha320r.github.io"> woieha320r </a>
+    BY(转载署名)-NC(非商用)-SA(同式共享)
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank">Powered by Hugo️️</a>️
+  <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
+
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+     
+    .mermaid svg {
+      display: block;
+      margin: auto;
+    }
+  </style>
+  
+</footer>
+</body>
+
+</html>

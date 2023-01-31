@@ -45,7 +45,7 @@
   <meta name="theme-color" />
   
   <meta name="description" content="适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
-classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Target : 局变 Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口，以此解决&quot;类适配器违背迪米特原则&quot;
+classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口
 classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;targetService() void } Adapter ." />
   <meta name="author" content="" />
   
@@ -98,7 +98,7 @@ classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;s
   
   <meta property="og:title" content="适配器" />
 <meta property="og:description" content="适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
-classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Target : 局变 Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口，以此解决&quot;类适配器违背迪米特原则&quot;
+classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口
 classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;targetService() void } Adapter ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/" /><meta property="article:section" content="设计模式" />
@@ -108,16 +108,16 @@ classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;s
   
   <meta itemprop="name" content="适配器">
 <meta itemprop="description" content="适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
-classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Target : 局变 Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口，以此解决&quot;类适配器违背迪米特原则&quot;
+classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口
 classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;targetService() void } Adapter ."><meta itemprop="datePublished" content="2023-01-29T18:50:01+08:00" />
 <meta itemprop="dateModified" content="2023-01-29T18:50:01+08:00" />
-<meta itemprop="wordCount" content="222">
+<meta itemprop="wordCount" content="207">
 <meta itemprop="keywords" content="设计模式," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="适配器"/>
 <meta name="twitter:description" content="适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
-classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Target : 局变 Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口，以此解决&quot;类适配器违背迪米特原则&quot;
+classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;sourceServiceA() void &#43;sourceServiceB() void &#43;targetService() void } Adapter ..|&gt; Target : 实现 Adapter --|&gt; SourceA : 继承 Adapter --|&gt; SourceB : 继承 class Main Main ..&gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口
 classDiagram class SourceA { &#43;sourceServiceA() void } class SourceB { &#43;sourceServiceB() void } class Target { &lt;&lt;interface&gt;&gt; &#43;targetService() void } class Adapter { &#43;targetService() void } Adapter ."/>
 
   
@@ -248,11 +248,10 @@ Adapter --|&gt; SourceA : 继承
 Adapter --|&gt; SourceB : 继承
 
 class Main
-Main ..&gt; Target : 局变
 Main ..&gt; Adapter : 实例化
 </div>
 <h3 id="对象适配器">对象适配器</h3>
-<p>· 组合服务类并实现调用者期望的接口，以此解决&quot;类适配器违背迪米特原则&quot;</p>
+<p>· 组合服务类并实现调用者期望的接口</p>
 
 <div class="mermaid">
     
@@ -279,7 +278,6 @@ Adapter *-- SourceA : 构造器初始化成员
 Adapter *-- SourceB : 构造器初始化成员
 
 class Main
-Main ..&gt; Target : 局变
 Main ..&gt; SourceA : 实例化
 Main ..&gt; SourceB : 实例化
 Main ..&gt; Adapter : 实例化
@@ -326,7 +324,6 @@ Adapter *-- SourceA : 构造器初始化成员
 Adapter *-- SourceB : 构造器初始化成员
 
 class Main
-Main ..&gt; Target : 局变
 Main ..&gt; SourceA : 实例化
 Main ..&gt; SourceB : 实例化
 Main ..&gt; Adapter : 实例化

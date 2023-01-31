@@ -6,7 +6,56 @@
     <description>Recent content on woieha320r</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 30 Jan 2023 11:52:51 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 31 Jan 2023 14:22:50 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>策略</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Tue, 31 Jan 2023 14:22:50 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/</guid>
+      <description>策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB ..|&amp;gt; Strategy : 实现 class Context { -Strategy strategy &amp;#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&amp;gt; Context : 实例化 Main ..&amp;gt; StrategyA : 实例化 Main ..&amp;gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB .</description>
+    </item>
+    
+    <item>
+      <title>模版方法</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 31 Jan 2023 13:46:31 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95/</guid>
+      <description>模版方法 用于规定方法调用顺序，但自己不负责实现方法，适用于规定几乎永远不变的流程 · Java里抽象类就是这个作用，规定方法的调用顺序，具体实现由子类实现
+abstract class Template { abstract protected void doA(); abstract protected boolean needDoC(); abstract protected void doC(); public final void doing() { doA(); //钩子，是否需要调用由子类自己实现 if (needDoC()) { doC(); } } } public class TemplateImpl extends Template { @Override protected void doA() { System.out.println(&amp;#34;A&amp;#34;); } @Override protected boolean needDoC() { return true; } @Override protected void doC() { System.out.println(&amp;#34;C&amp;#34;); } public static void main(String[] args) { new TemplateImpl().doing(); } } </description>
+    </item>
+    
+    <item>
+      <title>委派</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A7%94%E6%B4%BE/</link>
+      <pubDate>Tue, 31 Jan 2023 12:50:32 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A7%94%E6%B4%BE/</guid>
+      <description>委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
+classDiagram class AuthenticationProvider { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;support(Class clazz) boolean &amp;#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&amp;gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&amp;gt; AuthenticationProvider : 实现 class ProviderManager { &amp;#43;authenticate(Authentication authentication) void } ProviderManager ..&amp;gt; JwtAuthenticationProvider : 局变 ProviderManager ..&amp;gt; UsernamePasswordAuthenticationProvider : 局变 </description>
+    </item>
+    
+    <item>
+      <title>组合</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%84%E5%90%88/</link>
+      <pubDate>Tue, 31 Jan 2023 09:58:53 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%84%E5%90%88/</guid>
+      <description>组合 树形层级结构，各节点都实现同一顶层接口具有共同操作且存在递归嵌套。比如文件目录系统 classDiagram class FileNode { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;path() String &amp;#43;parent() FileNode &amp;#43;childs() List&amp;lt;FileNode&amp;gt; &amp;#43;isFile() boolean } FileNode ..&amp;gt; FileNode : 返回值 class Directory { -String path -FileNode parent -List&amp;lt;FileNode&amp;gt; childs -boolean isFile } Directory ..|&amp;gt; FileNode : 实现 Directory *-- FileNode : 构造器初始化成员 class File { -String path -FileNode parent -List&amp;lt;FileNode&amp;gt; childs -boolean isFile &amp;#43;extName() String } File ..|&amp;gt; FileNode : 实现 File *-- FileNode : 构造器初始化成员 </description>
+    </item>
+    
+    <item>
+      <title>享元</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BA%AB%E5%85%83/</link>
+      <pubDate>Mon, 30 Jan 2023 19:03:14 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BA%AB%E5%85%83/</guid>
+      <description>享元 用于将高频创建的对象重复利用，比如连接池、线程池 · 将可能被频繁重复创建的对象交给工厂负责提供/回收，工厂在初始化时就使用缓存池缓存一定数量的实例并对外提供
+import lombok.AllArgsConstructor; import java.util.Stack; @AllArgsConstructor class Connection { private final String url; private final String username; private final String password; } public class ConnectionPoolFlyweight { private static final int POOL_SIZE = 10; private static final int WAIT_MILLISECONDS = 3000; private static final Stack&amp;lt;Connection&amp;gt; POOL = new Stack&amp;lt;&amp;gt;(); static { for (int i = 0; i &amp;lt; POOL_SIZE; i++) { POOL.push(new Connection(&amp;#34;localhost:2023&amp;#34;, &amp;#34;root&amp;#34;, &amp;#34;123456&amp;#34;)); } } public static Connection getConnection() throws InterruptedException { if (POOL.</description>
+    </item>
+    
     <item>
       <title>桥接</title>
       <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A1%A5%E6%8E%A5/</link>
@@ -24,7 +73,7 @@ classDiagram class IO { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Calcul
       
       <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/</guid>
       <description>适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
-classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;sourceServiceA() void &amp;#43;sourceServiceB() void &amp;#43;targetService() void } Adapter ..|&amp;gt; Target : 实现 Adapter --|&amp;gt; SourceA : 继承 Adapter --|&amp;gt; SourceB : 继承 class Main Main ..&amp;gt; Target : 局变 Main ..&amp;gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口，以此解决&amp;quot;类适配器违背迪米特原则&amp;quot;
+classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;sourceServiceA() void &amp;#43;sourceServiceB() void &amp;#43;targetService() void } Adapter ..|&amp;gt; Target : 实现 Adapter --|&amp;gt; SourceA : 继承 Adapter --|&amp;gt; SourceB : 继承 class Main Main ..&amp;gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口
 classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;targetService() void } Adapter .</description>
     </item>
     
@@ -79,9 +128,9 @@ public enum EnumRegisterSingleton { INSTANCE; private Object readResolve() { ret
       
       <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</guid>
       <description>工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
-classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main Main ..&amp;gt; Product : 局变 Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
 · 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
-classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } Factory .</description>
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } Factory ..&amp;gt; Product : 返回 Factory .</description>
     </item>
     
     <item>
