@@ -39,13 +39,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>委派 - woieha320r</title>
+  <title>装饰器 - woieha320r</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 " />
+  <meta name="description" content="装饰器 用非继承方式实现功能扩展 · 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现
+classDiagram class Component { &lt;&lt;interface&gt;&gt; &#43;method() void } class ComponentImpl ComponentImpl ..|&gt; Component : 实现 class AbstractComponentWrapper { &lt;&lt;abstract&gt;&gt; -Component component } AbstractComponentWrapper *-- Component : 构造器初始化成员 class ComponentWrapperA { &#43;otherMethodA() void } ComponentWrapperA --|&gt; AbstractComponentWrapper : 继承 class ComponentWrapperB { &#43;otherMethodB() void } ComponentWrapperB --|&gt; AbstractComponentWrapper : 继承 " />
   <meta name="author" content="" />
   
 
@@ -95,26 +95,26 @@ classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;suppo
   
   
   
-  <meta property="og:title" content="委派" />
-<meta property="og:description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 " />
+  <meta property="og:title" content="装饰器" />
+<meta property="og:description" content="装饰器 用非继承方式实现功能扩展 · 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现
+classDiagram class Component { &lt;&lt;interface&gt;&gt; &#43;method() void } class ComponentImpl ComponentImpl ..|&gt; Component : 实现 class AbstractComponentWrapper { &lt;&lt;abstract&gt;&gt; -Component component } AbstractComponentWrapper *-- Component : 构造器初始化成员 class ComponentWrapperA { &#43;otherMethodA() void } ComponentWrapperA --|&gt; AbstractComponentWrapper : 继承 class ComponentWrapperB { &#43;otherMethodB() void } ComponentWrapperB --|&gt; AbstractComponentWrapper : 继承 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A7%94%E6%B4%BE/" /><meta property="article:section" content="设计模式" />
-<meta property="article:published_time" content="2023-01-31T12:50:32+08:00" />
-<meta property="article:modified_time" content="2023-01-31T12:50:32+08:00" />
+<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0%E5%99%A8/" /><meta property="article:section" content="设计模式" />
+<meta property="article:published_time" content="2023-02-01T10:58:31+08:00" />
+<meta property="article:modified_time" content="2023-02-01T10:58:31+08:00" />
 
   
-  <meta itemprop="name" content="委派">
-<meta itemprop="description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 "><meta itemprop="datePublished" content="2023-01-31T12:50:32+08:00" />
-<meta itemprop="dateModified" content="2023-01-31T12:50:32+08:00" />
-<meta itemprop="wordCount" content="49">
-<meta itemprop="keywords" content="设计模式,行为型," />
+  <meta itemprop="name" content="装饰器">
+<meta itemprop="description" content="装饰器 用非继承方式实现功能扩展 · 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现
+classDiagram class Component { &lt;&lt;interface&gt;&gt; &#43;method() void } class ComponentImpl ComponentImpl ..|&gt; Component : 实现 class AbstractComponentWrapper { &lt;&lt;abstract&gt;&gt; -Component component } AbstractComponentWrapper *-- Component : 构造器初始化成员 class ComponentWrapperA { &#43;otherMethodA() void } ComponentWrapperA --|&gt; AbstractComponentWrapper : 继承 class ComponentWrapperB { &#43;otherMethodB() void } ComponentWrapperB --|&gt; AbstractComponentWrapper : 继承 "><meta itemprop="datePublished" content="2023-02-01T10:58:31+08:00" />
+<meta itemprop="dateModified" content="2023-02-01T10:58:31+08:00" />
+<meta itemprop="wordCount" content="53">
+<meta itemprop="keywords" content="设计模式,结构型," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="委派"/>
-<meta name="twitter:description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 "/>
+<meta name="twitter:title" content="装饰器"/>
+<meta name="twitter:description" content="装饰器 用非继承方式实现功能扩展 · 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现
+classDiagram class Component { &lt;&lt;interface&gt;&gt; &#43;method() void } class ComponentImpl ComponentImpl ..|&gt; Component : 实现 class AbstractComponentWrapper { &lt;&lt;abstract&gt;&gt; -Component component } AbstractComponentWrapper *-- Component : 构造器初始化成员 class ComponentWrapperA { &#43;otherMethodA() void } ComponentWrapperA --|&gt; AbstractComponentWrapper : 继承 class ComponentWrapperB { &#43;otherMethodB() void } ComponentWrapperB --|&gt; AbstractComponentWrapper : 继承 "/>
 
   
   
@@ -212,32 +212,37 @@ classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;suppo
 
 <article>
 
-  <section><h1 id="委派">委派</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务
-</span></span></code></pre></div><p>· spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可
-验证此Authentication的Provider，让其验证</p>
+  <section><h1 id="装饰器">装饰器</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>用非继承方式实现功能扩展
+</span></span></code></pre></div><p>· 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现</p>
 
 <div class="mermaid">
     
     classDiagram
 
-class AuthenticationProvider {
+class Component {
     &lt;&lt;interface&gt;&gt;
-    &#43;support(Class clazz) boolean
-    &#43;authenticate(Authentication authentication) void
+    &#43;method() void
 }
 
-class JwtAuthenticationProvider
-JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现
+class ComponentImpl
+ComponentImpl ..|&gt; Component : 实现
 
-class UsernamePasswordAuthenticationProvider
-UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现
-
-class ProviderManager {
-    &#43;authenticate(Authentication authentication) void
+class AbstractComponentWrapper {
+    &lt;&lt;abstract&gt;&gt;
+    -Component component
 }
-ProviderManager ..&gt; JwtAuthenticationProvider : 局变
-ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变
+AbstractComponentWrapper *-- Component : 构造器初始化成员
+
+class ComponentWrapperA {
+    &#43;otherMethodA() void
+}
+ComponentWrapperA --|&gt; AbstractComponentWrapper : 继承
+
+class ComponentWrapperB {
+    &#43;otherMethodB() void
+}
+ComponentWrapperB --|&gt; AbstractComponentWrapper : 继承
 </div>
 </section>
 
@@ -247,7 +252,7 @@ ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
      
-    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B">行为型</a>
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E7%BB%93%E6%9E%84%E5%9E%8B">结构型</a>
     
   </footer>
   

@@ -109,7 +109,7 @@ abstract class Template { abstract protected void doA(); abstract protected bool
 abstract class Template { abstract protected void doA(); abstract protected boolean needDoC(); abstract protected void doC(); public final void doing() { doA(); //钩子，是否需要调用由子类自己实现 if (needDoC()) { doC(); } } } public class TemplateImpl extends Template { @Override protected void doA() { System.out.println(&#34;A&#34;); } @Override protected boolean needDoC() { return true; } @Override protected void doC() { System.out.println(&#34;C&#34;); } public static void main(String[] args) { new TemplateImpl().doing(); } } "><meta itemprop="datePublished" content="2023-01-31T13:46:31+08:00" />
 <meta itemprop="dateModified" content="2023-01-31T13:46:31+08:00" />
 <meta itemprop="wordCount" content="72">
-<meta itemprop="keywords" content="设计模式," />
+<meta itemprop="keywords" content="设计模式,行为型," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="模版方法"/>
@@ -260,6 +260,8 @@ abstract class Template { abstract protected void doA(); abstract protected bool
   <footer class="mt-12 flex flex-wrap">
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B">行为型</a>
     
   </footer>
   

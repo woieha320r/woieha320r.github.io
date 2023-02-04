@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>行为型 on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B/</link>
+    <description>Recent content in 行为型 on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Feb 2023 11:41:36 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>迭代器</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
+      <pubDate>Wed, 01 Feb 2023 11:41:36 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E5%99%A8/</guid>
+      <description>迭代器 提供一种遍历不同容器的统一方式，如java.util.Iterator&amp;lt;E&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>责任链</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%B4%A3%E4%BB%BB%E9%93%BE/</link>
+      <pubDate>Wed, 01 Feb 2023 09:11:34 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%B4%A3%E4%BB%BB%E9%93%BE/</guid>
+      <description>责任链 每个审批者作为链中的处理节点只处理一件事情，比如servlet过滤器 · 一般和建造者结合
+import java.util.ArrayList; import java.util.List; interface Handler { //实现类自己实现，放行返回true，中止返回false boolean handle(Object param); } class HandlerChain { private final List&amp;lt;Handler&amp;gt; handlers; private HandlerChain(List&amp;lt;Handler&amp;gt; handlers) { this.handlers = handlers; } public static class Builder { private final List&amp;lt;Handler&amp;gt; handlers = new ArrayList&amp;lt;&amp;gt;(); public HandlerChain.Builder next(Handler handler) { handlers.add(handler); return this; } public HandlerChain build() { return new HandlerChain(handlers); } } public void doChain(Object param) { for (Handler handler : handlers) { if (!</description>
+    </item>
+    
+    <item>
+      <title>策略</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Tue, 31 Jan 2023 14:22:50 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/</guid>
+      <description>策略 · 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现 classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB ..|&amp;gt; Strategy : 实现 class Context { -Strategy strategy &amp;#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&amp;gt; Context : 实例化 Main ..&amp;gt; StrategyA : 实例化 Main ..&amp;gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB .</description>
+    </item>
+    
+    <item>
+      <title>模版方法</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 31 Jan 2023 13:46:31 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95/</guid>
+      <description>模版方法 用于规定方法调用顺序，但自己不负责实现方法，适用于规定几乎永远不变的流程 · Java里抽象类就是这个作用，规定方法的调用顺序，具体实现由子类实现
+abstract class Template { abstract protected void doA(); abstract protected boolean needDoC(); abstract protected void doC(); public final void doing() { doA(); //钩子，是否需要调用由子类自己实现 if (needDoC()) { doC(); } } } public class TemplateImpl extends Template { @Override protected void doA() { System.out.println(&amp;#34;A&amp;#34;); } @Override protected boolean needDoC() { return true; } @Override protected void doC() { System.out.println(&amp;#34;C&amp;#34;); } public static void main(String[] args) { new TemplateImpl().doing(); } } </description>
+    </item>
+    
+    <item>
+      <title>委派</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A7%94%E6%B4%BE/</link>
+      <pubDate>Tue, 31 Jan 2023 12:50:32 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A7%94%E6%B4%BE/</guid>
+      <description>委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
+classDiagram class AuthenticationProvider { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;support(Class clazz) boolean &amp;#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&amp;gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&amp;gt; AuthenticationProvider : 实现 class ProviderManager { &amp;#43;authenticate(Authentication authentication) void } ProviderManager ..&amp;gt; JwtAuthenticationProvider : 局变 ProviderManager ..&amp;gt; UsernamePasswordAuthenticationProvider : 局变 </description>
+    </item>
+    
+  </channel>
+</rss>

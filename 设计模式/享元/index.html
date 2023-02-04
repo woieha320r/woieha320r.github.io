@@ -109,7 +109,7 @@ import lombok.AllArgsConstructor; import java.util.Stack; @AllArgsConstructor cl
 import lombok.AllArgsConstructor; import java.util.Stack; @AllArgsConstructor class Connection { private final String url; private final String username; private final String password; } public class ConnectionPoolFlyweight { private static final int POOL_SIZE = 10; private static final int WAIT_MILLISECONDS = 3000; private static final Stack&lt;Connection&gt; POOL = new Stack&lt;&gt;(); static { for (int i = 0; i &lt; POOL_SIZE; i&#43;&#43;) { POOL.push(new Connection(&#34;localhost:2023&#34;, &#34;root&#34;, &#34;123456&#34;)); } } public static Connection getConnection() throws InterruptedException { if (POOL."><meta itemprop="datePublished" content="2023-01-30T19:03:14+08:00" />
 <meta itemprop="dateModified" content="2023-01-30T19:03:14+08:00" />
 <meta itemprop="wordCount" content="95">
-<meta itemprop="keywords" content="设计模式," />
+<meta itemprop="keywords" content="设计模式,结构型," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="享元"/>
@@ -256,6 +256,8 @@ import lombok.AllArgsConstructor; import java.util.Stack; @AllArgsConstructor cl
   <footer class="mt-12 flex flex-wrap">
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E7%BB%93%E6%9E%84%E5%9E%8B">结构型</a>
     
   </footer>
   

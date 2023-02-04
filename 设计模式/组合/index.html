@@ -106,7 +106,7 @@
 <meta itemprop="description" content="组合 树形层级结构，各节点都实现同一顶层接口具有共同操作且存在递归嵌套。比如文件目录系统 classDiagram class FileNode { &lt;&lt;interface&gt;&gt; &#43;path() String &#43;parent() FileNode &#43;childs() List&lt;FileNode&gt; &#43;isFile() boolean } FileNode ..&gt; FileNode : 返回值 class Directory { -String path -FileNode parent -List&lt;FileNode&gt; childs -boolean isFile } Directory ..|&gt; FileNode : 实现 Directory *-- FileNode : 构造器初始化成员 class File { -String path -FileNode parent -List&lt;FileNode&gt; childs -boolean isFile &#43;extName() String } File ..|&gt; FileNode : 实现 File *-- FileNode : 构造器初始化成员 "><meta itemprop="datePublished" content="2023-01-31T09:58:53+08:00" />
 <meta itemprop="dateModified" content="2023-01-31T09:58:53+08:00" />
 <meta itemprop="wordCount" content="67">
-<meta itemprop="keywords" content="设计模式," />
+<meta itemprop="keywords" content="设计模式,结构型," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="组合"/>
@@ -250,6 +250,8 @@ File *-- FileNode : 构造器初始化成员
   <footer class="mt-12 flex flex-wrap">
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E7%BB%93%E6%9E%84%E5%9E%8B">结构型</a>
     
   </footer>
   

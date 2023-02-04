@@ -121,7 +121,7 @@ public class HungrySingleton { private static final HungrySingleton INSTANCE = n
 public enum EnumRegisterSingleton { INSTANCE; private Object readResolve() { return getInstance(); } public static EnumRegisterSingleton getInstance() { return INSTANCE; } } 懒汉式 · 真的被调用了getInstance()时才实例化"><meta itemprop="datePublished" content="2023-01-14T01:32:21+08:00" />
 <meta itemprop="dateModified" content="2023-01-14T01:32:21+08:00" />
 <meta itemprop="wordCount" content="372">
-<meta itemprop="keywords" content="设计模式," />
+<meta itemprop="keywords" content="设计模式,创建型," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="单例"/>
@@ -397,6 +397,8 @@ ConcurrentHashMap，它对put/remove是线程安全的，那只能保证多线�
   <footer class="mt-12 flex flex-wrap">
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E5%88%9B%E5%BB%BA%E5%9E%8B">创建型</a>
     
   </footer>
   

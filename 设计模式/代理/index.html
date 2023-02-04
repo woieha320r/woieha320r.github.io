@@ -106,7 +106,7 @@
 <meta itemprop="description" content="代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&#34;Hello &#34; &#43; msg &#43; &#34; !&#34;); } public static void main(String[] args) { //非代理 System.out.println(&#34;非代理&#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&#34;World&#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&#34;\njdk动态代理&#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&gt; { System.out.println(&#34;before&#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&#34;after&#34;); return returnVal; }))).hello(&#34;World&#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static."><meta itemprop="datePublished" content="2023-01-29T17:23:14+08:00" />
 <meta itemprop="dateModified" content="2023-01-29T17:23:14+08:00" />
 <meta itemprop="wordCount" content="100">
-<meta itemprop="keywords" content="设计模式," />
+<meta itemprop="keywords" content="设计模式,结构型," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="代理"/>
@@ -262,6 +262,8 @@
   <footer class="mt-12 flex flex-wrap">
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E7%BB%93%E6%9E%84%E5%9E%8B">结构型</a>
     
   </footer>
   

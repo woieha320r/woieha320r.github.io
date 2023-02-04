@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>创建型 on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/%E5%88%9B%E5%BB%BA%E5%9E%8B/</link>
+    <description>Recent content in 创建型 on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 29 Jan 2023 17:00:36 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E5%88%9B%E5%BB%BA%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>建造者</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BB%BA%E9%80%A0%E8%80%85/</link>
+      <pubDate>Sun, 29 Jan 2023 17:00:36 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BB%BA%E9%80%A0%E8%80%85/</guid>
+      <description>建造者 用于将复杂对象的构建过程分步，比如MybatisPlus中对sql语句的构建。 · 外界使用时类似setter，一般对外屏蔽构造方法，并且与链式调用结合较广泛。简单场景可使用lombok的@Builder，它会为class生成一个静态的Builder类， 内含相同的全部成员和一个全参构造，new的时机被延迟到build()。
+import lombok.Singular; import lombok.ToString; import java.util.List; @lombok.Builder @ToString public class Builder { private final String strMember; private final Object othersComplexMember1; private final Object othersComplexMember2; @Singular(&amp;#34;collectionMember&amp;#34;) private final List&amp;lt;Object&amp;gt; collectionMember; public static void main(String[] args) { System.out.println( Builder.builder() .strMember(&amp;#34;test&amp;#34;) .othersComplexMember1(new Object()) .othersComplexMember2(new Object()) .collectionMember(new Object()) .collectionMember(new Object()) .build() ); } } </description>
+    </item>
+    
+    <item>
+      <title>原型</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B/</link>
+      <pubDate>Sun, 29 Jan 2023 14:32:01 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B/</guid>
+      <description>原型 用于复制已有对象，⚠️和单例相悖 · java的Object中有一个protected native Object clone()用于新建对象空间并复制成员值。在Java中做原型可通过实现标记型接口Cloneable 并重写clone()，但这只是浅克隆：只复制成员值，引用类型则只是复制了引用值。
+· 在说单例时提到Java的反序列化可以保证新建对象，除非其声明了Object readResolve()。可以用这个机制达到深克隆的效果。
+import lombok.AllArgsConstructor; import lombok.Getter; import lombok.Setter; import java.io.*; abstract class Prototype implements Cloneable, Serializable { @Override public Prototype clone() throws CloneNotSupportedException { return (Prototype) super.clone(); } public Prototype deepClone() throws IOException, ClassNotFoundException { try ( ByteArrayOutputStream byteArrOutputStream = new ByteArrayOutputStream(); ObjectOutputStream objOutputStream = new ObjectOutputStream(byteArrOutputStream) ) { objOutputStream.writeObject(this); try ( ByteArrayInputStream byteArrInputStream = new ByteArrayInputStream(byteArrOutputStream.toByteArray()); ObjectInputStream objInputStream = new ObjectInputStream(byteArrInputStream); ) { return (Prototype) objInputStream.</description>
+    </item>
+    
+    <item>
+      <title>单例</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</link>
+      <pubDate>Sat, 14 Jan 2023 01:32:21 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B/</guid>
+      <description>单例 确保一个class永远只有一个实例，对外开放一个唯一的获取入口 在Java中能破坏此定义的方式和解决方案如下 · 构造方法：通过私有化构造方法，但外界仍可通过反射调用，可通过if(null != instance)抛异常 · 反序列化：通过定义一个private Object readResolve()返回自己的单例，Java反序列化时会判断如果存在此方法则反射调用它获得实例而不新建实例 饿汉式 · 不论有没有地方用，都实例化，这种办法浪费内存
+静态字段实现 · 通过将实例对象赋给静态字段使其在class加载时就实例化
+· 没有线程安全问题，如果多个线程同时导致Class加载，由JVM负责线程安全，使其在同class加载器下只加载一次
+· 如果没有地方调用getInstance()，而只是比如说外界使用了其静态字段而导致其初始化，会浪费内存
+public class HungrySingleton { private static final HungrySingleton INSTANCE = new HungrySingleton(); private HungrySingleton() { if (null != INSTANCE) { throw new RuntimeException(&amp;#34;don&amp;#39;t call by reflect&amp;#34;); } } private Object readResolve() { return getInstance(); } public static HungrySingleton getInstance() { return INSTANCE; } } 枚举实现 · 依靠Java的枚举语法，天然就是单例并且不可反射创建
+public enum EnumRegisterSingleton { INSTANCE; private Object readResolve() { return getInstance(); } public static EnumRegisterSingleton getInstance() { return INSTANCE; } } 懒汉式 · 真的被调用了getInstance()时才实例化</description>
+    </item>
+    
+    <item>
+      <title>工厂</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</link>
+      <pubDate>Thu, 12 Jan 2023 22:26:38 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82/</guid>
+      <description>工厂 用于隐藏实例化过程 不隐藏 · Main直接根据条件实例化所需的ProductImpl
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Main Main ..&amp;gt; ProductA : 实例化 Main ..&amp;gt; ProductB : 实例化 简单工厂 · 隐藏ProductImpl的实例化过程，这个过程可能很复杂，改由Factory::produce负责，Main通过入参告知其应提供哪个ProductImpl
+· 但这样在新增ProductImpl时，需要修改Factory，违反了开闭原则；且所有ProductImpl都由Factory::produce产生，违反了单一原则
+classDiagram class Product { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class ProductA ProductA ..|&amp;gt; Product : 实现 class ProductB ProductB ..|&amp;gt; Product : 实现 class Factory { &amp;#43;produce(condition) Product } Factory ..&amp;gt; Product : 返回 Factory .</description>
+    </item>
+    
+  </channel>
+</rss>

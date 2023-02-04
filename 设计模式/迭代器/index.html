@@ -39,13 +39,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
   
-  <title>委派 - woieha320r</title>
+  <title>迭代器 - woieha320r</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 " />
+  <meta name="description" content="迭代器 提供一种遍历不同容器的统一方式，如java.util.Iterator&lt;E&gt; " />
   <meta name="author" content="" />
   
 
@@ -95,26 +94,23 @@ classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;suppo
   
   
   
-  <meta property="og:title" content="委派" />
-<meta property="og:description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 " />
+  <meta property="og:title" content="迭代器" />
+<meta property="og:description" content="迭代器 提供一种遍历不同容器的统一方式，如java.util.Iterator&lt;E&gt; " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A7%94%E6%B4%BE/" /><meta property="article:section" content="设计模式" />
-<meta property="article:published_time" content="2023-01-31T12:50:32+08:00" />
-<meta property="article:modified_time" content="2023-01-31T12:50:32+08:00" />
+<meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E5%99%A8/" /><meta property="article:section" content="设计模式" />
+<meta property="article:published_time" content="2023-02-01T11:41:36+08:00" />
+<meta property="article:modified_time" content="2023-02-01T11:41:36+08:00" />
 
   
-  <meta itemprop="name" content="委派">
-<meta itemprop="description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 "><meta itemprop="datePublished" content="2023-01-31T12:50:32+08:00" />
-<meta itemprop="dateModified" content="2023-01-31T12:50:32+08:00" />
-<meta itemprop="wordCount" content="49">
+  <meta itemprop="name" content="迭代器">
+<meta itemprop="description" content="迭代器 提供一种遍历不同容器的统一方式，如java.util.Iterator&lt;E&gt; "><meta itemprop="datePublished" content="2023-02-01T11:41:36+08:00" />
+<meta itemprop="dateModified" content="2023-02-01T11:41:36+08:00" />
+<meta itemprop="wordCount" content="2">
 <meta itemprop="keywords" content="设计模式,行为型," />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="委派"/>
-<meta name="twitter:description" content="委派 委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务 · spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可 验证此Authentication的Provider，让其验证
-classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;support(Class clazz) boolean &#43;authenticate(Authentication authentication) void } class JwtAuthenticationProvider JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class UsernamePasswordAuthenticationProvider UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现 class ProviderManager { &#43;authenticate(Authentication authentication) void } ProviderManager ..&gt; JwtAuthenticationProvider : 局变 ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变 "/>
+<meta name="twitter:title" content="迭代器"/>
+<meta name="twitter:description" content="迭代器 提供一种遍历不同容器的统一方式，如java.util.Iterator&lt;E&gt; "/>
 
   
   
@@ -212,34 +208,9 @@ classDiagram class AuthenticationProvider { &lt;&lt;interface&gt;&gt; &#43;suppo
 
 <article>
 
-  <section><h1 id="委派">委派</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>委托者不自己处理任务，根据某种策略选择委托人代处理。比如上级分配任务
-</span></span></code></pre></div><p>· spring security的ProviderManager::authenticate()应该属于委派，它会分别调用AuthenticationProvider实现类的support()，选择声称可
-验证此Authentication的Provider，让其验证</p>
-
-<div class="mermaid">
-    
-    classDiagram
-
-class AuthenticationProvider {
-    &lt;&lt;interface&gt;&gt;
-    &#43;support(Class clazz) boolean
-    &#43;authenticate(Authentication authentication) void
-}
-
-class JwtAuthenticationProvider
-JwtAuthenticationProvider ..|&gt; AuthenticationProvider : 实现
-
-class UsernamePasswordAuthenticationProvider
-UsernamePasswordAuthenticationProvider ..|&gt; AuthenticationProvider : 实现
-
-class ProviderManager {
-    &#43;authenticate(Authentication authentication) void
-}
-ProviderManager ..&gt; JwtAuthenticationProvider : 局变
-ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变
-</div>
-</section>
+  <section><h1 id="迭代器">迭代器</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>提供一种遍历不同容器的统一方式，如java.util.Iterator&lt;E&gt;
+</span></span></code></pre></div></section>
 
   
   
@@ -293,18 +264,6 @@ ProviderManager ..&gt; UsernamePasswordAuthenticationProvider : 局变
   <a class="link" href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">▷ Paper 6</a>
 
   
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-  <style>
-     
-    .mermaid svg {
-      display: block;
-      margin: auto;
-    }
-  </style>
   
 </footer>
 </body>

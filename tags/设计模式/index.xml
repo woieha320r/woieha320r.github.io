@@ -6,14 +6,52 @@
     <description>Recent content in 设计模式 on woieha320r</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 31 Jan 2023 14:22:50 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Feb 2023 11:41:36 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>迭代器</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
+      <pubDate>Wed, 01 Feb 2023 11:41:36 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E5%99%A8/</guid>
+      <description>迭代器 提供一种遍历不同容器的统一方式，如java.util.Iterator&amp;lt;E&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>装饰器</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0%E5%99%A8/</link>
+      <pubDate>Wed, 01 Feb 2023 10:58:31 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0%E5%99%A8/</guid>
+      <description>装饰器 用非继承方式实现功能扩展 · 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现
+classDiagram class Component { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;method() void } class ComponentImpl ComponentImpl ..|&amp;gt; Component : 实现 class AbstractComponentWrapper { &amp;lt;&amp;lt;abstract&amp;gt;&amp;gt; -Component component } AbstractComponentWrapper *-- Component : 构造器初始化成员 class ComponentWrapperA { &amp;#43;otherMethodA() void } ComponentWrapperA --|&amp;gt; AbstractComponentWrapper : 继承 class ComponentWrapperB { &amp;#43;otherMethodB() void } ComponentWrapperB --|&amp;gt; AbstractComponentWrapper : 继承 </description>
+    </item>
+    
+    <item>
+      <title>门面</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%97%A8%E9%9D%A2/</link>
+      <pubDate>Wed, 01 Feb 2023 10:49:37 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%97%A8%E9%9D%A2/</guid>
+      <description>门面 将需要用到的繁多的服务组合到一起，一般不添加额外的逻辑，只是作为统一的调用入口，比如controller </description>
+    </item>
+    
+    <item>
+      <title>责任链</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%B4%A3%E4%BB%BB%E9%93%BE/</link>
+      <pubDate>Wed, 01 Feb 2023 09:11:34 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%B4%A3%E4%BB%BB%E9%93%BE/</guid>
+      <description>责任链 每个审批者作为链中的处理节点只处理一件事情，比如servlet过滤器 · 一般和建造者结合
+import java.util.ArrayList; import java.util.List; interface Handler { //实现类自己实现，放行返回true，中止返回false boolean handle(Object param); } class HandlerChain { private final List&amp;lt;Handler&amp;gt; handlers; private HandlerChain(List&amp;lt;Handler&amp;gt; handlers) { this.handlers = handlers; } public static class Builder { private final List&amp;lt;Handler&amp;gt; handlers = new ArrayList&amp;lt;&amp;gt;(); public HandlerChain.Builder next(Handler handler) { handlers.add(handler); return this; } public HandlerChain build() { return new HandlerChain(handlers); } } public void doChain(Object param) { for (Handler handler : handlers) { if (!</description>
+    </item>
+    
     <item>
       <title>策略</title>
       <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/</link>
       <pubDate>Tue, 31 Jan 2023 14:22:50 +0800</pubDate>
       
       <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/</guid>
-      <description>策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB ..|&amp;gt; Strategy : 实现 class Context { -Strategy strategy &amp;#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&amp;gt; Context : 实例化 Main ..&amp;gt; StrategyA : 实例化 Main ..&amp;gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+      <description>策略 · 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现 classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB ..|&amp;gt; Strategy : 实现 class Context { -Strategy strategy &amp;#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&amp;gt; Context : 实例化 Main ..&amp;gt; StrategyA : 实例化 Main ..&amp;gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
 classDiagram class Strategy { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;doOperation() void } class StrategyA StrategyA ..|&amp;gt; Strategy : 实现 class StrategyB StrategyB .</description>
     </item>
     

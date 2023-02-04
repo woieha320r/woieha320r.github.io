@@ -44,7 +44,7 @@
   
   <meta name="theme-color" />
   
-  <meta name="description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+  <meta name="description" content="策略 · 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ." />
   <meta name="author" content="" />
   
@@ -96,7 +96,7 @@ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void 
   
   
   <meta property="og:title" content="策略" />
-<meta property="og:description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+<meta property="og:description" content="策略 · 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%AD%96%E7%95%A5/" /><meta property="article:section" content="设计模式" />
@@ -105,15 +105,15 @@ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void 
 
   
   <meta itemprop="name" content="策略">
-<meta itemprop="description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+<meta itemprop="description" content="策略 · 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ."><meta itemprop="datePublished" content="2023-01-31T14:22:50+08:00" />
 <meta itemprop="dateModified" content="2023-01-31T14:22:50+08:00" />
-<meta itemprop="wordCount" content="149">
-<meta itemprop="keywords" content="设计模式," />
+<meta itemprop="wordCount" content="150">
+<meta itemprop="keywords" content="设计模式,行为型," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="策略"/>
-<meta name="twitter:description" content="策略 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
+<meta name="twitter:description" content="策略 · 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ..|&gt; Strategy : 实现 class Context { -Strategy strategy &#43;execStrategy(Strategy strategy) void } Context *-- Strategy : 构造器初始化成员 class Main Main ..&gt; Context : 实例化 Main ..&gt; StrategyA : 实例化 Main ..&gt; StrategyB : 实例化 · 如果想隐藏实例化过程，那就需要工厂实例化策略
 classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void } class StrategyA StrategyA ..|&gt; Strategy : 实现 class StrategyB StrategyB ."/>
 
   
@@ -213,7 +213,7 @@ classDiagram class Strategy { &lt;&lt;interface&gt;&gt; &#43;doOperation() void 
 <article>
 
   <section><h1 id="策略">策略</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>· 看起来和工厂差别不大，工厂是根据条件返回实例，策略是根据条件发生行为🤷‍♂️。可应用于分段计价场景，不同计价方式分别作为策略实现
 </span></span></code></pre></div>
 <div class="mermaid">
     
@@ -293,6 +293,8 @@ Main ..&gt; StrategyFactoryB : 实例化
   <footer class="mt-12 flex flex-wrap">
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="https://woieha320r.github.io/tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B">行为型</a>
     
   </footer>
   

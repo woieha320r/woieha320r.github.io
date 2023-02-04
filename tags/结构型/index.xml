@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>结构型 on woieha320r</title>
+    <link>https://woieha320r.github.io/tags/%E7%BB%93%E6%9E%84%E5%9E%8B/</link>
+    <description>Recent content in 结构型 on woieha320r</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Feb 2023 10:58:31 +0800</lastBuildDate><atom:link href="https://woieha320r.github.io/tags/%E7%BB%93%E6%9E%84%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>装饰器</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0%E5%99%A8/</link>
+      <pubDate>Wed, 01 Feb 2023 10:58:31 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A3%85%E9%A5%B0%E5%99%A8/</guid>
+      <description>装饰器 用非继承方式实现功能扩展 · 抽象服务在有标准实现的同时，提供Wrapper继承并组合抽象服务，后续的功能扩展通过继承Wrapper实现
+classDiagram class Component { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;method() void } class ComponentImpl ComponentImpl ..|&amp;gt; Component : 实现 class AbstractComponentWrapper { &amp;lt;&amp;lt;abstract&amp;gt;&amp;gt; -Component component } AbstractComponentWrapper *-- Component : 构造器初始化成员 class ComponentWrapperA { &amp;#43;otherMethodA() void } ComponentWrapperA --|&amp;gt; AbstractComponentWrapper : 继承 class ComponentWrapperB { &amp;#43;otherMethodB() void } ComponentWrapperB --|&amp;gt; AbstractComponentWrapper : 继承 </description>
+    </item>
+    
+    <item>
+      <title>门面</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%97%A8%E9%9D%A2/</link>
+      <pubDate>Wed, 01 Feb 2023 10:49:37 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%97%A8%E9%9D%A2/</guid>
+      <description>门面 将需要用到的繁多的服务组合到一起，一般不添加额外的逻辑，只是作为统一的调用入口，比如controller </description>
+    </item>
+    
+    <item>
+      <title>组合</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%84%E5%90%88/</link>
+      <pubDate>Tue, 31 Jan 2023 09:58:53 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%84%E5%90%88/</guid>
+      <description>组合 树形层级结构，各节点都实现同一顶层接口具有共同操作且存在递归嵌套。比如文件目录系统 classDiagram class FileNode { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;path() String &amp;#43;parent() FileNode &amp;#43;childs() List&amp;lt;FileNode&amp;gt; &amp;#43;isFile() boolean } FileNode ..&amp;gt; FileNode : 返回值 class Directory { -String path -FileNode parent -List&amp;lt;FileNode&amp;gt; childs -boolean isFile } Directory ..|&amp;gt; FileNode : 实现 Directory *-- FileNode : 构造器初始化成员 class File { -String path -FileNode parent -List&amp;lt;FileNode&amp;gt; childs -boolean isFile &amp;#43;extName() String } File ..|&amp;gt; FileNode : 实现 File *-- FileNode : 构造器初始化成员 </description>
+    </item>
+    
+    <item>
+      <title>享元</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BA%AB%E5%85%83/</link>
+      <pubDate>Mon, 30 Jan 2023 19:03:14 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BA%AB%E5%85%83/</guid>
+      <description>享元 用于将高频创建的对象重复利用，比如连接池、线程池 · 将可能被频繁重复创建的对象交给工厂负责提供/回收，工厂在初始化时就使用缓存池缓存一定数量的实例并对外提供
+import lombok.AllArgsConstructor; import java.util.Stack; @AllArgsConstructor class Connection { private final String url; private final String username; private final String password; } public class ConnectionPoolFlyweight { private static final int POOL_SIZE = 10; private static final int WAIT_MILLISECONDS = 3000; private static final Stack&amp;lt;Connection&amp;gt; POOL = new Stack&amp;lt;&amp;gt;(); static { for (int i = 0; i &amp;lt; POOL_SIZE; i++) { POOL.push(new Connection(&amp;#34;localhost:2023&amp;#34;, &amp;#34;root&amp;#34;, &amp;#34;123456&amp;#34;)); } } public static Connection getConnection() throws InterruptedException { if (POOL.</description>
+    </item>
+    
+    <item>
+      <title>桥接</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A1%A5%E6%8E%A5/</link>
+      <pubDate>Mon, 30 Jan 2023 11:52:51 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E6%A1%A5%E6%8E%A5/</guid>
+      <description>桥接 组合各实现类的接口并实现抽象服务接口，以此将抽象服务和具体实现连接，并允许实现类的多种组合可能 · 被桥接者
+classDiagram class IO { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Calculate { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Memory { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Computer { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; } class Screen Screen ..|&amp;gt; IO : 实现 class Keyboard Keyboard ..|&amp;gt; IO : 实现 class Alu Alu ..|&amp;gt; Calculate : 实现 class Ram Ram ..|&amp;gt; Memory : 实现 class Register Register ..|&amp;gt; Memory : 实现 class ComputerNoScreen ComputerNoScreen ..|&amp;gt; Computer : 实现 class ComputerNoRam ComputerNoRam .</description>
+    </item>
+    
+    <item>
+      <title>适配器</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/</link>
+      <pubDate>Sun, 29 Jan 2023 18:50:01 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8/</guid>
+      <description>适配器 用于后期维护时解决兼容问题：将服务类的接口转为调用者期望的接口 类适配器 · 继承自服务类并实现调用者期望的接口，但适配器同时拥有了期望方法和原方法，违背迪米特原则
+classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;sourceServiceA() void &amp;#43;sourceServiceB() void &amp;#43;targetService() void } Adapter ..|&amp;gt; Target : 实现 Adapter --|&amp;gt; SourceA : 继承 Adapter --|&amp;gt; SourceB : 继承 class Main Main ..&amp;gt; Adapter : 实例化 对象适配器 · 组合服务类并实现调用者期望的接口
+classDiagram class SourceA { &amp;#43;sourceServiceA() void } class SourceB { &amp;#43;sourceServiceB() void } class Target { &amp;lt;&amp;lt;interface&amp;gt;&amp;gt; &amp;#43;targetService() void } class Adapter { &amp;#43;targetService() void } Adapter .</description>
+    </item>
+    
+    <item>
+      <title>代理</title>
+      <link>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Sun, 29 Jan 2023 17:23:14 +0800</pubDate>
+      
+      <guid>https://woieha320r.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86/</guid>
+      <description>代理 · 作为中介在方法前后执行其他操作，需要对外透明——同类型同方法签名，外界不直接调用被代理类，调用代理，被代理类由代理负责调用。所以在被代理类内部调用 自己的方法是和代理无关的，代理行为不会生效。 import net.sf.cglib.proxy.Enhancer; import net.sf.cglib.proxy.MethodInterceptor; import java.lang.reflect.Proxy; interface BeProxy { void hello(String msg); } class BeProxyImpl implements BeProxy { @Override public void hello(String msg) { System.out.println(&amp;#34;Hello &amp;#34; + msg + &amp;#34; !&amp;#34;); } public static void main(String[] args) { //非代理 System.out.println(&amp;#34;非代理&amp;#34;); BeProxy beProxy = new BeProxyImpl(); beProxy.hello(&amp;#34;World&amp;#34;); //jdk动态代理，通过生成实现了被代理类相同接口的实现类作为代理来实现对外透明，那么被代理方法必须声明在接口中 System.out.println(&amp;#34;\njdk动态代理&amp;#34;); ((BeProxy) Proxy.newProxyInstance(BeProxy.class.getClassLoader(), BeProxyImpl.class.getInterfaces(), ((proxy, method, arguments) -&amp;gt; { System.out.println(&amp;#34;before&amp;#34;); Object returnVal = method.invoke(beProxy, arguments); System.out.println(&amp;#34;after&amp;#34;); return returnVal; }))).hello(&amp;#34;World&amp;#34;); //cglib动态代理，通过生成继承自被代理类的子类作为代理来实现对外透明，那么被代理方法必须是可被继承的：非final、static.</description>
+    </item>
+    
+  </channel>
+</rss>
